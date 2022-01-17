@@ -1,0 +1,4 @@
+str1 +. str2
+ "Nhan Vo Nguyen Thien" +. str2
+ str1 +. "Nhan Vo Nguyen Thien"
+ "Nhan Vo Nguyen Thien" +. "LDPV"

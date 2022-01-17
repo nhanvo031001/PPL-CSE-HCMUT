@@ -1,0 +1,5 @@
+!5 !6 !7 
+!xyz !True !False
+0b1111111111 && 0B0101010101
+0b1111111111 || 0B0101010101
+ "First string compare with" ==. "Second string"

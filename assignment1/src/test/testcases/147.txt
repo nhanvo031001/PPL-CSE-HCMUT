@@ -1,0 +1,1 @@
+ "This is legal escape: \n \t \b \r \f \\. This is illegal escape: \os" 

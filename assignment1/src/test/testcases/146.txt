@@ -1,0 +1,1 @@
+ ##"This is a string in a block of comment"## 

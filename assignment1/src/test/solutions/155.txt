@@ -1,0 +1,1 @@
+This is a string,##But we have a comment in a string. Therefore, it is an empty string##,,'"Double quote in string'",<EOF>

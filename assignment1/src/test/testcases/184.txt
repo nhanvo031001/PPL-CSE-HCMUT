@@ -1,0 +1,11 @@
+
+                    ""
+                    "above is the empty string"
+                    "##still print this line##"
+                    ##""##
+                    "nhanvo##still print this line##"
+                    ""
+                    "'"'""
+                    "'"\t\b\n\f\r'""
+                    "\t\b\n\f\r"
+                

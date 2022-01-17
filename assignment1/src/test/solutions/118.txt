@@ -1,0 +1,1 @@
+My name is Nhan. This name has two \'N\' characters,<EOF>

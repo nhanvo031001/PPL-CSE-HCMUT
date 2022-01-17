@@ -1,0 +1,24 @@
+Foreach (i In 1 .. 100 By 2) {
+                    If (!True && False) { ##nothing## } 
+                    Elseif (a == 5) {##nothing##}
+                    Elseif (b == 6) {  }
+                    Elseif (!False) {##nothing##}
+                    Elseif (a < b) {##nothing##}
+                    Elseif ($xyz >= 3) {##nothing##}
+                    Elseif (ar[2] > 3) {##nothing##}
+                }               
+                
+
+                    Foreach (x In 5+2 .. 100*3) {
+                        a = a + 1;
+                        b = b - 1;
+                        arr[arr[arr[arr[100]]]] = a.b;
+                    }
+                
+
+                    Foreach ($abc In (-123456 + -34231) .. 2) {
+                        If ($abc == 4) {
+                            Continue;
+                        }
+                    }
+                

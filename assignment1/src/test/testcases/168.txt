@@ -1,0 +1,6 @@
+
+            Var str1 = "This is a string 1. In this string, we have content: '"nhanvonguyen'" "
+            Var str2 = "This is a string 1. In this string, we have content: '"someoneilike'" "
+            Concatenate: str1 +. str2
+            Compare: str1 ==. str2
+        

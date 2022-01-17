@@ -1,0 +1,14 @@
+If (a == 5) {##nothing##}
+If (2+5 == 5) {##nothing##}
+If (arr[arr[arr[arr[100]]]] == (0x010101 && 0x1100100)) {##nothing##}
+If (True) {##nothing##}
+If (!True && False && ( (a == 5) || (b == 6) ) ) {##nothing##}
+If (!True && False) { ##nothing## } Else {##nothing##}
+If (!True && False) { ##nothing## } 
+                    Elseif (a == 5) {##nothing##}
+                    Elseif (b == 6) {  }
+                    Elseif (!False) {##nothing##}
+                    Elseif (a < b) {##nothing##}
+                    Elseif ($xyz >= 3) {##nothing##}
+                    Elseif (ar[2] > 3) {##nothing##}
+                

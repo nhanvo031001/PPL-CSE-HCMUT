@@ -1,0 +1,1 @@
+##Inside comment## var a = 12; val b = ~

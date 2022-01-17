@@ -1,0 +1,7 @@
+
+            "This is a string"
+            ##"We have a string in a comment. Skip it!!"##
+            "##But we have a comment in a string. Therefore, it is an empty string##"
+            ""
+            "'"Double quote in string'""
+        
