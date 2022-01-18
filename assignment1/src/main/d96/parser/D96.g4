@@ -11,7 +11,7 @@ options {
 }
 
 // program: mptype 'main' LB RB LP body? RP EOF;
-program: exp* stmt* EOF;
+program: class_declare* EOF;
 
 
 
@@ -25,15 +25,19 @@ params_list: params_declare (SEMI params_declare)*;
 params_declare: id_list COLON type_data;
 id_list: ID (COMMA ID)*;
 type_data: primitive_type | array_type | class_type;
-primitive_type: 'asd';
-array_type: 'asfrth';
-class_type: 'fd';
+primitive_type: BOOLEAN | INT | FLOAT | STRING;
+array_type: ARRAY LSB element_type COMMA size RSB;
+element_type: primitive_type | array_type;
+size: INT_LIT;
+class_type: ID;
 
-destructor_declare: 'asdadsasdasdas';
+destructor_declare: DESTRUCTOR LB RB block_stmt;
 
-method_declare: 'sadadsaas';
+method_declare: ID LB params_list? RB block_stmt;
 
-attribute_declare: 'nhanv';
+attribute_declare: (VAR | VAL) variable_name_list COLON type_data EQUAL? exp_list SEMI;
+variable_name_list: (ID | STATIC_ID) (COMMA (ID | STATIC_ID))*;
+exp_list: exp (COMMA exp)*;
 // *****************************END CLASS STRUCTURE*****************************
 
 
@@ -87,14 +91,6 @@ index_operator: LSB exp RSB | LSB exp RSB index_operator;
 index_exp:   ID LSB exp RSB | STATIC_ID LSB exp RSB |
                     index_exp LSB exp RSB;
 // *****************************END EXPRESSION*****************************
-
-
-
-
-
-
-
-
 
 
 
@@ -226,14 +222,23 @@ FLOAT_LIT: (INTEGER_PART DEC_PART EXPONENT_PART
 fragment X: [xX];
 fragment B: [bB];
 // fragment INT_OCT: '0' [1-7][0-7]*;
-fragment INT_OCT: '0' [0-7]+;
+// fragment INT_OCT: '0' [0-7]+;
+fragment INT_OCT: '0' [1-7] ('_'? [0-7])* | '00';
 // fragment INT_DECIMAL: [1-9][_0-9]* | '0';
 // fragment INT_DECIMAL: [1-9]('_'* [0-9])* | '0';
 fragment INT_DECIMAL: [1-9]('_'? [0-9])* | '0';
 // fragment INT_HEXA: '0' X [1-9a-fA-F] [0-9a-fA-F]*;
 // fragment INT_HEXA: '0' X [0-9a-fA-F]*;
-fragment INT_HEXA: '0' X [0-9A-F]+;
-fragment INT_BINARY: '0' B [01]+;
+// fragment INT_HEXA: '0' X [0-9A-F]+;
+fragment INT_HEXA: '0' X [1-9A-F] ('_'? [0-9A-F])* | '0' X '0';
+// fragment INT_BINARY: '0' B [01]+;
+// fragment INT_BINARY:    '0' B '0' ('_'? [0-1])* | 
+//                         '0' B '1' ('_'? [0-1])* |
+//                         '0' B '0';
+fragment INT_BINARY:    '0' B '1' ('_'? [0-1])* |
+                        '0' B '0';
+
+                        
 INT_LIT: (INT_DECIMAL | INT_HEXA | INT_OCT | INT_BINARY) {
     self.text = re.sub('_','',self.text)
 }
