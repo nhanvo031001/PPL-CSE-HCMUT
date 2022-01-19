@@ -33,9 +33,10 @@ class_type: ID;
 
 destructor_declare: DESTRUCTOR LB RB block_stmt;
 
-method_declare: ID LB params_list? RB block_stmt;
+method_declare: (ID | STATIC_ID) LB params_list? RB block_stmt;
 
-attribute_declare: (VAR | VAL) variable_name_list COLON type_data EQUAL? exp_list SEMI;
+// chưa xong, còn check vụ số biến bằng số value
+attribute_declare: (VAR | VAL) variable_name_list COLON type_data EQUAL? exp_list? SEMI;     
 variable_name_list: (ID | STATIC_ID) (COMMA (ID | STATIC_ID))*;
 exp_list: exp (COMMA exp)*;
 // *****************************END CLASS STRUCTURE*****************************
@@ -48,10 +49,12 @@ block_stmt: LP stmt* RP;
 stmt:   variable_and_constant_stmt | assignment_stmt | if_stmt | for_in_stmt | break_stmt | 
         continue_stmt | return_stmt | method_invocation_stmt;
 
-variable_and_constant_stmt: 'hjahaa';
+// chưa xong, tạm thôi
+variable_and_constant_stmt: (VAR | VAL) variable_list_in_method COLON type_data EQUAL? exp_list? SEMI;
+variable_list_in_method: ID (COMMA ID)*;
 
 // có thể còn member access exp
-assignment_stmt: (ID | STATIC_ID | index_exp) EQUAL exp SEMI;
+assignment_stmt: (ID | STATIC_ID | index_exp | member_access_exp) EQUAL (exp) SEMI;
 
 if_stmt:    IF LB exp RB block_stmt       
             | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+        
@@ -66,12 +69,52 @@ continue_stmt: CONTINUE SEMI;
 
 return_stmt: RETURN exp? SEMI;
 
-method_invocation_stmt: 'hahah';
+method_invocation_stmt: (instance_method_invocation | static_method_invocation) SEMI;
 // *****************************END STATEMENT*****************************
 
 
 
 // *****************************EXPRESSION*****************************
+
+
+// exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
+// exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
+// exp2: exp2 (AND | OR) exp3 | exp3;
+// exp3: exp3 (ADD | SUB) exp4 | exp4;
+// exp4: exp4 (MULTIPLY | DIV | MOD) exp5 | exp5;
+// exp5: NOT exp5 | exp6;
+// exp6: '-' exp6 | exp7;
+// exp7: exp7 index_operator | exp8;
+// // exp7: exp7 index_exp | exp8;
+// exp8: exp8 (DOT | DOUBLE_COLON) exp9 | exp9;
+// exp9: NEW exp9 | operands;
+
+// operands: ID | STATIC_ID | LB exp RB | literals | funccall;
+// literals: INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
+// boolean_literal: TRUE | FALSE;
+// array_literal: indexed_array | multidimensional_array;
+// indexed_array: ARRAY LB exp_list? RB;
+// multidimensional_array: ARRAY LB array_list? RB;
+// array_list: array_literal (COMMA array_literal)*;
+// funccall: (ID | STATIC_ID) LB exp_list? RB;
+
+// index_operator: LSB exp RSB | LSB exp RSB index_operator;
+// index_exp:      ID LSB exp RSB | STATIC_ID LSB exp RSB |
+//                 index_exp LSB exp RSB;
+
+// member_access_exp:  instance_attr_access
+//                     | static_attr_access
+//                     | instance_method_invocation
+//                     | static_method_invocation;
+// instance_attr_access:  exp DOT ID;      // Shape.length
+// static_attr_access: ID DOUBLE_COLON STATIC_ID;      // Shape::$width
+// instance_method_invocation: exp DOT ID LB exp_list? RB;  // obj.getLength()
+// static_method_invocation: ID DOUBLE_COLON STATIC_ID LB exp_list? RB; // Shape::$getWidth()
+
+// object_creation_exp: NEW ID LB exp_list? RB;
+
+
+
 exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
 exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
 exp2: exp2 (AND | OR) exp3 | exp3;
@@ -80,16 +123,35 @@ exp4: exp4 (MULTIPLY | DIV | MOD) exp5 | exp5;
 exp5: NOT exp5 | exp6;
 exp6: '-' exp6 | exp7;
 exp7: exp7 index_operator | exp8;
+// exp7: exp7 index_exp | exp8;
 exp8: exp8 (DOT | DOUBLE_COLON) exp9 | exp9;
 exp9: NEW exp9 | operands;
 
-operands: ID | STATIC_ID | LB exp RB | literals;
-literals: INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal;
+operands: ID | STATIC_ID | LB exp RB | literals | funccall;
+literals: INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
 boolean_literal: TRUE | FALSE;
+array_literal: indexed_array | multidimensional_array;
+indexed_array: ARRAY LB exp_list? RB;
+multidimensional_array: ARRAY LB array_list? RB;
+array_list: array_literal (COMMA array_literal)*;
+funccall: (ID | STATIC_ID) LB exp_list? RB;
 
 index_operator: LSB exp RSB | LSB exp RSB index_operator;
-index_exp:   ID LSB exp RSB | STATIC_ID LSB exp RSB |
-                    index_exp LSB exp RSB;
+index_exp:      ID LSB exp RSB | STATIC_ID LSB exp RSB |
+                index_exp LSB exp RSB;
+
+member_access_exp:  instance_attr_access
+                    | static_attr_access
+                    | instance_method_invocation
+                    | static_method_invocation;
+instance_attr_access:  exp DOT ID;      // Shape.length
+static_attr_access: ID DOUBLE_COLON STATIC_ID;      // Shape::$width
+instance_method_invocation: exp DOT ID LB exp_list? RB;  // obj.getLength()
+static_method_invocation: ID DOUBLE_COLON STATIC_ID LB exp_list? RB; // Shape::$getWidth()
+
+object_creation_exp: NEW ID LB exp_list? RB;
+
+
 // *****************************END EXPRESSION*****************************
 
 
@@ -180,7 +242,8 @@ STRING_LIT:'"' CHAR* '"'
 // underscore only between digits, not start and after, only 1 underscore
 fragment E: [eE];
 fragment SIGN: [+-];
-fragment INTEGER_PART: [0-9] ('_'? [0-9])*;
+// fragment INTEGER_PART: [0-9] ('_'? [0-9])*;
+fragment INTEGER_PART: '0' | [1-9] ('_'? [0-9])*;
 fragment DEC_PART: DOT DIGIT*;
 fragment EXPONENT_PART: E SIGN? DIGIT+;
 FLOAT_LIT: (INTEGER_PART DEC_PART EXPONENT_PART

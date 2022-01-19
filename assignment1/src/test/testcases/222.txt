@@ -1,0 +1,6 @@
+
+                    Class Shape {
+                        method1() {}
+                        method2(a, b: Int; c: Array[Int, 5]) {}
+                    }
+                

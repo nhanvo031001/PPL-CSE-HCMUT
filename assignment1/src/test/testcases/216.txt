@@ -1,0 +1,7 @@
+
+                    Class Shape {
+                        $getNumofShape( {
+                            Return self.length;
+                        }
+                    }
+                

@@ -1,0 +1,11 @@
+
+                    Class Shape {
+                        method2() {
+                            Var a: Int;
+                        }
+                        
+                        method1() {
+                            Var $a: Int;
+                        }
+                    }
+                

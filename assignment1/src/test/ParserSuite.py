@@ -159,18 +159,18 @@ class ParserSuite(unittest.TestCase):
 
                     main() {
                         a = 2;
-                        $abc = 2+5;
-                        $abc = (0b110101 && 0b1100100);
-                        $abc = (0b010101 || 0b1100100);
-                        $abc = "first string" + "second string";
-                        $abc = arr[1][2];
+                        abc = 2+5;
+                        abc = (0b110101 && 0b1100100);
+                        abc = (0b010101 || 0b1100100);
+                        abc = "first string" + "second string";
+                        abc = arr[1][2];
                         $abc = arr[arr[arr[1]]];
                         arr[2] = arr[arr[arr[1]]];
                         arr[arr[arr[arr[100]]]] = a.b;
                     }
                 }
                 """
-        expect = "Error on line 19 col 35: 10101"
+        expect = "Error on line 19 col 34: 10101"
         self.assertTrue(TestParser.test(input,expect,206))
         
     def test_statement_if(self):
@@ -499,4 +499,161 @@ class ParserSuite(unittest.TestCase):
                 """
         expect = "successful"
         self.assertTrue(TestParser.test(input,expect,215))
+        
+    def test_some_class_declare_4(self):
+        input = """
+                    Class Shape {
+                        $getNumofShape( {
+                            Return self.length;
+                        }
+                    }
+                """
+        expect = "Error on line 3 col 40: {"
+        self.assertTrue(TestParser.test(input,expect,216))
+        
+    def test_some_array(self):
+        input = """
+                    Class Shape {
+                        Var a: Float = 45;
+                        Var b: Float = 45.67;
+                        Var c: Array[Int, 5] = Array(1, 2, 3, 4, 5);
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,217))
+        
+    def test_some_multidimensional_array(self):
+        input = """
+                    Class Shape {
+                        main() {
+                            a = Array();
+                            $b = Array (
+                                    Array("Volvo", "22", "18"),
+                                    Array("Saab", "5", "2"),
+                                    Array("Land Rover", "17", "15")
+                                );
+                            arr[arr[arr[3+4]]] = Array (
+                                    Array("Volvo", "22", "18"),
+                                    Array("Saab", "5", "2"),
+                                    Array("Land Rover", "17", "15")
+                                );
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,218))
+        
+    def test_some_member_access(self):
+        input = """
+                    Class Shape {
+                        main() {
+                            a = object.length;
+                            c = Shape::$width;
+                            d = obj.getLength("abcd", 12);
+                            f = Shape::$getWidth();
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,219))
+        
+    def test_simple_progeam(self):
+        input = """
+                    Class Shape {
+                        Var a: Int;
+                        Notmain() {
+                            x = 4;
+                        }
+                    }
+                    
+                    Class _program {
+                        main() {
+                            Val x: Float;
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,220))
+        
+    def test_error_simple_program(self):
+        input = """
+                    Class Shape {
+                        Var a: Int;
+                        Notmain() {
+                            x = 4;
+                        }
+                    }
+                    
+                    class _program {
+                        main() {
+                            Val x: Float;
+                        }
+                    }
+                """
+        expect = "Error on line 9 col 20: class"
+        self.assertTrue(TestParser.test(input,expect,221))
+        
+    def test_some_define_method(self):
+        input = """
+                    Class Shape {
+                        method1() {}
+                        method2(a, b: Int; c: Array[Int, 5]) {}
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,222))
+        
+    def test_some_error_declare_var(self):
+        input = """
+                    Class Shape {
+                        method2() {
+                            Var a: Int;
+                        }
+                        
+                        method1() {
+                            Var $a: Int;
+                        }
+                    }
+                """
+        expect = "Error on line 8 col 32: $a"
+        self.assertTrue(TestParser.test(input,expect,223))
+        
+    def test_some_method_invoke(self):
+        input = """
+                    Class Shape {
+                        method2() {
+                            obj.method1();
+                        }
+                        
+                        method1() {
+                            obj.method2();
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,224))
+        
+    def test_multidimensional_array_declare(self):
+        input = """
+                    Class Shape {
+                        Var arr: Array[Array[Int, 3], 3] = Array (
+                                                            Array (3,4,5),
+                                                            Array (6,7,8),
+                                                            Array (9,10,11)
+                                                                );
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,225))
+        
+    def test_invalid_member_access(self):
+        input = """
+                    Class Shape {
+                        main() {
+                            a = b.$c;
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,226))
     

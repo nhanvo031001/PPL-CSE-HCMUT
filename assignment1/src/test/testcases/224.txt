@@ -1,0 +1,11 @@
+
+                    Class Shape {
+                        method2() {
+                            obj.method1();
+                        }
+                        
+                        method1() {
+                            obj.method2();
+                        }
+                    }
+                

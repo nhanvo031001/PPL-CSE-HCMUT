@@ -17,7 +17,7 @@ class_declaration : CLASS class_name (COLON class_name)? LCB class_body RCB;
 class_name: ID; // NOT COMPLETE
 class_body: (attribute_declaration | method_declaration | constructor_declaration | destructor_declaration)*;
 
-attribute_declaration 
+attribute_declaration // Chưa xong
     locals [number_attribute = 0]: 
     (VAR | VAL) (ID | DOLLAR_ID) {$attribute_declaration::number_attribute+=1} 
     (COMMA (ID | DOLLAR_ID) {$attribute_declaration::number_attribute+=1})* 
@@ -114,32 +114,22 @@ method_invocation_statement: member_access_expression SEMI;
                 parse + trước sẽ thành a, +, b*c --> ok
 */
 expression  :   string_expression;
-string_expression   :   relation_expression STRING_ADD relation_expression
-                    |   relation_expression STRING_EQUAL relation_expression
+string_expression   :   relation_expression (STRING_ADD | STRING_EQUAL) relation_expression
                     |   relation_expression
                     ;
-relation_expression :   logical_expression EQUAL logical_expression
-                    |   logical_expression NOT_EQUAL logical_expression
-                    |   logical_expression LT logical_expression
-                    |   logical_expression LTE logical_expression
-                    |   logical_expression GT logical_expression
-                    |   logical_expression GTE logical_expression
+relation_expression :   logical_expression (EQUAL | NOT_EQUAL | LT | LTE | GT | GTE) logical_expression
                     |   logical_expression
                     ;
 
-logical_expression  :   logical_expression AND adding_expression  
-                    |   logical_expression OR adding_expression 
+logical_expression  :   logical_expression (AND | OR) adding_expression  
                     |   adding_expression
                     ;
 
-adding_expression   :   adding_expression ADD multiplying_expression
-                    |   adding_expression SUB multiplying_expression
+adding_expression   :   adding_expression (ADD | SUB) multiplying_expression
                     |   multiplying_expression
                     ;
 
-multiplying_expression  :   multiplying_expression MUL negative_expression
-                        |   multiplying_expression DIV negative_expression
-                        |   multiplying_expression MOD negative_expression
+multiplying_expression  :   multiplying_expression (MUL | DIV | MOD) negative_expression
                         |   negative_expression
                         ;
 
@@ -178,8 +168,9 @@ object_creation_expression: NEW ID LP list_of_expressions? RP;
 operand :   object_creation_expression
         |   DOLLAR_ID
         |   ID
-        |   literal
         |   SELF
+        |   literal
+        |   NULL
         |   LP expression RP
         ; // Chưa xong
 /*
@@ -222,6 +213,7 @@ fragment SIGN: [+-];
 fragment FLOAT_INTEGER_PART: [0-9]('_'?[0-9])*; // Only decimal base --> 0 at first is dec
 fragment FLOAT_DECIMAL_PART: '.' [0-9]*;
 fragment FLOAT_EXPONENT_PART: [eE] SIGN? [0-9]+;
+
 /********************** COMMENT ***********************/
 COMMENT: '##' .*? '##' -> skip;
 /********************* KEY WORDS **********************/
@@ -259,6 +251,8 @@ INTEGER_LITERAL : (
 ) {
     self.text = self.text.translate(str.maketrans('','','_'))
 }; // remove _ character
+
+
 STRING_LITERAL: '"' STRING_CHAR* '"' {
 	self.text = self.text[1:-1]
 }; // remove open and close string
@@ -267,9 +261,17 @@ FLOAT_LITERAL   : (
                 FLOAT_INTEGER_PART FLOAT_DECIMAL_PART FLOAT_EXPONENT_PART?
                 | FLOAT_INTEGER_PART FLOAT_EXPONENT_PART
                 | FLOAT_DECIMAL_PART FLOAT_EXPONENT_PART
+
 ) {
     self.text = self.text.translate(str.maketrans('','','_'))
 };
+
+
+
+
+
+
+
 /********************* OPERATORS **********************/
 ADD: '+';
 SUB: '-';
@@ -288,25 +290,33 @@ GT: '>';
 GTE: '>=';
 STRING_EQUAL: '==.';
 STRING_ADD: '+.';
+
 /******************** SEPARATORS **********************/
 LP: '(' ;
 RP: ')' ;
+
 LSB: '[';
 RSB: ']';
+
 DOT: '.';
 DOUBLE_DOT: '..';
 COMMA: ',';
 SEMI: ';';
 COLON: ':';
 DOUBLE_COLON: '::';
+
 LCB: '{';
 RCB: '}';
+
 /******************** IDENTIFIERS *********************/
 //_NUMBER is ID, not INTEGER_LITERAL
 ID: [_a-zA-Z][_a-zA-Z0-9]*;
 DOLLAR_ID: ('$')[_a-zA-Z0-9]+;
+
 /*********************** SKIP *************************/
 WS : [ \t\r\n\f]+ -> skip ; // skip spaces, tabs, newlines
+
+
 /*********************** ERRORS *************************/
 // NOT(##) = NOT(#) OR # NOT(#)
 // 1. ## NOT(##) EOF

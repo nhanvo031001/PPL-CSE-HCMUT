@@ -1,0 +1,7 @@
+
+                    Class Shape {
+                        main() {
+                            a = b.$c;
+                        }
+                    }
+                

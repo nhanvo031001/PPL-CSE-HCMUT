@@ -14,11 +14,11 @@
 
                     main() {
                         a = 2;
-                        $abc = 2+5;
-                        $abc = (0b110101 && 0b1100100);
-                        $abc = (0b010101 || 0b1100100);
-                        $abc = "first string" + "second string";
-                        $abc = arr[1][2];
+                        abc = 2+5;
+                        abc = (0b110101 && 0b1100100);
+                        abc = (0b010101 || 0b1100100);
+                        abc = "first string" + "second string";
+                        abc = arr[1][2];
                         $abc = arr[arr[arr[1]]];
                         arr[2] = arr[arr[arr[1]]];
                         arr[arr[arr[arr[100]]]] = a.b;
