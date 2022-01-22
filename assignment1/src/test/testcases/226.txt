@@ -1,7 +1,7 @@
 
                     Class Shape {
                         main() {
-                            a = b.$c;
+                            val x: String = "Nhan vo";
                         }
                     }
                 

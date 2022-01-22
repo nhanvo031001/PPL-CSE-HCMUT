@@ -1,0 +1,9 @@
+
+                    Class Shape {
+                        Var a, b: Float = 10.e10, 3.23;
+                        Val $x, $y: String = "nhanvo", "nguyenthien", "blabla";
+                        main() {
+                            
+                        }
+                    }
+                

@@ -1,0 +1,8 @@
+
+                    Class Shape {
+                        Val x, y: Int = 4;
+                        main() {
+                            
+                        }
+                    }
+                

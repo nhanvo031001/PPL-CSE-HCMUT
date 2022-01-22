@@ -18,7 +18,7 @@
                             Break;
                         }
                         
-                        Foreach ($abc In (-123456 + -34231) .. 2) {
+                        Foreach ($bc In (-123456 + -34231) .. 2) {
                             If ($abc == 4) {
                                 Break;
                             }

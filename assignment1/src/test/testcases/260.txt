@@ -1,0 +1,19 @@
+
+                    Class Program {
+                        Var $abc: Float = 12.0000;
+                        
+                        Constructor(a, b, c, d: Int; x, y, z: String; arr: Array[Int, 3]) {
+                            Var a: Int;
+                        }
+                        
+                        $getWidth(a, b: Int; c: Float) {
+                            Return (a-b)*c;
+                        }
+                        
+                        main() {
+                            Self.garbage = Self.$abc;
+                            Self.w = Self.$getWidth();
+                            Return Self.$length * Self.$width;
+                        }
+                    }
+                

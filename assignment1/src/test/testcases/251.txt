@@ -1,0 +1,5 @@
+
+                    Class Program {
+                        Var a: Array[Int, 1] = Array(Array(Array(1,2,3)));
+                    }
+                

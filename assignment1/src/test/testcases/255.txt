@@ -1,0 +1,12 @@
+
+                    Class Program {
+                        Constructor(a, b, c, d: Int; x, y, z: String; arr: Array[Int, 3]) {
+                            Var a: Int;
+                        }
+                        
+                        main() {
+                            ## no chaining calling ##
+                            x = Shape::$attr::$attr2;
+                        }
+                    }
+                

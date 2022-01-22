@@ -11,13 +11,13 @@ options {
 }
 
 // program: mptype 'main' LB RB LP body? RP EOF;
-program: class_declare* EOF;
+program: class_declare+ EOF;
 
 
 
 // *****************************CLASS STRUCTURE*****************************
-class_declare: CLASS (ID) (COLON ID)? LP body_class RP;
-
+class_declare: CLASS name_class (COLON ID)? LP body_class RP;
+name_class: ID;
 body_class: (constructor_declare | destructor_declare | method_declare | attribute_declare)*;
 
 constructor_declare: CONSTRUCTOR LB params_list? RB block_stmt;
@@ -36,9 +36,19 @@ destructor_declare: DESTRUCTOR LB RB block_stmt;
 method_declare: (ID | STATIC_ID) LB params_list? RB block_stmt;
 
 // chưa xong, còn check vụ số biến bằng số value
-attribute_declare: (VAR | VAL) variable_name_list COLON type_data EQUAL? exp_list? SEMI;     
-variable_name_list: (ID | STATIC_ID) (COMMA (ID | STATIC_ID))*;
-exp_list: exp (COMMA exp)*;
+// attribute_declare: (VAR | VAL) variable_name_list COLON type_data EQUAL? exp_list? SEMI;     
+// variable_name_list: (ID | STATIC_ID) (COMMA (ID | STATIC_ID))*;
+// exp_list: exp (COMMA exp)*;
+
+
+// đã check số biến = số value
+attribute_declare locals[count = 0]: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list | SEMI);     
+variable_name_list: (ID | STATIC_ID) {$attribute_declare::count+=1} (COMMA (ID | STATIC_ID) {$attribute_declare::count+=1} )*;
+value_list: exp {$attribute_declare::count-=1}
+            ({$attribute_declare::count > 0}? COMMA exp {$attribute_declare::count-=1})*
+            ({$attribute_declare::count == 0}? SEMI);
+
+
 // *****************************END CLASS STRUCTURE*****************************
 
 
@@ -49,9 +59,14 @@ block_stmt: LP stmt* RP;
 stmt:   variable_and_constant_stmt | assignment_stmt | if_stmt | for_in_stmt | break_stmt | 
         continue_stmt | return_stmt | method_invocation_stmt;
 
-// chưa xong, tạm thôi
-variable_and_constant_stmt: (VAR | VAL) variable_list_in_method COLON type_data EQUAL? exp_list? SEMI;
-variable_list_in_method: ID (COMMA ID)*;
+
+// chưa xong, tạm thôi ----> đã check số biến = số value
+variable_and_constant_stmt locals[count = 0]: (VAR | VAL) variable_name_list_in_method COLON type_data (EQUAL value_list_stmt | SEMI);
+variable_name_list_in_method: ID {$variable_and_constant_stmt::count+=1} (COMMA ID {$variable_and_constant_stmt::count+=1})*;
+value_list_stmt:    exp {$variable_and_constant_stmt::count-=1}
+                    ({$variable_and_constant_stmt::count > 0}? COMMA exp {$variable_and_constant_stmt::count-=1})*
+                    ({$variable_and_constant_stmt::count == 0}? SEMI);
+
 
 // có thể còn member access exp
 assignment_stmt: (ID | STATIC_ID | index_exp | member_access_exp) EQUAL (exp) SEMI;
@@ -69,7 +84,8 @@ continue_stmt: CONTINUE SEMI;
 
 return_stmt: RETURN exp? SEMI;
 
-method_invocation_stmt: (instance_method_invocation | static_method_invocation) SEMI;
+method_invocation_stmt: (instance_method_invocation | static_method_invocation | calling_method_inside_class) SEMI;
+calling_method_inside_class: (ID | STATIC_ID) LB exp_list? RB;
 // *****************************END STATEMENT*****************************
 
 
@@ -85,7 +101,6 @@ method_invocation_stmt: (instance_method_invocation | static_method_invocation) 
 // exp5: NOT exp5 | exp6;
 // exp6: '-' exp6 | exp7;
 // exp7: exp7 index_operator | exp8;
-// // exp7: exp7 index_exp | exp8;
 // exp8: exp8 (DOT | DOUBLE_COLON) exp9 | exp9;
 // exp9: NEW exp9 | operands;
 
@@ -94,6 +109,7 @@ method_invocation_stmt: (instance_method_invocation | static_method_invocation) 
 // boolean_literal: TRUE | FALSE;
 // array_literal: indexed_array | multidimensional_array;
 // indexed_array: ARRAY LB exp_list? RB;
+// exp_list: exp (COMMA exp)*;
 // multidimensional_array: ARRAY LB array_list? RB;
 // array_list: array_literal (COMMA array_literal)*;
 // funccall: (ID | STATIC_ID) LB exp_list? RB;
@@ -115,41 +131,115 @@ method_invocation_stmt: (instance_method_invocation | static_method_invocation) 
 
 
 
+// khúc này tính hard code
 exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
 exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
 exp2: exp2 (AND | OR) exp3 | exp3;
 exp3: exp3 (ADD | SUB) exp4 | exp4;
 exp4: exp4 (MULTIPLY | DIV | MOD) exp5 | exp5;
 exp5: NOT exp5 | exp6;
-exp6: '-' exp6 | exp7;
-exp7: exp7 index_operator | exp8;
-// exp7: exp7 index_exp | exp8;
-exp8: exp8 (DOT | DOUBLE_COLON) exp9 | exp9;
-exp9: NEW exp9 | operands;
+exp6: '-' exp6 | index_exp | member_access_exp | operands;
 
-operands: ID | STATIC_ID | LB exp RB | literals | funccall;
-literals: INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
+index_exp:      ID index_operator            // arr[1], arr[2+4], arr[a.b], arr[New X()]
+                | STATIC_ID index_operator      // $arr[1], $arr[2+4], $arr[a.b], $arr[New X()]
+                | member_access_exp index_operator //; //a.b[i]
+                | object_creation_exp index_operator
+                | index_exp index_operator
+                | LB exp RB;
+
+index_operator: LSB exp RSB | LSB exp RSB index_operator;
+
+
+member_access_exp:  instance_attr_access
+                    | static_attr_access
+                    | instance_method_invocation
+                    | static_method_invocation
+                    | calling_method_inside_class;
+
+instance_attr_access:   instance_attr_access DOT ID 
+                        | ID
+                        | SELF
+                        | object_creation_exp
+                        | LB exp RB
+                        | static_attr_access
+                        | instance_method_invocation
+                        | static_method_invocation; //
+
+static_attr_access: ID DOUBLE_COLON STATIC_ID;  // không gọi chaining: Shape::$a::$b ---> không
+
+instance_method_invocation: instance_method_invocation DOT ID LB exp_list? RB
+                            | instance_method_invocation DOT ID
+                            | ID DOUBLE_COLON STATIC_ID
+                            | ID DOUBLE_COLON STATIC_ID LB exp_list? RB
+                            | ID
+                            | SELF
+                            | object_creation_exp
+                            | LB exp RB
+                            ;
+
+static_method_invocation: ID DOUBLE_COLON STATIC_ID LB exp_list? RB;
+
+exp_list: exp (COMMA exp)*;
+
+operands: ID | STATIC_ID | LB exp RB | literals | object_creation_exp; // | funccall;
+literals: ZERO_LIT | INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
 boolean_literal: TRUE | FALSE;
 array_literal: indexed_array | multidimensional_array;
 indexed_array: ARRAY LB exp_list? RB;
 multidimensional_array: ARRAY LB array_list? RB;
 array_list: array_literal (COMMA array_literal)*;
-funccall: (ID | STATIC_ID) LB exp_list? RB;
-
-index_operator: LSB exp RSB | LSB exp RSB index_operator;
-index_exp:      ID LSB exp RSB | STATIC_ID LSB exp RSB |
-                index_exp LSB exp RSB;
-
-member_access_exp:  instance_attr_access
-                    | static_attr_access
-                    | instance_method_invocation
-                    | static_method_invocation;
-instance_attr_access:  exp DOT ID;      // Shape.length
-static_attr_access: ID DOUBLE_COLON STATIC_ID;      // Shape::$width
-instance_method_invocation: exp DOT ID LB exp_list? RB;  // obj.getLength()
-static_method_invocation: ID DOUBLE_COLON STATIC_ID LB exp_list? RB; // Shape::$getWidth()
-
+// funccall: (ID | STATIC_ID) LB exp_list? RB;
 object_creation_exp: NEW ID LB exp_list? RB;
+
+
+
+
+
+// change theo ver 1.2
+// exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
+// exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
+// exp2: exp2 (AND | OR) exp3 | exp3;
+// exp3: exp3 (ADD | SUB) exp4 | exp4;
+// exp4: exp4 (MULTIPLY | DIV | MOD) exp5 | exp5;
+// exp5: NOT exp5 | exp6;
+// exp6: '-' exp6 | exp7;
+// exp7: exp7 index_operator | exp8;
+// exp8: exp8 DOT exp9 | exp9;
+// exp9: exp10 DOUBLE_COLON exp10 | exp10;
+// exp10: NEW exp10 | operands;
+
+
+// operands: ID | STATIC_ID | LB exp RB | literals | SELF | funccall;
+// literals: ZERO_LIT | INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
+// boolean_literal: TRUE | FALSE;
+// array_literal: indexed_array | multidimensional_array;
+// indexed_array: ARRAY LB exp_list? RB;
+// exp_list: exp (COMMA exp)*;
+// multidimensional_array: ARRAY LB array_list? RB;
+// array_list: array_literal (COMMA array_literal)*;
+// funccall: (ID | STATIC_ID) LB exp_list? RB;
+
+// index_operator: LSB exp RSB | LSB exp RSB index_operator;
+// index_exp:      ID LSB exp RSB | STATIC_ID LSB exp RSB |
+//                 index_exp LSB exp RSB;
+
+// member_access_exp:  instance_attr_access
+//                     | static_attr_access
+//                     | instance_method_invocation
+//                     | static_method_invocation
+//                     | calling_method_inside_class;
+// instance_attr_access:  exp DOT ID;      // Shape.length
+// static_attr_access: ID DOUBLE_COLON STATIC_ID;      // Shape::$width
+// instance_method_invocation: exp DOT ID LB exp_list? RB;  // obj.getLength()
+// static_method_invocation: ID DOUBLE_COLON STATIC_ID LB exp_list? RB; // Shape::$getWidth()
+
+// object_creation_exp: NEW ID LB exp_list? RB;
+
+
+
+
+
+
 
 
 // *****************************END EXPRESSION*****************************
@@ -167,19 +257,6 @@ fragment DOLLAR: '$';
 
 // Block comment
 COMMENT: DOUBLE_HASHTAG .*? DOUBLE_HASHTAG -> skip;
-
-mptype: INTTYPE | VOIDTYPE;
-
-body: funcall SEMI;
-
-// exp: funcall | INTLIT;
-// exp: funcall | INT_LIT;     // myself
-
-funcall: ID LB exp? RB;
-
-INTTYPE: 'int';
-
-VOIDTYPE: 'void';
 
 
 
@@ -254,62 +331,36 @@ FLOAT_LIT: (INTEGER_PART DEC_PART EXPONENT_PART
     self.text = re.sub('_','',self.text)
 };
 
-// nhập nhằng: 0002.123 --> fix lại cho được luôn
-// underscore 3 part và remove
-// không cho vụ .123
-// fragment DEC_PART: DOT DIGIT*;
-// fragment INTEGER_PART: [0-9] ('_'*[0-9])*;
-// fragment DEC_PART: DOT INTEGER_PART?;
-// fragment EXPONENT_PART: E SIGN? INTEGER_PART;
-// FLOAT_LIT: 	(INT_DECIMAL DEC_PART EXPONENT_PART
-// 			| INT_DECIMAL DEC_PART //33.
-// 			| INT_DECIMAL EXPONENT_PART	//33e10
-//             | DEC_PART EXPONENT_PART
-//             | DEC_PART
-//             ) 
-// {
-//             self.text = re.sub('_','',self.text)
-// };
-// FLOAT_LIT: 	(INTEGER_PART DEC_PART EXPONENT_PART
-// 			| INTEGER_PART DEC_PART //33.
-// 			| INTEGER_PART EXPONENT_PART	//33e10
-//             | DEC_PART EXPONENT_PART
-//             //| DEC_PART
-//             ) 
-// {
-//             self.text = re.sub('_','',self.text)
-// };
+
 
 // fix lại: underscore trong INT_DECIMAL ---> underscore nằm ở cuối ko được, còn cái cũ thì được và
 // sẽ remove underscore ở cuối (cái cũ)
+// fragment X: [xX];
+// fragment B: [bB];
+// fragment INT_OCT: '0' [1-7] ('_'? [0-7])* | '00';
+// fragment INT_DECIMAL: [1-9]('_'? [0-9])* | '0';
+// fragment INT_HEXA: '0' X [1-9A-F] ('_'? [0-9A-F])* | '0' X '0';
+// fragment INT_BINARY:    '0' B '1' ('_'? [0-1])* |
+//                         '0' B '0';
+// INT_LIT: (INT_DECIMAL | INT_HEXA | INT_OCT | INT_BINARY) {
+//     self.text = re.sub('_','',self.text)
+// };
+
 fragment X: [xX];
 fragment B: [bB];
-// fragment INT_OCT: '0' [1-7][0-7]*;
-// fragment INT_OCT: '0' [0-7]+;
-fragment INT_OCT: '0' [1-7] ('_'? [0-7])* | '00';
-// fragment INT_DECIMAL: [1-9][_0-9]* | '0';
-// fragment INT_DECIMAL: [1-9]('_'* [0-9])* | '0';
-fragment INT_DECIMAL: [1-9]('_'? [0-9])* | '0';
-// fragment INT_HEXA: '0' X [1-9a-fA-F] [0-9a-fA-F]*;
-// fragment INT_HEXA: '0' X [0-9a-fA-F]*;
-// fragment INT_HEXA: '0' X [0-9A-F]+;
-fragment INT_HEXA: '0' X [1-9A-F] ('_'? [0-9A-F])* | '0' X '0';
-// fragment INT_BINARY: '0' B [01]+;
-// fragment INT_BINARY:    '0' B '0' ('_'? [0-1])* | 
-//                         '0' B '1' ('_'? [0-1])* |
-//                         '0' B '0';
-fragment INT_BINARY:    '0' B '1' ('_'? [0-1])* |
-                        '0' B '0';
-
-                        
+fragment INT_OCT: '0' [1-7] ('_'? [0-7])*;
+fragment INT_DECIMAL: [1-9]('_'? [0-9])*;
+fragment INT_HEXA: '0' X [1-9A-F] ('_'? [0-9A-F])*;
+fragment INT_BINARY:    '0' B '1' ('_'? [0-1])*;
 INT_LIT: (INT_DECIMAL | INT_HEXA | INT_OCT | INT_BINARY) {
     self.text = re.sub('_','',self.text)
-}
-;
+};
 
 BOOLEAN_LIT: TRUE | FALSE;
-// fragment INT_LIST: INT_LIT (COMMA INT_LIT)*;
-// ARRAY_LIT: 'Array' '(' INT_LIST ')';
+
+ZERO_LIT: '0' | '0b0' | '0B0' | '0x0' | '0X0' | '00';
+
+
 // *****************************END LITERALS*****************************
 
 

@@ -2,7 +2,7 @@
                 Class Program {
                     
                     Val My1stCons, My2ndCons: Int = 1 + 5, 2;
-                    Var $x, $y : Int = 0, 0;
+                    Var $x, $y, z : Int = 0, 0, 0;
                     
                     Constructor(a: Int; B: Float) {
                         $x = 10;

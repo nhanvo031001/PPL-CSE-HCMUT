@@ -1,0 +1,11 @@
+
+                    Class Shape {
+                        $getLength() {
+                            Return $length;
+                        }
+                        
+                        $getShape(a, b, c, d: Int; str1, str2: String) {
+                            Return str1 + str2;
+                        }
+                    }
+                

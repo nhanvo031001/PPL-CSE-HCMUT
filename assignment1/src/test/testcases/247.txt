@@ -1,0 +1,10 @@
+
+                    Class Program {
+                        Var x: Array[Int, 1000];
+                        Var x: Array[Int, 0];
+                        
+                        main() {
+                            
+                        }
+                    }
+                

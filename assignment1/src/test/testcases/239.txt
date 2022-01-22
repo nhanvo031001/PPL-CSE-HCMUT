@@ -1,0 +1,10 @@
+
+                    Class Shape {
+                        main() {
+                            a = "nhan" + "vo";
+                        }
+                        
+                        Constructor() {}
+                        Destructor() {}
+                    };
+                

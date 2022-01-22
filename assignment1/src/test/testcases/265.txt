@@ -1,0 +1,22 @@
+ 
+                    Class Program {
+                        Var arr: Array[Array[Int, 5], 5] = Array (
+                                                            Array(1,2,3,4,54),
+                                                            Array(1,2,3,4,55),
+                                                            Array(1,2,3,4,56),
+                                                            Array(1,2,3,4,57),
+                                                            Array(1,2,3,4,58)
+                                                                );
+                        main() {
+                            Var arr: Array[Array[Array[Int, 2], 1], 2] 
+                                = Array (
+                                    Array(
+                                        Array(1,2)
+                                    ),
+                                    Array (
+                                        Array(3,4)
+                                    )
+                                );
+                        }
+                    }
+                

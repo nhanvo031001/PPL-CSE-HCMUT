@@ -1,0 +1,17 @@
+
+                    Class Program {
+                        Constructor(a, b, c, d: Int; x, y, z: String; arr: Array[Int, 3]) {
+                            Var a: Int;
+                        }
+                    }
+                    
+                    Class Shape {
+                        Constructor() {
+                            Var x: String = "nhanvo" + "nguyenthien";
+                        }
+                    }
+                    
+                    Class Child : Program : Shape {
+                        
+                    }
+                

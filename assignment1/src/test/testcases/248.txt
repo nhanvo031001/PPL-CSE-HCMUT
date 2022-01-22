@@ -1,0 +1,12 @@
+
+                    Class Program {
+                        
+                        method(arr1, arr2: Array[Int, 5]; arr3: Array[Array[Int, 3], 3]) {
+                            ## nothing ##
+                        }
+                        
+                        main() {
+                            ## nothing ##
+                        }
+                    }
+                

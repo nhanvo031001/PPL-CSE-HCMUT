@@ -24,7 +24,7 @@
                             arr[arr[arr[arr[100]]]] = a.b;
                         }
                         
-                        Foreach ($abc In (-123456 + -34231) .. 2) {
+                        Foreach (abc In (-123456 + -34231) .. 2) {
                             If ($abc == 4) {
                                 Continue;
                             }

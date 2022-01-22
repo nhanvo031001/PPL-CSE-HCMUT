@@ -1,0 +1,7 @@
+
+                    Class Program {
+                        main() {
+                            Var x: Float = 3.4, 5.6;
+                        }
+                    }
+                

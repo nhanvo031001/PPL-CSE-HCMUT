@@ -1,0 +1,8 @@
+
+                    Class Shape {
+                        Var a, b: Float = 10;
+                        main() {
+                            
+                        }
+                    }
+                

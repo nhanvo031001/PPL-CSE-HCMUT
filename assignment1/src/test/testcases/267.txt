@@ -1,0 +1,7 @@
+ 
+                    Class Program {
+                        main() {
+                            Var arr: Array[Int, 0b0];
+                        }
+                    }
+                

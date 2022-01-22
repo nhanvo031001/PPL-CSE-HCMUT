@@ -1,0 +1,5 @@
+
+                    Class Shape {}
+                    Class Triangle : Shape {}
+                    Class Circle : Triangle {}
+                
