@@ -1,0 +1,18 @@
+ 
+                    Class Program {
+                        Constructor(x: Float; str: String) {
+                            Self.x = x;
+                            y = str;
+                        }
+                        
+                        Destructor() {
+                            Self.x = 0;
+                            y = "";
+                        }
+                        
+                        method(a, b, c: Int; a, $xyz: Float) {
+                            Str = "It will cause errror because $xyz is static ID";
+                            Return;
+                        }
+                    }
+                

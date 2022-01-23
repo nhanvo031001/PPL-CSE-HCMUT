@@ -1,0 +1,10 @@
+ 
+                    Class Program {
+                        Var x: Float = 0;
+                        Var arr: Array[Array[Int, 1], 1] = some_arr[1][another_arr[2]];
+                        
+                        main() {
+                            Val arr: Array[Int, 1] = Array();
+                        }
+                    }
+                

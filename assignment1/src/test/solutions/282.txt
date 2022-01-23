@@ -1,0 +1,1 @@
+Error on line 29 col 35: $obj

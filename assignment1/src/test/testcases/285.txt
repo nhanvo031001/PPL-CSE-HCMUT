@@ -1,0 +1,10 @@
+ 
+                    Class Program {
+                        Var x: Int = 5;
+                        
+                        main() {
+                            x = a.b[i];
+                            x = a[i].b;
+                        }
+                    }
+                

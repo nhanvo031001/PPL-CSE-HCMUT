@@ -5,7 +5,7 @@
                         }
                         
                         main() {
-                            Shape::getLength();;
+                            Shape::getLength();
                             Shape::$getLength(a, b, "nhan", 1+2-3*4/5, arr[1]);
                         }
                     }

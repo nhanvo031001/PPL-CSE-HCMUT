@@ -1,0 +1,19 @@
+ 
+                    Class Program {
+                        Var arr: Array[Int, 3] = Array(1, "nhanvo", 12.00000e+10); 
+                        
+                        main() {
+                            Str = "No need same type in 1-dimensional array";
+                        }
+                        
+                        Constructor(x: Float; str: String) {
+                            Self.x = x;
+                            y = str;
+                        }
+                        
+                        Destructor() {
+                            Self.x = 0;
+                            y = "";
+                        }
+                    }
+                
