@@ -1,0 +1,9 @@
+ 
+                    Class Program {
+                        Var x: Int = 5;
+                        
+                        main() {
+                            x = Self.$getLength();   
+                        }
+                    }
+                

@@ -75,7 +75,13 @@ continue_stmt: CONTINUE SEMI;
 return_stmt: RETURN exp? SEMI;
 
 // method_invocation_stmt: (static_method_invocation | instance_method_invocation | calling_method_inside_class) SEMI;
-method_invocation_stmt: (exp8 | exp9) SEMI;
+method_invocation_stmt: (static_method_invocation | instance_method_invocation | calling_method_inside_class) SEMI;
+static_method_invocation: name_class DOUBLE_COLON STATIC_ID LB exp_list? RB ;
+instance_method_invocation: pre_exp DOT ID LB exp_list? RB;
+pre_exp: pre_exp DOT ID
+        | pre_exp DOT ID LB exp_list? RB
+        | exp9;
+        
 // *****************************END STATEMENT*****************************
 
 
@@ -363,9 +369,9 @@ STATIC_ID: DOLLAR [_a-zA-Z0-9]+;
 
 
 // fragment CHAR : ~[\b\t\f\r\n\\"'] | ESCAPE;
-fragment CHAR : ~[\r\n\\"'] | ESCAPE;
+fragment CHAR : ~[\r\n\\"] | ESCAPE;
 fragment ESCAPE: '\\' [btnfr'\\] | ('\'' '"');
-fragment ILL_ESC: '\\'~[btrfn\\'] | '\''~'"'  ;
+fragment ILL_ESC: '\\'~[btrfn\\'] | '\\'; // | '\''~'"'  ;
 
 // UNTERMINATED_COMMENT: '##' ('#'~'#' | ~'#')* EOF
 // {

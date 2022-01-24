@@ -1,0 +1,30 @@
+ 
+                    Class Program {
+                        Var x: Int = 5;
+                        Var arr: Array[Float, 5];
+                        
+                        Constructor() {
+                            ## nothing ##
+                        }
+                        
+                        Constructor(x: Float; str: String) {
+                            Self.x = x;
+                            y = str;
+                        }
+                        
+                        Destructor() {
+                            Self.x = 0;
+                            y = "";
+                        }
+                        
+                        Destructor(a, b, c, d: Int) {
+                            Str = "Error";
+                        }
+                        
+                        main() {
+                            Foreach ($index in 1 .. 10) {
+                                out.print(i);
+                            }
+                        }
+                    }
+                

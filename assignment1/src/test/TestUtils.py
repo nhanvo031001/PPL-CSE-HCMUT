@@ -40,7 +40,7 @@ class TestLexer:
         TestLexer.check(SOL_DIR,inputfile,num)
         dest = open(SOL_DIR + str(num) + ".txt","r")
         line = dest.read()
-        #print("LINE " + str(num) + ": " + line + "\n")  #myself
+        # print("LINE " + str(num) + ": " + line + "\n")  #myself
         return line == expect
     
     @staticmethod
@@ -58,7 +58,7 @@ class TestLexer:
     def printLexeme(dest,lexer):
         tok = lexer.nextToken()
         if tok.type != Token.EOF:
-            #print("tok.text: ", tok.text, "<",tok.type,">")       #myself
+            # print("tok.text: ", tok.text, "<",tok.type,">")       #myself
             dest.write(tok.text+",")            #create solution for file .txt in folder solutions
             TestLexer.printLexeme(dest,lexer)
         else:

@@ -589,7 +589,8 @@ class LexerSuite(unittest.TestCase):
             "But this string is not"
             "I don't know what tests to write"
         """
-        expect = r"""First string is valid,I don\'t know what tests to write,But this string is not,Illegal Escape In String: I don't"""
+        # expect = r"""First string is valid,I don\'t know what tests to write,But this string is not,Illegal Escape In String: I don't"""
+        expect = r"""First string is valid,I don\'t know what tests to write,But this string is not,I don't know what tests to write,<EOF>"""
         self.assertTrue(TestLexer.test(input, expect, 170))
         
     def test_string_unclosed(self):
@@ -755,7 +756,8 @@ class LexerSuite(unittest.TestCase):
     
     def test_invalid_escape_quote(self):
         input = """ "This is another invalid ''" quote" """
-        expect = """Illegal Escape In String: This is another invalid ''"""
+        # expect = """Illegal Escape In String: This is another invalid ''"""
+        expect = """This is another invalid ''" quote,<EOF>"""
         self.assertTrue(TestLexer.test(input, expect, 178))
         
     def test_invalid_keywords(self):
@@ -781,9 +783,9 @@ class LexerSuite(unittest.TestCase):
     def test_some_confused_escape(self):
         input = """
                     "The first string \'"confused\'""
-                    "The second string illegal \'n"
+                    "The second string is or not illegal \'n"
                 """
-        expect = """The first string '"confused'",Illegal Escape In String: The second string illegal 'n"""
+        expect = """The first string '"confused'",The second string is or not illegal 'n,<EOF>"""
         self.assertTrue(TestLexer.test(input, expect, 182))
         
     def test_some_confused_escape_2(self):
@@ -1020,10 +1022,3 @@ class LexerSuite(unittest.TestCase):
                 """
         expect = "0.2,0.03,0.00004,0.10000000000,0.100002,7.3,7.0000003,7.30000000000,100.00000000000000,0.2e10,0.0003e-10,0.300000E-10,0.40000e+10,7.33000e-10,8.4E+10,.,234,.,00,00,00,3,.,3000000,.e10,.e-10,.e+10,e,+,10,e,-,10,12e10,45e+10,6e+00000001,00,00,023,e,-,10,230000E+10,.e-10000000,.e+00000001,.e000000002,.e30000000,12346756.234,_342_234,12346756.234,_342_234__,__1_234_6756,.,234342234,__,.,e_10,.e-10,_000_000,.E+111,_1111_,7.3,_456_567e,+,10234678,00,0,_000_123_000,.E+000,_000_111,00,00,2.345,2.e00000000,12.0000000,12.00002,2.e000012,0.00232e+002,0.0,0.0000000e0000000,0.0000000000,<EOF>"
         self.assertTrue(TestLexer.test(input, expect, 200))
-        
-    # def test_some_thing(self):
-    #     input = """
-    #                 Foreach(i in 1..10)
-    #             """
-    #     expect = ""
-    #     self.assertTrue(TestLexer.test(input, expect, 999))

@@ -1866,3 +1866,382 @@ class ParserSuite(unittest.TestCase):
                 """
         expect = "Error on line 7 col 36: ."
         self.assertTrue(TestParser.test(input,expect,285))
+        
+    def test_left_hand_side_assign_stmt(self):
+        input = """ 
+                    Class Program {
+                        Var x: Int = 5;
+                        
+                        main() {
+                            x = Array();
+                            $x = Shape::$obj.obj2.pbj3.func();
+                            a.b = Shape::$obj.obj2.pbj3.func();
+                            a.b() = Shape::$obj.obj2.pbj3.func();
+                            a.b(a,True,Array(1,2,3)) = Shape::$obj.obj2.pbj3.func();
+                            a.b(a,True,Array(1,2,3)).attr = Shape::$obj.obj2.pbj3.func();
+                            Shape::$attr = Shape::$obj.obj2.pbj3.func();
+                            Shape::$attr.func() = Shape::$obj.obj2.pbj3.func();
+                            Shape::$attr.attr.func() = Shape::$obj.obj2.obj3.func();
+                            Shape::$attr.attr.attr.attr.func() = Shape::$obj.obj2.pbj3.func();
+                            Shape::$attr.attr.attr.attr.func().func().func() = Shape::$obj.obj2.pbj3.func();
+                            1[1]                                          = Shape::$obj.func();          
+                            1.23434e+10[1]                                = Shape::$obj.func();      
+                            1.23434e+10[12/3%2-4514+34141]                = Shape::$obj.func();      
+                            True[Null]                                    = Shape::$obj.func();      
+                            1[1.000000000]                                = Shape::$obj.func();      
+                            1_2_3_4_5_6[Array(1,2,3,4,"nhan")]            = Shape::$obj.func();  
+                            1_2_3_4_5_6.e-00000000[Array(1,2,3,4,"nhan")] = Shape::$obj.func(); 
+                            0[Array(1,2,3,4,"nhan")]                      = Shape::$obj.func();  
+                            00[Array(1,2,3,4,"nhan")]                     = Shape::$obj.func();
+                            0B0[Array(1,2,3,4,"nhan")]                    = Shape::$obj.func();  
+                            0x0[Array(1,2,3,4,"nhan")]                    = Shape::$obj.func();      
+                            0X0[Array(1,2,3,4,"nhan")]                    = Shape::$obj.func();      
+                            New X()[2]                                    = Shape::$obj.func();      
+                            New X()[2]                                   = Shape::$obj.func();          
+                            New X()[2]                                   = Shape::$obj.func();      
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,286))
+        
+    def test_declare_method_outside_class(self):
+        input = """
+                    method() {
+                        str = "This is invalid cuz all methods must be inside class";
+                    }
+                    
+                    Class Program {
+                        Var x: Int = 5;
+                        
+                        main() {
+                                  
+                        }
+                    }
+                """
+        expect = "Error on line 2 col 20: method"
+        self.assertTrue(TestParser.test(input,expect,287))
+        
+    def test_declare_class_inside_class(self):
+        input = """ 
+                    Class Program {
+                        Var x: Int = 5;
+                        
+                        main() {
+                                  
+                        }
+                        
+                        Class Inside {
+                            Constructor() {
+                                Out.print("Error);
+                            }
+                        }
+                    }
+                """
+        expect = "Error on line 9 col 24: Class"
+        self.assertTrue(TestParser.test(input,expect,288))
+        
+    def test_self_dot_static_function(self):
+        input = """ 
+                    Class Program {
+                        Var x: Int = 5;
+                        
+                        main() {
+                            x = Self.$getLength();   
+                        }
+                    }
+                """
+        expect = "Error on line 6 col 37: $getLength"
+        self.assertTrue(TestParser.test(input,expect,289))
+        
+    def test_declare_method_inside_method(self):
+        input = """ 
+                    Class Program {
+                        Var x: Int = 5;
+                        
+                        main() {
+                            x = 2 + Array(1,2);
+                            x = Num + "123";
+                            x = Arary(1,2,3) + Array(Array(1,2,3), Array(4,5,6,7,8,9));
+                            x = 1 + Array(Array(Shape::$attribute,2,3), Array(obj.getLength(),5,Shape::$func(a,b,c,d),7,8,func()));
+
+                            method() {
+                                out.print("Error");
+                            }
+                        }
+                    }
+                """
+        expect = "Error on line 11 col 37: {"
+        self.assertTrue(TestParser.test(input,expect,290))
+        
+    def test_missed_close_bracket(self):
+        input = """ 
+                    Class Program {
+                        Var x: Int = 5;
+                        
+                        Constructor(x: Float; str: String) {
+                            Self.x = x;
+                            y = str;
+                        }
+                        
+                        Destructor() {
+                            Self.x = 0;
+                            y = "";
+                        }
+                        
+                        main() {
+                            method().method();
+                            x = 2 + Array(1,2);
+                            x = Num + "123";
+                            x = Arary(1,2,3) + Array(Array(1,2,3), Array(4,5,6,7,8,9));
+                            x = 1 + Array(Array(Shape::$attribute,2,3), Array(obj.getLength(),5,Shape::$func(a,b,c,d),7,8,func()));
+                            method().method();
+                        }
+                    
+                """
+        expect = "Error on line 24 col 16: <EOF>"
+        self.assertTrue(TestParser.test(input,expect,291))
+        
+    def test_foreach_statement(self):
+        input = """ 
+                    Class Program {
+                        Var x: Int = 5;
+                        Var arr: Array[Float, 5];
+                        
+                        Constructor(x: Float; str: String) {
+                            Self.x = x;
+                            y = str;
+                        }
+                        
+                        Destructor() {
+                            Self.x = 0;
+                            y = "";
+                        }
+                        
+                        main() {
+                            Foreach (arr[i] in 1 .. 10) {
+                                out.print(i);
+                            }
+                        }
+                    }
+                """
+        expect = "Error on line 17 col 40: ["
+        self.assertTrue(TestParser.test(input,expect,292))
+        
+    def test_params_in_destructor(self):
+        input = """ 
+                    Class Program {
+                        Var x: Int = 5;
+                        Var arr: Array[Float, 5];
+                        
+                        Constructor() {
+                            ## nothing ##
+                        }
+                        
+                        Constructor(x: Float; str: String) {
+                            Self.x = x;
+                            y = str;
+                        }
+                        
+                        Destructor() {
+                            Self.x = 0;
+                            y = "";
+                        }
+                        
+                        Destructor(a, b, c, d: Int) {
+                            Str = "Error";
+                        }
+                        
+                        main() {
+                            Foreach ($index in 1 .. 10) {
+                                out.print(i);
+                            }
+                        }
+                    }
+                """
+        expect = "Error on line 20 col 35: a"
+        self.assertTrue(TestParser.test(input,expect,293))
+        
+    def test_some_weird_operand_2(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            x = 1.e+101010101 - 0b10101011;
+                            x = "nhan" +. 0xABCD;
+                            x = "vo" ==. 123;
+                            x = Array(1,2,3,4) + 4%3/arr[1] + Null._123_4534_4823_42374893;
+                            x = Array(Array(1,2), Array()) - !!!!!!!!!!!-------------------True;
+                            x = $calling_method();
+                            x = $calling_method(a-b%c+d, Array(1,2,Array(3,4)), New Shape(), Shape::$func(), 0x0, 00, 0b0);
+                            x = calling_method(1 > 2, 2 < 3, 3 <= 4, 5 >= 3, 5 != 3, 5 == 3, 1.2 +. 3.e1, 0xAB123 ==. 0b1010101);                        
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,294))
+        
+    def test_some_weird_member_access(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            x = a.b.c.d.e.f;
+                            $x = Null.a;
+                            $x = Self.Continue;
+                        }
+                    }
+                """
+        expect = "Error on line 9 col 38: Continue"
+        self.assertTrue(TestParser.test(input,expect,295))
+        
+    def test_some_weird_member_access_2(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            Shape::$a;
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 37: ;"
+        self.assertTrue(TestParser.test(input,expect,296))
+        
+    def test_with_lexer(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            x = "My name is Nhan. This name has two \\'N\\' characters";
+                            input = "He asked me: '"Where is John?'"";
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,297))
+        
+    def test_invalid_variable_declare(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            Var _X_YZ, _123_123_123: Int = 5; 
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 60: ;"
+        self.assertTrue(TestParser.test(input,expect,298))
+        
+    def test_invalid_variable_declare_2(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            Var _X_YZ, _123_123_123: Int = 5, "nhan" +. 0.123123, x != 13; 
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 80: ,"
+        self.assertTrue(TestParser.test(input,expect,299))
+        
+    def test_invalid_variable_declare_3(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            Var _X_YZ, _123_123_123, $y: Int = 5, "nhan" +. 0.123123, x != 13; 
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 53: $y"
+        self.assertTrue(TestParser.test(input,expect,300))
+        
+    # def test_something(self):
+    #     input = """ 
+    #                 Class Program {
+    #                     main() {
+    #                         a();
+    #                         a.a();
+    #                         a.a.a();
+    #                         a.a.a.a();
+    #                         a.a.a.a.a();
+                            
+    #                         a();
+    #                         a().a();
+    #                         a().a().a();
+    #                         a().a().a().a();
+    #                         method().method();
+    #                         a().a().a().a().a();
+                            
+    #                         a.a().a.a();
+    #                         a.a().a.a.a.a.a();
+    #                         a.a().a.a.a.a().a();
+    #                         a.a().a.a().a.a().a();
+                            
+    #                         $a().a();
+    #                         $a().a.a.a.a();
+    #                         $a().a.a().a.a();
+    #                         $a().a.a.a.a.a().a().a();
+                            
+    #                         Shape::$a.a();
+    #                         Shape::$a.a.a();
+    #                         Shape::$a.a.a.a();
+    #                         Shape::$a.a.a.a.a.a();
+    #                         Shape::$a.a.a.a.a.a.a();
+                                     
+    #                         Shape::$a.a();
+    #                         Shape::$a.a().a();
+    #                         Shape::$a.a().a().a();
+    #                         Shape::$a.a().a().a().a().a();
+    #                         Shape::$a.a().a().a().a().a().a();
+                            
+    #                         Shape::$a().a();
+    #                         Shape::$a().a.a.a.a();
+    #                         Shape::$a().a.a().a.a(123);
+    #                         Shape::$a().a.a.a().a.a(123).a().a(123);
+                            
+    #                         New X().a();
+    #                         New X().a.a.a();
+    #                         New X().a().a.a();
+    #                         New X().a().a.a.a().a.a();
+                            
+    #                         (0).a();
+    #                         (0).a.a.a();
+    #                         (0).a().a.a();
+                            
+    #                         $a();
+    #                         "nhan".a();
+    #                         "nhan".a.a.a.a();
+    #                         Shape::$a();
+                        
+    #                         method().method();
+    #                     }
+                    
+    #             """
+    #     expect = ""
+    #     self.assertTrue(TestParser.test(input,expect,888))
+        
+    # def test_something(self):
+    #     input = """ 
+    #                 Class Program {
+    #                     main() {
+    #                         a::$b();
+    #                     }
+    #                 }
+    #             """
+    #     expect = ""
+    #     self.assertTrue(TestParser.test(input,expect,888))

@@ -1,0 +1,15 @@
+ 
+                    Class Program {
+                        Var x: Int = 5;
+                        
+                        main() {
+                                  
+                        }
+                        
+                        Class Inside {
+                            Constructor() {
+                                Out.print("Error);
+                            }
+                        }
+                    }
+                

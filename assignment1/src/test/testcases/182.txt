@@ -1,4 +1,4 @@
 
                     "The first string '"confused'""
-                    "The second string illegal 'n"
+                    "The second string is or not illegal 'n"
                 

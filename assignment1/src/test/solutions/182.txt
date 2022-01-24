@@ -1,1 +1,1 @@
-The first string '"confused'",Illegal Escape In String: The second string illegal 'n
+The first string '"confused'",The second string is or not illegal 'n,<EOF>

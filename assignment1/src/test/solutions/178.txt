@@ -1,1 +1,1 @@
-Illegal Escape In String: This is another invalid ''
+This is another invalid ''" quote,<EOF>

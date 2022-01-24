@@ -246,7 +246,7 @@ fragment STRING_CHAR    : ~(["\r\n\\])
 fragment ESCAPE_SEQUENCE: '\\' [btnfr'\\];
 fragment DOUBLE_QUOTE_CHAR: '\'"';
 fragment ILLEGAL_SEQUENCE   :   '\\' ~[btnfr'\\]  
-                            |   '\'' ~["] 
+                        //    |   '\'' ~["] 
                             |   '\\' // Dấu \ đứng một mình
                             ;
 fragment SIGN: [+-];
@@ -371,7 +371,6 @@ WS : [ \t\r\n\f]+ -> skip ; // skip spaces, tabs, newlines
 */
 
 UNCLOSE_STRING: '"' STRING_CHAR* {
-    print(self.text)
     raise UncloseString(self.text[1:]);
 };
 
