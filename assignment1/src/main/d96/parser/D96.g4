@@ -34,11 +34,25 @@ destructor_declare: DESTRUCTOR LB RB block_stmt;
 
 method_declare: (ID | STATIC_ID) LB params_list? RB block_stmt;
 
-attribute_declare locals[count = 0]: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list | SEMI);     
-variable_name_list: (ID | STATIC_ID) {$attribute_declare::count+=1} (COMMA (ID | STATIC_ID) {$attribute_declare::count+=1} )*;
-value_list: exp {$attribute_declare::count-=1}
-            ({$attribute_declare::count > 0}? COMMA exp {$attribute_declare::count-=1})*
-            ({$attribute_declare::count == 0}? SEMI);
+// attribute_declare locals[count = 0]: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list | SEMI);     
+// variable_name_list: (ID | STATIC_ID) {$attribute_declare::count+=1} (COMMA (ID | STATIC_ID) {$attribute_declare::count+=1} )*;
+// value_list: exp {$attribute_declare::count-=1}
+//             ({$attribute_declare::count > 0}? COMMA exp {$attribute_declare::count-=1})*
+//             ({$attribute_declare::count == 0}? SEMI);
+
+
+// theo cách mới
+attribute_declare: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list[$variable_name_list.count] ({$value_list.$count_after == 0}? SEMI)| SEMI);     
+variable_name_list returns [count_after = 0]: (ID | STATIC_ID) {$count+=1} (COMMA (ID | STATIC_ID) {$count+=1} )*;
+value_list[count] returns [count_after]: exp {$count-=1}
+            ({$count > 0}? COMMA exp {$attribute_declare::count-=1})* 
+            {$count_after = $count};
+
+
+
+
+
+
 // *****************************END CLASS STRUCTURE*****************************
 
 
