@@ -18,8 +18,8 @@
                             Break;
                         }
                         
-                        Foreach ($bc In (-123456 + -34231) .. 2) {
-                            If ($abc == 4) {
+                        Foreach (bc In (-123456 + -34231) .. 2) {
+                            If (Shape::$abc == 4) {
                                 Break;
                             }
                         }

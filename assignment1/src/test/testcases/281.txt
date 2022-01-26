@@ -16,7 +16,7 @@
                             x = someID::$func(a,b,c,Null).func();
                             x = Array(1,2,3,4,5,6).func();
                             x = Array(Array(1,2,3), Array(4,5), Array("nhan", "vo", "nguyen")).func();
-                            x = $func(xyz).func();
+                            x = Shape::$func(xyz).func();
                             x = (0).func();
                             x = (0b0).func();
                             x = (0B0).func();

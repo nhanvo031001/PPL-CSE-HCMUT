@@ -9,9 +9,9 @@
                             x = "vo" ==. 123;
                             x = Array(1,2,3,4) + 4%3/arr[1] + Null._123_4534_4823_42374893;
                             x = Array(Array(1,2), Array()) - !!!!!!!!!!!-------------------True;
-                            x = $calling_method();
-                            x = $calling_method(a-b%c+d, Array(1,2,Array(3,4)), New Shape(), Shape::$func(), 0x0, 00, 0b0);
-                            x = calling_method(1 > 2, 2 < 3, 3 <= 4, 5 >= 3, 5 != 3, 5 == 3, 1.2 +. 3.e1, 0xAB123 ==. 0b1010101);                        
+                            x = Shape::$calling_method();
+                            x = Shape::$calling_method(a-b%c+d, Array(1,2,Array(3,4)), New Shape(), Shape::$func(), 0x0, 00, 0b0);
+                            x = a.calling_method(1 > 2, 2 < 3, 3 <= 4, 5 >= 3, 5 != 3, 5 == 3, 1.2 +. 3.e1, 0xAB123 ==. 0b1010101);                        
                         }
                     }
                 

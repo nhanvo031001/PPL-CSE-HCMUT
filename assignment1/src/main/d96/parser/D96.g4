@@ -58,15 +58,25 @@ value_list_stmt:    exp {$variable_and_constant_stmt::count-=1}
 
 // có thể còn member access exp
 // assignment_stmt: (ID | STATIC_ID | index_exp | member_access_exp) EQUAL (exp) SEMI; // theo hard code
-assignment_stmt: (ID | STATIC_ID | exp7 | exp8 | exp9) EQUAL (exp) SEMI; // theo recursive
+// assignment_stmt: (ID | STATIC_ID | exp7 | exp8 | exp9) EQUAL (exp) SEMI; // theo recursive
 // NOTE: exp7 (index_exp), exp8 (DOT access), exp9 (DOUBLE COLON access)
 
+
+// change theo scalar variable;
+assignment_stmt: scalar_variable EQUAL exp SEMI;
+scalar_variable: ID // biến thường    
+                | name_class DOUBLE_COLON STATIC_ID // biến dollar
+                | exp8 DOT ID // cái cuối là biến thường, phía trước gọi hàm vẫn được
+                | index_exp_for_scalar_variable; // index expression
+index_exp_for_scalar_variable:  exp7 LSB exp RSB
+                                ;//| exp8 LSB exp RSB;
+
 if_stmt:    IF LB exp RB block_stmt       
-            | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+        
+            | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+            
             | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+ (ELSE block_stmt)
             | IF LB exp RB block_stmt (ELSE block_stmt);
 
-for_in_stmt: FOREACH LB (ID | STATIC_ID) IN exp DOUBLE_DOT exp (BY exp)? RB block_stmt;
+for_in_stmt: FOREACH LB scalar_variable  IN exp DOUBLE_DOT exp (BY exp)? RB block_stmt;
 
 break_stmt: BREAK SEMI;
 
@@ -75,7 +85,7 @@ continue_stmt: CONTINUE SEMI;
 return_stmt: RETURN exp? SEMI;
 
 // method_invocation_stmt: (static_method_invocation | instance_method_invocation | calling_method_inside_class) SEMI;
-method_invocation_stmt: (static_method_invocation | instance_method_invocation | calling_method_inside_class) SEMI;
+method_invocation_stmt: (static_method_invocation | instance_method_invocation) SEMI; // | calling_method_inside_class) SEMI;
 static_method_invocation: name_class DOUBLE_COLON STATIC_ID LB exp_list? RB ;
 instance_method_invocation: pre_exp DOT ID LB exp_list? RB;
 pre_exp: pre_exp DOT ID
@@ -198,6 +208,40 @@ pre_exp: pre_exp DOT ID
 
 
 // change theo ver 1.2, recursive cách khác, đổi cách viết member access
+// exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
+// exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
+// exp2: exp2 (AND | OR) exp3 | exp3;
+// exp3: exp3 (ADD | SUB) exp4 | exp4;
+// exp4: exp4 (MULTIPLY | DIV | MOD) exp5 | exp5;
+// exp5: NOT exp5 | exp6;
+// exp6: SUB exp6 | exp7;
+// exp7: exp7 index_operator | exp8;
+// exp8:   exp8 DOT ID 
+//         | exp8 DOT ID LB exp_list? RB
+//         | exp9;
+// exp9:   ID DOUBLE_COLON STATIC_ID 
+//         | ID DOUBLE_COLON STATIC_ID LB exp_list? RB
+//         | exp10;
+// exp10: NEW ID LB exp_list? RB | operands;
+
+// operands: ID | STATIC_ID | LB exp RB | literals | SELF | NULL | calling_method_inside_class;
+// literals: ZERO_LIT | INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
+// boolean_literal: TRUE | FALSE;
+// array_literal: multidimensional_array | indexed_array;
+// multidimensional_array: ARRAY LB array_list? RB;
+// indexed_array: ARRAY LB exp_list? RB;
+// exp_list: exp (COMMA exp)*;
+// array_list: array_literal (COMMA array_literal)*;
+// calling_method_inside_class: (ID | STATIC_ID) LB exp_list? RB;
+
+// index_operator: LSB exp RSB | LSB exp RSB index_operator;
+
+
+
+
+
+// giống cái trên, nhưng điều chỉnh theo mục sai sót forum
+// bỏ calling_method_inside_class, operands ko có static ID
 exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
 exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
 exp2: exp2 (AND | OR) exp3 | exp3;
@@ -214,7 +258,7 @@ exp9:   ID DOUBLE_COLON STATIC_ID
         | exp10;
 exp10: NEW ID LB exp_list? RB | operands;
 
-operands: ID | STATIC_ID | LB exp RB | literals | SELF | NULL | calling_method_inside_class;
+operands: ID | LB exp RB | literals | SELF | NULL;
 literals: ZERO_LIT | INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
 boolean_literal: TRUE | FALSE;
 array_literal: multidimensional_array | indexed_array;
@@ -222,9 +266,14 @@ multidimensional_array: ARRAY LB array_list? RB;
 indexed_array: ARRAY LB exp_list? RB;
 exp_list: exp (COMMA exp)*;
 array_list: array_literal (COMMA array_literal)*;
-calling_method_inside_class: (ID | STATIC_ID) LB exp_list? RB;
+// calling_method_inside_class: (ID | STATIC_ID) LB exp_list? RB;
 
 index_operator: LSB exp RSB | LSB exp RSB index_operator;
+
+
+
+
+
 
 // *****************************END EXPRESSION*****************************
 

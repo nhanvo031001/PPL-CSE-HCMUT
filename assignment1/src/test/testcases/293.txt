@@ -22,7 +22,7 @@
                         }
                         
                         main() {
-                            Foreach ($index in 1 .. 10) {
+                            Foreach ($index In 1 .. 10) {
                                 out.print(i);
                             }
                         }

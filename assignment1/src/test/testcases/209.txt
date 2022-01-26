@@ -14,7 +14,7 @@
                             Elseif (b == 6) {  }
                             Elseif (!False) {##nothing##}
                             Elseif (a < b) {##nothing##}
-                            Elseif ($xyz >= 3) {##nothing##}
+                            Elseif (Shape::$xyz >= 3) {##nothing##}
                             Elseif (ar[2] > 3) {##nothing##}
                         }
                         
@@ -25,7 +25,7 @@
                         }
                         
                         Foreach (abc In (-123456 + -34231) .. 2) {
-                            If ($abc == 4) {
+                            If (Shape::$abc == 4) {
                                 Continue;
                             }
                         }

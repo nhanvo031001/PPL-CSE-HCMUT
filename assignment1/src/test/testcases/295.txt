@@ -5,8 +5,8 @@
                     
                         main() {
                             x = a.b.c.d.e.f;
-                            $x = Null.a;
-                            $x = Self.Continue;
+                            Shape::$x = Null.a;
+                            Shape::$x = Self.Continue;
                         }
                     }
                 

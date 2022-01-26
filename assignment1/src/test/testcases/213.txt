@@ -19,7 +19,7 @@ Class Program {
                                 Elseif (b == 6) {  }
                                 Elseif (!False) {Continue;}
                                 Elseif (a < b) {##nothing##}
-                                Elseif ($xyz >= 3) {##nothing##}
+                                Elseif (Shape::$xyz >= 3) {##nothing##}
                                 Elseif (ar[2] > 3) {##nothing##}
                             }      
                         }

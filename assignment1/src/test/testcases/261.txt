@@ -16,7 +16,7 @@
                         }
                         
                         $getWidth(a, b: Int; str: String) {
-                            $width = 12 - 5 + 5 / 7 * 6 - arr[4];
+                            Shape::$width = 12 - 5 + 5 / 7 * 6 - arr[4];
                             Return $width;
                         }
                         

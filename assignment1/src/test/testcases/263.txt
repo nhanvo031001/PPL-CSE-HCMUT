@@ -5,7 +5,7 @@
                         Var length, width: Int;
                         
                         $getNumOfShape() {
-                            Return $numOfShape;
+                            Return Shape::$numOfShape;
                         }
                     }
                     

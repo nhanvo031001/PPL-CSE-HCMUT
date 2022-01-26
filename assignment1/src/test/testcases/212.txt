@@ -20,7 +20,7 @@
                         }
                         
                         Foreach (abc In (-123456 + -34231) .. 2) {
-                            If ($abc == 4) {
+                            If (Shape::$abc == 4) {
                                 Return;
                             }
                         }

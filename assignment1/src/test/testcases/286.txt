@@ -4,7 +4,7 @@
                         
                         main() {
                             x = Array();
-                            $x = Shape::$obj.obj2.pbj3.func();
+                            Shape::$x = Shape::$obj.obj2.pbj3.func();
                             a.b = Shape::$obj.obj2.pbj3.func();
                             a.b() = Shape::$obj.obj2.pbj3.func();
                             a.b(a,True,Array(1,2,3)) = Shape::$obj.obj2.pbj3.func();

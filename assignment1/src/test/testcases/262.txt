@@ -16,13 +16,13 @@
                         }
                         
                         $getWidth(a, b: Int; str: String) {
-                            $width = 12 - 5 + 5 / 7 * 6 - arr[4];
-                            Return $width;
+                            Shape::$width = 12 - 5 + 5 / 7 * 6 - arr[4];
+                            Return Shape::$width;
                         }
                         
                         main() {
-                            Var a: Int = getLength();   ## calling method inside class ##
-                            Var b: Int = $getWidth(a, b, "nhan");   ## calling method inside class ##
+                            Var a: Int = a.getLength();   ## calling method inside class ##
+                            Var b: Int = Shape::$getWidth(a, b, "nhan");   ## calling method inside class ##
                             Return a-b;
                         }
                     }

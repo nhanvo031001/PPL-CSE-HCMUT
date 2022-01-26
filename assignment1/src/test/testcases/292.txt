@@ -14,7 +14,7 @@
                         }
                         
                         main() {
-                            Foreach (arr[i] in 1 .. 10) {
+                            Foreach (arr[i] In 1 .. 10) {
                                 out.print(i);
                             }
                         }

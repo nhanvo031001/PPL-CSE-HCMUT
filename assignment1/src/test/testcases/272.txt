@@ -6,13 +6,13 @@
                         Var $width: Float;
                         
                         Constructor() {
-                            $length = 12;
-                            $width = 12;
+                            Shape::$length = 12;
+                            Shape::$width = 12;
                         }
                         
                         Constructor(l, w: Float) {
-                            $length = l;
-                            $width = w;
+                            Shape::$length = l;
+                            Shape::$width = w;
                         }
                         
                         $getLength() {
@@ -20,7 +20,7 @@
                         }
                         
                         $getWidth() {
-                            Return $width;
+                            Return Shape::$width;
                         }
                         
                         main() {

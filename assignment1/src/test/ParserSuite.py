@@ -11,15 +11,15 @@ class ParserSuite(unittest.TestCase):
                     Var $x, $y, z : Int = 0, 0, 0;
                     
                     Constructor(a: Int; B: Float) {
-                        $x = 10;
-                        $y = 1000;
+                        x = 10;
+                        y = 1000;
                         My1stCons = 5 + 2;
                         My2ndCons = (0b1101010 && 0b1101110);
                     }
                     
                     Destructor() {
-                        $x = 0;
-                        $y = 0;
+                        x = 0;
+                        y = 0;
                         My1stCons = 0;
                         My2ndCons = 0;
                     }
@@ -37,7 +37,7 @@ class ParserSuite(unittest.TestCase):
                         If (a <= 5) {##nothing##}
                         If (a >= 5) {##nothing##}
                         If (a == xyz) {##nothing##}
-                        If (a != $xyz) {##nothing##}
+                        If (a != Shape::$xyz) {##nothing##}
                         If (a > nhanvo) {##nothing##}
                         If (a < ldpv) {##nothing##}
                         If (a >= abc) {##nothing##}
@@ -197,7 +197,7 @@ class ParserSuite(unittest.TestCase):
                         Elseif (b == 6) {  }
                         Elseif (!False) {##nothing##}
                         Elseif (a < b) {##nothing##}
-                        Elseif ($xyz >= 3) {##nothing##}
+                        Elseif (Shape::$xyz >= 3) {##nothing##}
                         Elseif (ar[2] > 3) {##nothing##}
                     }
                 }
@@ -228,7 +228,7 @@ class ParserSuite(unittest.TestCase):
                             Elseif (b == 6) {  }
                             Elseif (!False) {##nothing##}
                             Elseif (a < b) {##nothing##}
-                            Elseif ($xyz >= 3) {##nothing##}
+                            Elseif (Shape::$xyz >= 3) {##nothing##}
                             Elseif (ar[2] > 3) {##nothing##}    
                         }
                         Elseif (b == 6) {
@@ -237,7 +237,7 @@ class ParserSuite(unittest.TestCase):
                             Elseif (b == 6) {  }
                             Elseif (!False) {##nothing##}
                             Elseif (a < b) {##nothing##}
-                            Elseif ($xyz >= 3) {##nothing##}
+                            Elseif (Shape::$xyz >= 3) {##nothing##}
                             Elseif (ar[2] > 3) {##nothing##}    
                         }
                         Else {
@@ -249,12 +249,12 @@ class ParserSuite(unittest.TestCase):
                                 Elseif (b == 6) {  }
                                 Elseif (!False) {##nothing##}
                                 Elseif (a < b) {##nothing##}
-                                Elseif ($xyz >= 3) {##nothing##}
+                                Elseif (Shape::$xyz >= 3) {##nothing##}
                                 Elseif (ar[2] > 3) {##nothing##}
                             }
                             Elseif (!False) {##nothing##}
                             Elseif (a < b) {##nothing##}
-                            Elseif ($xyz >= 3) {##nothing##}
+                            Elseif (Shape::$xyz >= 3) {##nothing##}
                             Elseif (ar[2] > 3) {##nothing##}
                         }
                     }
@@ -280,7 +280,7 @@ class ParserSuite(unittest.TestCase):
                             Elseif (b == 6) {  }
                             Elseif (!False) {##nothing##}
                             Elseif (a < b) {##nothing##}
-                            Elseif ($xyz >= 3) {##nothing##}
+                            Elseif (Shape::$xyz >= 3) {##nothing##}
                             Elseif (ar[2] > 3) {##nothing##}
                         }
                         
@@ -291,7 +291,7 @@ class ParserSuite(unittest.TestCase):
                         }
                         
                         Foreach (abc In (-123456 + -34231) .. 2) {
-                            If ($abc == 4) {
+                            If (Shape::$abc == 4) {
                                 Continue;
                             }
                         }
@@ -322,8 +322,8 @@ class ParserSuite(unittest.TestCase):
                             Break;
                         }
                         
-                        Foreach ($bc In (-123456 + -34231) .. 2) {
-                            If ($abc == 4) {
+                        Foreach (bc In (-123456 + -34231) .. 2) {
+                            If (Shape::$abc == 4) {
                                 Break;
                             }
                         }
@@ -383,7 +383,7 @@ class ParserSuite(unittest.TestCase):
                         }
                         
                         Foreach (abc In (-123456 + -34231) .. 2) {
-                            If ($abc == 4) {
+                            If (Shape::$abc == 4) {
                                 Return;
                             }
                         }
@@ -415,7 +415,7 @@ class ParserSuite(unittest.TestCase):
                                 Elseif (b == 6) {  }
                                 Elseif (!False) {Continue;}
                                 Elseif (a < b) {##nothing##}
-                                Elseif ($xyz >= 3) {##nothing##}
+                                Elseif (Shape::$xyz >= 3) {##nothing##}
                                 Elseif (ar[2] > 3) {##nothing##}
                             }      
                         }
@@ -443,7 +443,7 @@ class ParserSuite(unittest.TestCase):
                                 Elseif (b == 6) {  }
                                 Elseif (!False) {Continue;}
                                 Elseif (a < b) {##nothing##}
-                                Elseif ($xyz >= 3) {##nothing##}
+                                Elseif (Shape::$xyz >= 3) {##nothing##}
                                 Elseif (ar[2] > 3) {##nothing##}
                             }      
                         }
@@ -471,7 +471,7 @@ class ParserSuite(unittest.TestCase):
                                 Elseif (b == 6) {  }
                                 Elseif (!False) {Continue;}
                                 Elseif (a < b) {##nothing##}
-                                Elseif ($xyz >= 3) {##nothing##}
+                                Elseif (Shape::$xyz >= 3) {##nothing##}
                                 Elseif (ar[2] > 3) {##nothing##}
                             }      
                         }
@@ -527,7 +527,7 @@ class ParserSuite(unittest.TestCase):
                     Class Shape {
                         main() {
                             a = Array();
-                            $b = Array (
+                            Shape::$b = Array (
                                     Array("Volvo", "22", "18"),
                                     Array("Saab", "5", "2"),
                                     Array("Land Rover", "17", "15")
@@ -797,7 +797,7 @@ class ParserSuite(unittest.TestCase):
         input = """
                     Class Shape {
                         $getLength() {
-                            Return $length;
+                            Return Shape::$length;
                         }
                         
                         $getShape(a, b, c, d: Int; str1, str2: String) {
@@ -1196,7 +1196,7 @@ class ParserSuite(unittest.TestCase):
                         }
                         
                         $getWidth(a, b: Int; str: String) {
-                            $width = 12 - 5 + 5 / 7 * 6 - arr[4];
+                            Shape::$width = 12 - 5 + 5 / 7 * 6 - arr[4];
                             Return $width;
                         }
                         
@@ -1207,7 +1207,8 @@ class ParserSuite(unittest.TestCase):
                         }
                     }
                 """
-        expect = "successful"
+        # expect = "successful"
+        expect = "Error on line 20 col 35: $width"
         self.assertTrue(TestParser.test(input,expect,261))
         
     def test_method_invocation_statement_2(self):
@@ -1229,13 +1230,13 @@ class ParserSuite(unittest.TestCase):
                         }
                         
                         $getWidth(a, b: Int; str: String) {
-                            $width = 12 - 5 + 5 / 7 * 6 - arr[4];
-                            Return $width;
+                            Shape::$width = 12 - 5 + 5 / 7 * 6 - arr[4];
+                            Return Shape::$width;
                         }
                         
                         main() {
-                            Var a: Int = getLength();   ## calling method inside class ##
-                            Var b: Int = $getWidth(a, b, "nhan");   ## calling method inside class ##
+                            Var a: Int = a.getLength();   ## calling method inside class ##
+                            Var b: Int = Shape::$getWidth(a, b, "nhan");   ## calling method inside class ##
                             Return a-b;
                         }
                     }
@@ -1264,7 +1265,7 @@ class ParserSuite(unittest.TestCase):
                         Var length, width: Int;
                         
                         $getNumOfShape() {
-                            Return $numOfShape;
+                            Return Shape::$numOfShape;
                         }
                     }
                     
@@ -1482,13 +1483,13 @@ class ParserSuite(unittest.TestCase):
                         Var $width: Float;
                         
                         Constructor() {
-                            $length = 12;
-                            $width = 12;
+                            Shape::$length = 12;
+                            Shape::$width = 12;
                         }
                         
                         Constructor(l, w: Float) {
-                            $length = l;
-                            $width = w;
+                            Shape::$length = l;
+                            Shape::$width = w;
                         }
                         
                         $getLength() {
@@ -1496,7 +1497,7 @@ class ParserSuite(unittest.TestCase):
                         }
                         
                         $getWidth() {
-                            Return $width;
+                            Return Shape::$width;
                         }
                         
                         main() {
@@ -1514,7 +1515,8 @@ class ParserSuite(unittest.TestCase):
                         }
                     }
                 """
-        expect = "successful"
+        # expect = "successful"
+        expect = "Error on line 19 col 35: $length"
         self.assertTrue(TestParser.test(input,expect,272))
         
     def test_missed_data_type_declaration(self):
@@ -1689,7 +1691,7 @@ class ParserSuite(unittest.TestCase):
                     Class Shape {
                         main() {
                             a = Array();
-                            $b = Array (
+                            Shape::$b = Array (
                                     Array("Volvo", "22", "18"),
                                     Array("Saab", "5", "2"),
                                     Array("Land Rover", "17", "15")
@@ -1773,7 +1775,7 @@ class ParserSuite(unittest.TestCase):
                             x = someID::$func(a,b,c,Null).func();
                             x = Array(1,2,3,4,5,6).func();
                             x = Array(Array(1,2,3), Array(4,5), Array("nhan", "vo", "nguyen")).func();
-                            x = $func(xyz).func();
+                            x = Shape::$func(xyz).func();
                             x = (0).func();
                             x = (0b0).func();
                             x = (0B0).func();
@@ -1819,7 +1821,8 @@ class ParserSuite(unittest.TestCase):
                         }
                     }
                 """
-        expect = "Error on line 29 col 35: $obj"
+        # expect = "Error on line 29 col 35: $obj"
+        expect = "Error on line 21 col 32: $func"
         self.assertTrue(TestParser.test(input,expect,282))
         
     def test_invalid_self_keyword(self):
@@ -1845,8 +1848,8 @@ class ParserSuite(unittest.TestCase):
                         main() {
                             x = 2 + Array(1,2);
                             x = Num + "123";
-                            x = Arary(1,2,3) + Array(Array(1,2,3), Array(4,5,6,7,8,9));
-                            x = 1 + Array(Array(Shape::$attribute,2,3), Array(obj.getLength(),5,Shape::$func(a,b,c,d),7,8,func()));
+                            x = Array(1,2,3) + Array(Array(1,2,3), Array(4,5,6,7,8,9));
+                            x = 1 + Array(Array(Shape::$attribute,2,3), Array(obj.getLength(),5,Shape::$func(a,b,c,d),7,8,a.func()));
                         }
                     }
                 """
@@ -1874,7 +1877,7 @@ class ParserSuite(unittest.TestCase):
                         
                         main() {
                             x = Array();
-                            $x = Shape::$obj.obj2.pbj3.func();
+                            Shape::$x = Shape::$obj.obj2.pbj3.func();
                             a.b = Shape::$obj.obj2.pbj3.func();
                             a.b() = Shape::$obj.obj2.pbj3.func();
                             a.b(a,True,Array(1,2,3)) = Shape::$obj.obj2.pbj3.func();
@@ -1902,7 +1905,8 @@ class ParserSuite(unittest.TestCase):
                         }
                     }
                 """
-        expect = "successful"
+        # expect = "successful"
+        expect = "Error on line 9 col 34: ="
         self.assertTrue(TestParser.test(input,expect,286))
         
     def test_declare_method_outside_class(self):
@@ -1962,16 +1966,16 @@ class ParserSuite(unittest.TestCase):
                         main() {
                             x = 2 + Array(1,2);
                             x = Num + "123";
-                            x = Arary(1,2,3) + Array(Array(1,2,3), Array(4,5,6,7,8,9));
-                            x = 1 + Array(Array(Shape::$attribute,2,3), Array(obj.getLength(),5,Shape::$func(a,b,c,d),7,8,func()));
+                            x = Array(1,2,3) + Array(Array(1,2,3), Array(4,5,6,7,8,9));
+                            x = 1 + Array(Array(Shape::$attribute,2,3), Array(obj.getLength(),5,Shape::$func(a,b,c,d),7,8,a.func()));
 
-                            method() {
+                            a.method() {
                                 out.print("Error");
                             }
                         }
                     }
                 """
-        expect = "Error on line 11 col 37: {"
+        expect = "Error on line 11 col 39: {"
         self.assertTrue(TestParser.test(input,expect,290))
         
     def test_missed_close_bracket(self):
@@ -1990,16 +1994,17 @@ class ParserSuite(unittest.TestCase):
                         }
                         
                         main() {
-                            method().method();
+                            a.method().method();
                             x = 2 + Array(1,2);
                             x = Num + "123";
-                            x = Arary(1,2,3) + Array(Array(1,2,3), Array(4,5,6,7,8,9));
-                            x = 1 + Array(Array(Shape::$attribute,2,3), Array(obj.getLength(),5,Shape::$func(a,b,c,d),7,8,func()));
-                            method().method();
+                            x = Array(1,2,3) + Array(Array(1,2,3), Array(4,5,6,7,8,9));
+                            x = 1 + Array(Array(Shape::$attribute,2,3), Array(obj.getLength(),5,Shape::$func(a,b,c,d),7,8,a.func()));
+                            a.method().method();
                         }
                     
                 """
         expect = "Error on line 24 col 16: <EOF>"
+        # expect = "Error on line 16 col 36: ."
         self.assertTrue(TestParser.test(input,expect,291))
         
     def test_foreach_statement(self):
@@ -2019,13 +2024,13 @@ class ParserSuite(unittest.TestCase):
                         }
                         
                         main() {
-                            Foreach (arr[i] in 1 .. 10) {
+                            Foreach (arr[i] In 1 .. 10) {
                                 out.print(i);
                             }
                         }
                     }
                 """
-        expect = "Error on line 17 col 40: ["
+        expect = "successful"
         self.assertTrue(TestParser.test(input,expect,292))
         
     def test_params_in_destructor(self):
@@ -2053,7 +2058,7 @@ class ParserSuite(unittest.TestCase):
                         }
                         
                         main() {
-                            Foreach ($index in 1 .. 10) {
+                            Foreach ($index In 1 .. 10) {
                                 out.print(i);
                             }
                         }
@@ -2074,9 +2079,9 @@ class ParserSuite(unittest.TestCase):
                             x = "vo" ==. 123;
                             x = Array(1,2,3,4) + 4%3/arr[1] + Null._123_4534_4823_42374893;
                             x = Array(Array(1,2), Array()) - !!!!!!!!!!!-------------------True;
-                            x = $calling_method();
-                            x = $calling_method(a-b%c+d, Array(1,2,Array(3,4)), New Shape(), Shape::$func(), 0x0, 00, 0b0);
-                            x = calling_method(1 > 2, 2 < 3, 3 <= 4, 5 >= 3, 5 != 3, 5 == 3, 1.2 +. 3.e1, 0xAB123 ==. 0b1010101);                        
+                            x = Shape::$calling_method();
+                            x = Shape::$calling_method(a-b%c+d, Array(1,2,Array(3,4)), New Shape(), Shape::$func(), 0x0, 00, 0b0);
+                            x = a.calling_method(1 > 2, 2 < 3, 3 <= 4, 5 >= 3, 5 != 3, 5 == 3, 1.2 +. 3.e1, 0xAB123 ==. 0b1010101);                        
                         }
                     }
                 """
@@ -2091,12 +2096,12 @@ class ParserSuite(unittest.TestCase):
                     
                         main() {
                             x = a.b.c.d.e.f;
-                            $x = Null.a;
-                            $x = Self.Continue;
+                            Shape::$x = Null.a;
+                            Shape::$x = Self.Continue;
                         }
                     }
                 """
-        expect = "Error on line 9 col 38: Continue"
+        expect = "Error on line 9 col 45: Continue"
         self.assertTrue(TestParser.test(input,expect,295))
         
     def test_some_weird_member_access_2(self):
@@ -2170,78 +2175,176 @@ class ParserSuite(unittest.TestCase):
         expect = "Error on line 7 col 53: $y"
         self.assertTrue(TestParser.test(input,expect,300))
         
-    # def test_something(self):
-    #     input = """ 
-    #                 Class Program {
-    #                     main() {
-    #                         a();
-    #                         a.a();
-    #                         a.a.a();
-    #                         a.a.a.a();
-    #                         a.a.a.a.a();
+    def test_something(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            a.a();
+                            a.a();
+                            a.a.a();
+                            a.a.a.a();
+                            a.a.a.a.a();
                             
-    #                         a();
-    #                         a().a();
-    #                         a().a().a();
-    #                         a().a().a().a();
-    #                         method().method();
-    #                         a().a().a().a().a();
+                            a.a();
+                            a.a().a();
+                            a.a().a().a();
+                            a.a().a().a().a();
+                            a.method().method();
+                            a.a().a().a().a().a();
                             
-    #                         a.a().a.a();
-    #                         a.a().a.a.a.a.a();
-    #                         a.a().a.a.a.a().a();
-    #                         a.a().a.a().a.a().a();
+                            a.a().a.a();
+                            a.a().a.a.a.a.a();
+                            a.a().a.a.a.a().a();
+                            a.a().a.a().a.a().a();
                             
-    #                         $a().a();
-    #                         $a().a.a.a.a();
-    #                         $a().a.a().a.a();
-    #                         $a().a.a.a.a.a().a().a();
+                            Shape::$a().a();
+                            Shape::$a().a.a.a.a();
+                            Shape::$a().a.a().a.a();
+                            Shape::$a().a.a.a.a.a().a().a();
                             
-    #                         Shape::$a.a();
-    #                         Shape::$a.a.a();
-    #                         Shape::$a.a.a.a();
-    #                         Shape::$a.a.a.a.a.a();
-    #                         Shape::$a.a.a.a.a.a.a();
+                            Shape::$a.a();
+                            Shape::$a.a.a();
+                            Shape::$a.a.a.a();
+                            Shape::$a.a.a.a.a.a();
+                            Shape::$a.a.a.a.a.a.a();
                                      
-    #                         Shape::$a.a();
-    #                         Shape::$a.a().a();
-    #                         Shape::$a.a().a().a();
-    #                         Shape::$a.a().a().a().a().a();
-    #                         Shape::$a.a().a().a().a().a().a();
+                            Shape::$a.a();
+                            Shape::$a.a().a();
+                            Shape::$a.a().a().a();
+                            Shape::$a.a().a().a().a().a();
+                            Shape::$a.a().a().a().a().a().a();
                             
-    #                         Shape::$a().a();
-    #                         Shape::$a().a.a.a.a();
-    #                         Shape::$a().a.a().a.a(123);
-    #                         Shape::$a().a.a.a().a.a(123).a().a(123);
+                            Shape::$a().a();
+                            Shape::$a().a.a.a.a();
+                            Shape::$a().a.a().a.a(123);
+                            Shape::$a().a.a.a().a.a(123).a().a(123);
                             
-    #                         New X().a();
-    #                         New X().a.a.a();
-    #                         New X().a().a.a();
-    #                         New X().a().a.a.a().a.a();
+                            New X().a();
+                            New X().a.a.a();
+                            New X().a().a.a();
+                            New X().a().a.a.a().a.a();
                             
-    #                         (0).a();
-    #                         (0).a.a.a();
-    #                         (0).a().a.a();
+                            (0).a();
+                            (0).a.a.a();
+                            (0).a().a.a();
                             
-    #                         $a();
-    #                         "nhan".a();
-    #                         "nhan".a.a.a.a();
-    #                         Shape::$a();
+                            Shape::$a();
+                            "nhan".a();
+                            "nhan".a.a.a.a();
+                            Shape::$a();
                         
-    #                         method().method();
-    #                     }
-                    
-    #             """
-    #     expect = ""
-    #     self.assertTrue(TestParser.test(input,expect,888))
+                            a.method().method();
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,888))
         
-    # def test_something(self):
-    #     input = """ 
-    #                 Class Program {
-    #                     main() {
-    #                         a::$b();
-    #                     }
-    #                 }
-    #             """
-    #     expect = ""
-    #     self.assertTrue(TestParser.test(input,expect,888))
+    def test_lhs_1(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            a = 12;
+                            a = "nhan" + 12;
+                            Shape::$a = 12;
+                            obj.a().a = 12;
+                            Shape::$a().a = 12;
+                            Shape::$a().a().a().a = 12;
+                            obj.a().a().a().a = 12;
+                            obj.a.a().a.a().a = 12;
+                            arr[1] = 12;
+                            a.b = 12;
+                            Shape::$a().arr[1] = 12;
+                            a.a().arr[1] = 12;
+                            (arr[1]).a().a = 12;
+                            arr[arr[arr[1]]] = 12;
+                            (arr[arr[arr[1]]]).a.a.a.a().a.a.a().a = 12;
+                            1[1] = 12;
+                            "nhan"[1] = 12;
+                            1.2e+10[1] = 12;
+                            (Shape::$a)[1] = 12;
+                            Shape::$a[1] = 12;
+                            a.a(x)[1] = 12;
+                            Shape::$a(x)[1] = 12;
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,1000))
+        
+    def test_lhs_2(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            $a = 12;
+                        }
+                    }
+                """
+        expect = "Error on line 4 col 28: $a"
+        self.assertTrue(TestParser.test(input,expect,1001))
+        
+    def test_lhs_3(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            a() = 12;
+                        }
+                    }
+                """
+        expect = "Error on line 4 col 29: ("
+        self.assertTrue(TestParser.test(input,expect,1002))
+        
+    def test_lhs_4(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            a.a() = 12;
+                        }
+                    }
+                """
+        expect = "Error on line 4 col 34: ="
+        self.assertTrue(TestParser.test(input,expect,1003))
+        
+    def test_lhs_5(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            Shape::$a() = 12;
+                        }
+                    }
+                """
+        expect = "Error on line 4 col 40: ="
+        self.assertTrue(TestParser.test(input,expect,1004))
+        
+    def test_lhs_6(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            1 = 2;
+                        }
+                    }
+                """
+        expect = "Error on line 4 col 30: ="
+        self.assertTrue(TestParser.test(input,expect,1005))
+        
+    def test_lhs_7(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            a.a() = 12;
+                        }
+                    }
+                """
+        expect = "Error on line 4 col 34: ="
+        self.assertTrue(TestParser.test(input,expect,1006))
+        
+    def test_lhs_8(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            (a.a.a.a.a.arr[1]).a() = 12;
+                        }
+                    }
+                """
+        expect = "Error on line 4 col 51: ="
+        self.assertTrue(TestParser.test(input,expect,1007))

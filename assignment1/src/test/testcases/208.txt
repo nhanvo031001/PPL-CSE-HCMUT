@@ -20,7 +20,7 @@
                             Elseif (b == 6) {  }
                             Elseif (!False) {##nothing##}
                             Elseif (a < b) {##nothing##}
-                            Elseif ($xyz >= 3) {##nothing##}
+                            Elseif (Shape::$xyz >= 3) {##nothing##}
                             Elseif (ar[2] > 3) {##nothing##}    
                         }
                         Elseif (b == 6) {
@@ -29,7 +29,7 @@
                             Elseif (b == 6) {  }
                             Elseif (!False) {##nothing##}
                             Elseif (a < b) {##nothing##}
-                            Elseif ($xyz >= 3) {##nothing##}
+                            Elseif (Shape::$xyz >= 3) {##nothing##}
                             Elseif (ar[2] > 3) {##nothing##}    
                         }
                         Else {
@@ -41,12 +41,12 @@
                                 Elseif (b == 6) {  }
                                 Elseif (!False) {##nothing##}
                                 Elseif (a < b) {##nothing##}
-                                Elseif ($xyz >= 3) {##nothing##}
+                                Elseif (Shape::$xyz >= 3) {##nothing##}
                                 Elseif (ar[2] > 3) {##nothing##}
                             }
                             Elseif (!False) {##nothing##}
                             Elseif (a < b) {##nothing##}
-                            Elseif ($xyz >= 3) {##nothing##}
+                            Elseif (Shape::$xyz >= 3) {##nothing##}
                             Elseif (ar[2] > 3) {##nothing##}
                         }
                     }

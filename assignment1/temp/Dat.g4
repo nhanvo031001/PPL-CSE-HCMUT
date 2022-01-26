@@ -140,24 +140,21 @@ sign_expression     :   SUB sign_expression
 index_expression    :   index_expression LSB expression RSB
                     |   instance_access_expression
                     ;
-instance_access_expression  :   instance_access_expression DOT ID
-                            |   instance_access_expression DOT ID LP list_of_expressions? RP
-                            |   self_method_call
+instance_access_expression  :   instance_access_expression DOT ID LP list_of_expressions? RP
+                            |   instance_access_expression DOT ID
                             |   static_access_expression
                             ;
 
-static_access_expression    :   ID DOUBLE_COLON DOLLAR_ID
-                            |   ID DOUBLE_COLON DOLLAR_ID LP list_of_expressions? RP
+static_access_expression    :   ID DOUBLE_COLON DOLLAR_ID LP list_of_expressions? RP
+                            |   ID DOUBLE_COLON DOLLAR_ID 
                             |   object_creation_expression
                             ;
-self_method_call            :   (ID | DOLLAR_ID) LP list_of_expressions? RP; 
 
 object_creation_expression  :   NEW ID LP list_of_expressions? RP
                             |   operand
                             ;
 
-operand :   DOLLAR_ID
-        |   ID
+operand :   ID
         |   SELF
         |   literal
         |   NULL
@@ -165,7 +162,20 @@ operand :   DOLLAR_ID
         ;
 
 /***************************** STATEMENT ******************************/
-block_statement: LCB statement* RCB;
+scalar_variable         :   scalar_instance_access
+                        |   scalar_static_access
+                        |   scalar_index
+                        |   ID
+                        ;
+scalar_instance_access  :   instance_access_expression DOT ID;
+scalar_static_access    :   class_name DOUBLE_COLON DOLLAR_ID;
+scalar_index            :   index_expression LSB expression RSB
+                        ;//|   instance_access_expression LSB expression RSB
+                        //;
+
+
+
+block_statement :   LCB statement* RCB;
 statement   :   variable_and_const_declaration
             |   assign_statement 
             |   if_statement
@@ -195,12 +205,7 @@ variable_initialization_list    :   expression {$variable_and_const_declaration:
                                 ;
 assign_statement: left_hand_side ASSIGN expression SEMI;
 
-left_hand_side  :   ID 
-                |   DOLLAR_ID 
-                |   index_expression
-                |   instance_access_expression
-                |   static_access_expression
-                ;
+left_hand_side  :   scalar_variable;
 /* 
 if_statement: IF LP expression RP block_statement // 1 if
             | IF LP expression RP block_statement else_statement // 1 if 1 else
@@ -216,7 +221,7 @@ if_statement        :   IF LP expression RP block_statement
 elseif_statement    :   ELSEIF LP expression RP block_statement;
 else_statement      :   ELSE block_statement;
 
-foreach_statement   :   FOREACH LP (ID | DOLLAR_ID) IN expression DOUBLE_DOT expression (BY expression)? RP block_statement;
+foreach_statement   :   FOREACH LP scalar_variable IN expression DOUBLE_DOT expression (BY expression)? RP block_statement;
 break_statement     :   BREAK SEMI;
 continue_statement  :   CONTINUE SEMI;
 return_statement    :   RETURN expression SEMI | RETURN SEMI;
@@ -224,8 +229,12 @@ return_statement    :   RETURN expression SEMI | RETURN SEMI;
 method_invocation_statement :   (instance_method_invocation | static_method_invocation) SEMI;
                                 //(instance_access_expression | static_access_expression) SEMI;
 
-instance_method_invocation      :   instance_access_expression DOT ID LP list_of_expressions? RP
-                                |   self_method_call;
+instance_method_invocation      :   prefix_instance_method_invocation DOT ID LP list_of_expressions? RP;
+prefix_instance_method_invocation   :   prefix_instance_method_invocation DOT ID LP list_of_expressions? RP
+                                    |   prefix_instance_method_invocation DOT ID 
+                                    |   static_access_expression
+                                    ;
+
 static_method_invocation        :   class_name DOUBLE_COLON DOLLAR_ID LP list_of_expressions? RP;
 
 
