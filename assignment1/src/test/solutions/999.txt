@@ -1,1 +1,1 @@
-Unclosed String: My string
+Error on line 7 col 39: ins

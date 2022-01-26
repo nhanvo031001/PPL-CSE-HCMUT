@@ -1,1 +1,1 @@
-abcd	,<EOF>
+Unclosed String: abcd

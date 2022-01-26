@@ -2175,6 +2175,7 @@ class ParserSuite(unittest.TestCase):
         expect = "Error on line 7 col 53: $y"
         self.assertTrue(TestParser.test(input,expect,300))
         
+        
     def test_something(self):
         input = """ 
                     Class Program {
@@ -2348,3 +2349,212 @@ class ParserSuite(unittest.TestCase):
                 """
         expect = "Error on line 4 col 51: ="
         self.assertTrue(TestParser.test(input,expect,1007))
+        
+    def test_foreach_1(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            Foreach (i in 1 .. 10) {
+                                ##nothing##
+                            }
+                        }
+                    }
+                """
+        expect = "Error on line 4 col 39: in"
+        self.assertTrue(TestParser.test(input,expect,1008))
+        
+    def test_foreach_2(self):
+        input = """ 
+                    Class Program {
+                        main() {
+                            
+                            Foreach (i In 1 .. 10) {
+                                ##nothing##
+                            }
+                            
+                            Foreach (Shape::$a In 1 .. 10) {
+                                ##nothing##
+                            }
+                            
+                            Foreach (a.func().x In 1 .. 10) {
+                                ##nothing##
+                            }
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,1009))
+    
+    def test_declare_1(self):
+        input = """ 
+                    Class Program {
+                        Var x, y, z: Int;
+                        Val x, $y: Float = 12.3, 4.5e10;
+                        Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                        Val x, $y: Int = 4, 5;
+                        main() {
+                            Var x, y, z: Int;
+                            Val x, y: Float = 12.3, 4.5e10;
+                            Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                            Val x, y: Int = 4, 5;
+                            Var arr: Array[Int, 5] = Array();
+                            Var arr1, arr2: Array[Int, 5] = Array(), Array();
+                            Var arr1, arr2, arr3: Array[Int, 5] = Array(), Array(), Array(Array(1));
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,1010))
+        
+    def test_declare_2(self):
+        ##số biến nhiều hơn số value ##
+        input = """ 
+                    Class Program {
+                        Var x, y, z: Int;
+                        Val x, $y: Float = 12.3, 4.5e10;
+                        Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                        Val x, $y, z: Int = 4, 5;   ## here ##
+                        main() {
+                            Var x, y, z: Int;
+                            Val x, y: Float = 12.3, 4.5e10;
+                            Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                            Val x, y: Int = 4, 5;
+                            Var arr: Array[Int, 5] = Array();
+                            Var arr1, arr2: Array[Int, 5] = Array(), Array();
+                            Var arr1, arr2, arr3: Array[Int, 5] = Array(), Array(), Array(Array(1));
+                        }
+                    }
+                """
+        expect = "Error on line 6 col 48: ;"
+        self.assertTrue(TestParser.test(input,expect,1011))
+        
+    def test_declare_3(self):
+        ##số biến ít hơn số value ##
+        input = """ 
+                    Class Program {
+                        Var x, y, z: Int;
+                        Val x, $y: Float = 12.3, 4.5e10;
+                        Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                        Val x, $y: Int = 4, 5, 6, 7, 8, 10;   ## here ##
+                        main() {
+                            Var x, y, z: Int;
+                            Val x, y: Float = 12.3, 4.5e10;
+                            Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                            Val x, y: Int = 4, 5;
+                            Var arr: Array[Int, 5] = Array();
+                            Var arr1, arr2: Array[Int, 5] = Array(), Array();
+                            Var arr1, arr2, arr3: Array[Int, 5] = Array(), Array(), Array(Array(1));
+                        }
+                    }
+                """
+        expect = "Error on line 6 col 45: ,"
+        self.assertTrue(TestParser.test(input,expect,1012))
+        
+    def test_declare_4(self):
+        ##số biến nhiều hơn hơn số value trong method ##
+        input = """ 
+                    Class Program {
+                        Var x, y, z: Int;
+                        Val x, $y: Float = 12.3, 4.5e10;
+                        Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                        Val x, $y: Int = 4, 5;
+                        main() {
+                            Var x, y, z: Int = 1, 2;        ## here ##
+                            Val x, y: Float = 12.3, 4.5e10;
+                            Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                            Val x, y: Int = 4, 5;
+                            Var arr: Array[Int, 5] = Array();
+                            Var arr1, arr2: Array[Int, 5] = Array(), Array();
+                            Var arr1, arr2, arr3: Array[Int, 5] = Array(), Array(), Array(Array(1));
+                        }
+                    }
+                """
+        expect = "Error on line 8 col 51: ;"
+        self.assertTrue(TestParser.test(input,expect,1013))
+        
+    def test_declare_5(self):
+        ##số biến ít hơn hơn số value trong method ##
+        input = """ 
+                    Class Program {
+                        Var x, y, z: Int;
+                        Val x, $y: Float = 12.3, 4.5e10;
+                        Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                        Val x, $y: Int = 4, 5;
+                        main() {
+                            Var x, y, z: Int = 1, 2, 3, 4, 5, 6, 7, 8;        ## here ##
+                            Val x, y: Float = 12.3, 4.5e10;
+                            Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                            Val x, y: Int = 4, 5;
+                            Var arr: Array[Int, 5] = Array();
+                            Var arr1, arr2: Array[Int, 5] = Array(), Array();
+                            Var arr1, arr2, arr3: Array[Int, 5] = Array(), Array(), Array(Array(1));
+                        }
+                    }
+                """
+        expect = "Error on line 8 col 54: ,"
+        self.assertTrue(TestParser.test(input,expect,1014))
+        
+    def test_declare_6(self):
+        ## combo ##
+        input = """ 
+                    Class Program {
+                        Var x, y, z: Int;
+                        Val x, $y: Float = 12.3, 4.5e10;
+                        Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                        Val x, $y: Int = 4, 5;
+                        Val arr1, arr2: Array[Boolean, 1] = Array(), Array(Array(Array(Array(Array()))));
+                        main() {
+                            Var x, y, z: Int = 1, 2, 3;    
+                            Val x, y: Float = 12.3, 4.5e10;
+                            Var x, y, z, m, n, p: Float = 1,2,3,4,5,6;
+                            Val x, y: Int = 4, 5;
+                            Var arr: Array[Int, 5] = Array();
+                            Var arr1, arr2: Array[Int, 5] = Array(), Array();
+                            Var arr1, arr2, arr3: Array[Int, 5] = Array(), Array(), Array(Array(1));
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,1015))
+    
+    def test_some_thing_very_confused_1(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            x = Self::ins;
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 36: ::"
+        self.assertTrue(TestParser.test(input,expect,1016))
+        
+    def test_some_thing_very_confused_2(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            x = Self::$ins;
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 36: ::"
+        self.assertTrue(TestParser.test(input,expect,1017))
+        
+    def test_some_thing_very_confused_3(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            x = "1+2"::$a;
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 37: ::"
+        self.assertTrue(TestParser.test(input,expect,1018))

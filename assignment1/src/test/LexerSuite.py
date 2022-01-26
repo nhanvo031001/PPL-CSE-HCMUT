@@ -744,14 +744,16 @@ class LexerSuite(unittest.TestCase):
         input = """
             "abcd\t"
         """
-        expect = """abcd\t,<EOF>"""
+        # expect = """abcd\t,<EOF>"""
+        expect = """Unclosed String: abcd"""
         self.assertTrue(TestLexer.test(input, expect, 176))
         
     def test_string_with_some_escape(self):
         input = """
             "abc\b\f\t\t\t"
         """
-        expect = """abc\b\f\t\t\t,<EOF>"""
+        # expect = """abc\b\f\t\t\t,<EOF>"""
+        expect = """Unclosed String: abc"""
         self.assertTrue(TestLexer.test(input, expect, 177))
     
     def test_invalid_escape_quote(self):
@@ -906,21 +908,24 @@ class LexerSuite(unittest.TestCase):
         input = """
                     "nhanvo \f "
                 """
-        expect = "nhanvo \f ,<EOF>"
+        # expect = "nhanvo \f ,<EOF>"
+        expect = "Unclosed String: nhanvo "
         self.assertTrue(TestLexer.test(input, expect, 190))
         
     def test_some_unclosed_5(self):
         input = """
                     "nhanvo \t "
                 """
-        expect = "nhanvo \t ,<EOF>"
+        # expect = "nhanvo \t ,<EOF>"
+        expect = "Unclosed String: nhanvo "
         self.assertTrue(TestLexer.test(input, expect, 191))
         
     def test_some_unclosed_6(self):
         input = """
                     "nhanvo \b "
                 """
-        expect = "nhanvo \b ,<EOF>"
+        # expect = "nhanvo \b ,<EOF>"
+        expect = "Unclosed String: nhanvo "
         self.assertTrue(TestLexer.test(input, expect, 192))
         
     def test_keywords_in_string(self):
@@ -938,10 +943,10 @@ class LexerSuite(unittest.TestCase):
         self.assertTrue(TestLexer.test(input, expect, 194))
         
     def test_escape(self):
-        input = """
+        input = r"""
                     "\\\\ \\n \b \f \t \\b \\f \\t \f \f"
                 """
-        expect = """\\\\ \\n \b \f \t \\b \\f \\t \f \f,<EOF>"""
+        expect = r"""\\\\ \\n \b \f \t \\b \\f \\t \f \f,<EOF>"""
         self.assertTrue(TestLexer.test(input, expect, 195))
     
     def test_unclosed_mixed(self):
@@ -949,7 +954,8 @@ class LexerSuite(unittest.TestCase):
             "There are some escape seq here: \b \\b mid \f \\f mid \t \\t mid '"\tinsingle\t'"again insingle of before'"\t'"\f\t \b \n'""    
             ""     
         """
-        expect = """Unclosed String: There are some escape seq here: \b \\b mid \f \\f mid \t \\t mid '"\tinsingle\t'"again insingle of before'"\t'"\f\t \b """
+        # expect = """Unclosed String: There are some escape seq here: \b \\b mid \f \\f mid \t \\t mid '"\tinsingle\t'"again insingle of before'"\t'"\f\t \b """
+        expect = """Unclosed String: There are some escape seq here: """
         self.assertTrue(TestLexer.test(input, expect, 196))
         
     def test_code_keywords(self):
@@ -1022,3 +1028,147 @@ class LexerSuite(unittest.TestCase):
                 """
         expect = "0.2,0.03,0.00004,0.10000000000,0.100002,7.3,7.0000003,7.30000000000,100.00000000000000,0.2e10,0.0003e-10,0.300000E-10,0.40000e+10,7.33000e-10,8.4E+10,.,234,.,00,00,00,3,.,3000000,.e10,.e-10,.e+10,e,+,10,e,-,10,12e10,45e+10,6e+00000001,00,00,023,e,-,10,230000E+10,.e-10000000,.e+00000001,.e000000002,.e30000000,12346756.234,_342_234,12346756.234,_342_234__,__1_234_6756,.,234342234,__,.,e_10,.e-10,_000_000,.E+111,_1111_,7.3,_456_567e,+,10234678,00,0,_000_123_000,.E+000,_000_111,00,00,2.345,2.e00000000,12.0000000,12.00002,2.e000012,0.00232e+002,0.0,0.0000000e0000000,0.0000000000,<EOF>"
         self.assertTrue(TestLexer.test(input, expect, 200))
+        
+        
+    def test_some_thing_confused_1(self):
+        input = """"nhan\nsdnjas" """
+        expect = "Unclosed String: nhan"
+        self.assertTrue(TestLexer.test(input, expect, 1201))
+        
+    def test_some_thing_confused_2(self):
+        input = """"nhan\rsdnjas" """
+        expect = "Unclosed String: nhan"
+        self.assertTrue(TestLexer.test(input, expect, 1202))
+        
+    def test_some_thing_confused_3(self):
+        input = """"nhan \\n sdnjas" """
+        expect = "nhan \\n sdnjas,<EOF>"
+        self.assertTrue(TestLexer.test(input, expect, 1203))
+        
+    def test_some_thing_confused_4(self):
+        input = """"nhan \\r sdnjas" """
+        expect = "nhan \\r sdnjas,<EOF>"
+        self.assertTrue(TestLexer.test(input, expect, 1204))
+        
+    def test_some_thing_confused_5(self):
+        input = """"nhan \b \f \t sdnjas" """
+        expect = "Unclosed String: nhan "
+        self.assertTrue(TestLexer.test(input, expect, 1205))
+        
+    def test_some_thing_confused_6(self):
+        input = """"nhan" abc" """
+        expect = "nhan,abc,Unclosed String:  "
+        self.assertTrue(TestLexer.test(input, expect, 1206))
+        
+    def test_some_thing_confused_7(self):
+        input = """"nhan ' abc" """
+        expect = "nhan ' abc,<EOF>"
+        self.assertTrue(TestLexer.test(input, expect, 1207))
+        
+    def test_some_thing_confused_8(self):
+        input = """"nhan '" abc" """
+        expect = "nhan '\" abc,<EOF>"
+        self.assertTrue(TestLexer.test(input, expect, 1208))
+        
+    def test_some_thing_confused_9(self):
+        input = """"nhan '"abc'" abc" """
+        expect = "nhan '\"abc'\" abc,<EOF>"
+        self.assertTrue(TestLexer.test(input, expect, 1209))
+        
+    def test_some_thing_confused_10(self):
+        input = """"nhan'\""""
+        # expect = "nhan',<EOF>"  ## code cũ
+        expect = "Unclosed String: nhan'"  ## code MC
+        self.assertTrue(TestLexer.test(input, expect, 1210))
+        
+    def test_some_thing_confused_11(self):
+        input = """"nhan'\" """
+        expect = "Unclosed String: nhan'\" "
+        self.assertTrue(TestLexer.test(input, expect, 1211))
+        
+    def test_some_thing_confused_12(self):
+        input = """"nhan's handsome\""""
+        expect = "nhan's handsome,<EOF>"
+        self.assertTrue(TestLexer.test(input, expect, 1212))
+        
+    def test_some_thing_confused_13(self):
+        input = """"nhan's handsome" """
+        expect = "nhan's handsome,<EOF>"
+        self.assertTrue(TestLexer.test(input, expect, 1213))
+        
+    def test_some_thing_confused_14(self):
+        input = """ "nhan
+        vo" """
+        expect = "Unclosed String: nhan"
+        self.assertTrue(TestLexer.test(input, expect, 1214))
+    
+    def test_some_thing_confused_15(self):
+        input = """ "nhan\ybc" """
+        expect = "Illegal Escape In String: nhan\y"
+        self.assertTrue(TestLexer.test(input, expect, 1215))
+        
+    def test_some_thing_confused_16(self):
+        input = """ "nhan\\ybc" """
+        expect = "Illegal Escape In String: nhan\\y"
+        self.assertTrue(TestLexer.test(input, expect, 1216))
+        
+    def test_some_thing_confused_17(self):
+        input = """ "nhan\b\t\f \\b\\t\\f ''"" """
+        # expect = "nhan\b\t\f \\b\\t\\f ''\",<EOF>"
+        expect = "Unclosed String: nhan"
+        self.assertTrue(TestLexer.test(input, expect, 1217))
+        
+    def test_some_thing_confused_18(self):
+        input = """ "''''''''''''"" """
+        expect = "''''''''''''\",<EOF>"
+        self.assertTrue(TestLexer.test(input, expect, 1218))
+        
+    def test_some_thing_confused_19(self):
+        input = """ "''''''''''''"" " """
+        expect = "''''''''''''\",Unclosed String:  "
+        self.assertTrue(TestLexer.test(input, expect, 1219))
+        
+    def test_some_thing_confused_20(self):
+        ## sửa code theo MC thì sẽ unclose, code cũ là hợp lệ"
+        input = r"""
+            "string'"
+        """
+        expect = "Unclosed String: string'\""
+        self.assertTrue(TestLexer.test(input, expect, 1220))
+        
+    def test_some_thing_confused_21(self):
+        ## sửa code theo MC thì unclose, code cũ ilegal do không cho dấu / đứng 1 mình
+        input = """"string \\"""
+        expect = "Unclosed String: string "
+        self.assertTrue(TestLexer.test(input, expect, 1221))
+        
+    def test_some_thing_confused_22(self):
+        input = """"string \n"""
+        expect = "Unclosed String: string "
+        self.assertTrue(TestLexer.test(input, expect, 1222))
+    
+    def test_some_thing_confused_23(self):
+        input = """"string '"
+        """
+        expect = "Unclosed String: string '\""
+        self.assertTrue(TestLexer.test(input, expect, 1223))
+        
+    def test_some_thing_confused_24(self):
+        input = """"string '"\n"""
+        expect = "Unclosed String: string '\""
+        self.assertTrue(TestLexer.test(input, expect, 1224))
+        
+    def test_some_thing_confused_25(self):
+        input = """"string '"\b\""""
+        expect = "Unclosed String: string '\""
+        self.assertTrue(TestLexer.test(input, expect, 1225))
+        
+    def test_some_thing_confused_26(self):
+        input = """ "she \'\" """
+        expect = "Unclosed String: she \'\" "
+        self.assertTrue(TestLexer.test(input, expect, 1226))
+        
+    def test_some_thing_confused_27(self):
+        input = """ "she \'\""""
+        expect = "Unclosed String: she \'"
+        self.assertTrue(TestLexer.test(input, expect, 1227))

@@ -34,25 +34,9 @@ destructor_declare: DESTRUCTOR LB RB block_stmt;
 
 method_declare: (ID | STATIC_ID) LB params_list? RB block_stmt;
 
-// attribute_declare locals[count = 0]: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list | SEMI);     
-// variable_name_list: (ID | STATIC_ID) {$attribute_declare::count+=1} (COMMA (ID | STATIC_ID) {$attribute_declare::count+=1} )*;
-// value_list: exp {$attribute_declare::count-=1}
-//             ({$attribute_declare::count > 0}? COMMA exp {$attribute_declare::count-=1})*
-//             ({$attribute_declare::count == 0}? SEMI);
-
-
-// theo cách mới
-attribute_declare: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list[$variable_name_list.count] ({$value_list.$count_after == 0}? SEMI)| SEMI);     
-variable_name_list returns [count_after = 0]: (ID | STATIC_ID) {$count+=1} (COMMA (ID | STATIC_ID) {$count+=1} )*;
-value_list[count] returns [count_after]: exp {$count-=1}
-            ({$count > 0}? COMMA exp {$attribute_declare::count-=1})* 
-            {$count_after = $count};
-
-
-
-
-
-
+attribute_declare: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list[$variable_name_list.count] ({$value_list.count_after == 0}? SEMI)| SEMI);
+variable_name_list returns[count = 0]: (ID | STATIC_ID) {$count+=1} (COMMA (ID | STATIC_ID) {$count+=1})*;
+value_list[count] returns[count_after]:	exp {$count-=1} ({$count > 0}? COMMA exp {$count-=1})* {$count_after = $count};
 // *****************************END CLASS STRUCTURE*****************************
 
 
@@ -64,26 +48,16 @@ stmt:   variable_and_constant_stmt | assignment_stmt
         | if_stmt | for_in_stmt | break_stmt 
         | continue_stmt | return_stmt | method_invocation_stmt;
 
-variable_and_constant_stmt locals[count = 0]: (VAR | VAL) variable_name_list_in_method COLON type_data (EQUAL value_list_stmt | SEMI);
-variable_name_list_in_method: ID {$variable_and_constant_stmt::count+=1} (COMMA ID {$variable_and_constant_stmt::count+=1})*;
-value_list_stmt:    exp {$variable_and_constant_stmt::count-=1}
-                    ({$variable_and_constant_stmt::count > 0}? COMMA exp {$variable_and_constant_stmt::count-=1})*
-                    ({$variable_and_constant_stmt::count == 0}? SEMI);
+variable_and_constant_stmt: (VAR | VAL) variable_name_list_in_method COLON type_data (EQUAL value_list_stmt[$variable_name_list_in_method.count] ({$value_list_stmt.count_after == 0}? SEMI)| SEMI);
+variable_name_list_in_method returns[count = 0]: ID {$count+=1} (COMMA ID {$count+=1})*;
+value_list_stmt[count] returns[count_after]: exp {$count-=1} ({$count > 0}? COMMA exp {$count-=1})* {$count_after = $count};
 
-// có thể còn member access exp
-// assignment_stmt: (ID | STATIC_ID | index_exp | member_access_exp) EQUAL (exp) SEMI; // theo hard code
-// assignment_stmt: (ID | STATIC_ID | exp7 | exp8 | exp9) EQUAL (exp) SEMI; // theo recursive
-// NOTE: exp7 (index_exp), exp8 (DOT access), exp9 (DOUBLE COLON access)
-
-
-// change theo scalar variable;
 assignment_stmt: scalar_variable EQUAL exp SEMI;
 scalar_variable: ID // biến thường    
                 | name_class DOUBLE_COLON STATIC_ID // biến dollar
                 | exp8 DOT ID // cái cuối là biến thường, phía trước gọi hàm vẫn được
                 | index_exp_for_scalar_variable; // index expression
-index_exp_for_scalar_variable:  exp7 LSB exp RSB
-                                ;//| exp8 LSB exp RSB;
+index_exp_for_scalar_variable:  exp7 LSB exp RSB;
 
 if_stmt:    IF LB exp RB block_stmt       
             | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+            
@@ -105,8 +79,8 @@ instance_method_invocation: pre_exp DOT ID LB exp_list? RB;
 pre_exp: pre_exp DOT ID
         | pre_exp DOT ID LB exp_list? RB
         | exp9;
-        
 // *****************************END STATEMENT*****************************
+
 
 
 
@@ -177,7 +151,6 @@ pre_exp: pre_exp DOT ID
 
 
 
-
 // style recursion, change theo ver 1.2
 // exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
 // exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
@@ -190,7 +163,6 @@ pre_exp: pre_exp DOT ID
 // exp8: exp8 DOT exp9 | exp9;
 // exp9: exp10 DOUBLE_COLON exp10 | exp10;
 // exp10: NEW exp10 | operands | calling_method_inside_class;
-
 
 // operands: ID | STATIC_ID | LB exp RB | literals | SELF | NULL;
 // literals: ZERO_LIT | INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
@@ -216,6 +188,7 @@ pre_exp: pre_exp DOT ID
 // static_method_invocation : ID DOUBLE_COLON STATIC_ID LB exp_list? RB; // Shape::$getWidth()
 
 // object_creation_exp: NEW ID LB exp_list? RB;
+
 
 
 
@@ -254,6 +227,7 @@ pre_exp: pre_exp DOT ID
 
 
 
+
 // giống cái trên, nhưng điều chỉnh theo mục sai sót forum
 // bỏ calling_method_inside_class, operands ko có static ID
 exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
@@ -277,20 +251,13 @@ literals: ZERO_LIT | INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_
 boolean_literal: TRUE | FALSE;
 array_literal: multidimensional_array | indexed_array;
 multidimensional_array: ARRAY LB array_list? RB;
+array_list: array_literal (COMMA array_literal)*;
 indexed_array: ARRAY LB exp_list? RB;
 exp_list: exp (COMMA exp)*;
-array_list: array_literal (COMMA array_literal)*;
-// calling_method_inside_class: (ID | STATIC_ID) LB exp_list? RB;
 
 index_operator: LSB exp RSB | LSB exp RSB index_operator;
 
-
-
-
-
-
 // *****************************END EXPRESSION*****************************
-
 
 fragment UPPERCASE: [A-Z];
 fragment LOWERCASE: [a-z];
@@ -382,7 +349,7 @@ fragment B: [bB];
 fragment INT_OCT: '0' [1-7] ('_'? [0-7])*;
 fragment INT_DECIMAL: [1-9]('_'? [0-9])*;
 fragment INT_HEXA: '0' X [1-9A-F] ('_'? [0-9A-F])*;
-fragment INT_BINARY:    '0' B '1' ('_'? [0-1])*;
+fragment INT_BINARY: '0' B '1' ('_'? [0-1])*;
 INT_LIT: (INT_DECIMAL | INT_HEXA | INT_OCT | INT_BINARY) {
     self.text = re.sub('_','',self.text)
 };
@@ -393,7 +360,6 @@ ZERO_LIT: '0' | '0b0' | '0B0' | '0x0' | '0X0' | '00';
 
 
 // *****************************END LITERALS*****************************
-
 
 
 
@@ -423,8 +389,7 @@ EQUAL: '=';     // for assignment
 
 
 
-
-WS: [ \t\b\r\n\f]+ -> skip; // skip spaces, tabs, newlines
+WS: [ \t\r\n\f]+ -> skip; // skip spaces, tabs, newlines
 ID: (UNDERSCORE | LETTER) (LETTER | UNDERSCORE | DIGIT)*;
 // STATIC_ID: DOLLAR ID;
 STATIC_ID: DOLLAR [_a-zA-Z0-9]+;
@@ -432,7 +397,7 @@ STATIC_ID: DOLLAR [_a-zA-Z0-9]+;
 
 
 // fragment CHAR : ~[\b\t\f\r\n\\"'] | ESCAPE;
-fragment CHAR : ~[\r\n\\"] | ESCAPE;
+fragment CHAR : ~[\b\t\f\r\n\\"] | ESCAPE;
 fragment ESCAPE: '\\' [btnfr'\\] | ('\'' '"');
 fragment ILL_ESC: '\\'~[btrfn\\'] | '\\'; // | '\''~'"'  ;
 
@@ -441,47 +406,29 @@ fragment ILL_ESC: '\\'~[btrfn\\'] | '\\'; // | '\''~'"'  ;
 //     raise UnterminatedComment()
 // }
 // ;
+// UNCLOSE_STRING:'"' CHAR*
+// {
+//     raise UncloseString(self.text[1:])
+// };
+
+// cách khác
+UNCLOSE_STRING:'"' CHAR* ( [\b\t\f\r\n\\"] | EOF )
+{
+    y = str(self.text)
+    error_seq = ['\b', '\t', '\f', '\n', '\r', '"', '\\']
+    if y[-1] in error_seq:
+        raise UncloseString(y[1:-1])
+    else:
+        raise UncloseString(y[1:])
+};
 
 ILLEGAL_ESCAPE: '"' CHAR* ILL_ESC
 {
     string_to_illegal = str(self.text)
     raise IllegalEscape(string_to_illegal[1:])
 };
-UNCLOSE_STRING:'"' CHAR*
-{
-    raise UncloseString(self.text[1:])
-};
+
 ERROR_CHAR: .
 {
     raise ErrorToken(self.text)
 };
-
-// UNCLOSE_STRING:'"' CHAR* ([\r\n] | EOF)
-// {
-//     text = str(self.text)
-//     error_sequence =['\r','\n']
-//     if(text[-1] in error_sequence):
-//         raise UncloseString(text[1:-1])
-//     else:
-//         raise UncloseString(text[1:])
-// };
-// UNCLOSE_STRING:'"' CHAR*
-// {
-//     text = str(self.text)
-//     error_sequence =['\r','\n']
-//     if(text[-1] in error_sequence):
-//         raise UncloseString(text[1:-1])
-//     else:
-//         raise UncloseString(text[1:])
-// }
-// ;
-// UNCLOSE_STRING:'"' CHAR*
-// {
-//     text = str(self.text)
-//     error_sequence = ['\b', '\t', '\n', '\f', '\r', '"', "'", '\\']
-//     if(text[-1] in error_sequence):
-//         raise UncloseString(text[1:-1])
-//     else:
-//         raise UncloseString(text[1:])
-// }
-// ;
