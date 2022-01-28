@@ -1,4 +1,5 @@
-    
+        
+        
     def test_something(self):
         input = """ 
                     Class Program {
@@ -339,3 +340,131 @@
                 """
         expect = "successful"
         self.assertTrue(TestParser.test(input,expect,1015))
+    
+    def test_some_thing_very_confused_1(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            x = Self::ins;
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 36: ::"
+        self.assertTrue(TestParser.test(input,expect,1016))
+        
+    def test_some_thing_very_confused_2(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            x = Self::$ins;
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 36: ::"
+        self.assertTrue(TestParser.test(input,expect,1017))
+        
+    def test_some_thing_very_confused_3(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            x = "1+2"::$a;
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 37: ::"
+        self.assertTrue(TestParser.test(input,expect,1018))
+    
+            
+    def test_abc_xyz_1(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            Var _X_YZ, _123_123_123, y: Int = 5, "nhan" +. 0.123123, x != 13; 
+                            
+                            {
+                                Var $o: Int;
+                            }                        
+                        }
+                    }
+                """
+        expect = "Error on line 10 col 36: $o"
+        self.assertTrue(TestParser.test(input,expect,1019))
+        
+    def test_abc_xyz_2(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            Var _X_YZ, _123_123_123, y: Int = 5, "nhan" +. 0.123123, x != 13; 
+                            
+                            {
+                                {
+                                    {
+                                        {
+                                            {
+                                                {
+                                                    Var _X_YZ, _123_123_123, y: Int = 5, "nhan" +. 0.123123, x != 13;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }                        
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,1020))
+        
+    def test_abc_xyz_3(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            Var _X_YZ, _123_123_123, y: Int = 5, "nhan" +. 0.123123, x != 13; 
+                            
+                            {
+                                {
+                                    {
+                                        {
+                                            {
+                                                {
+                                                    a = Array();
+                                                    Shape::$b = Array (
+                                                            Array("Volvo", "22", "18"),
+                                                            Array("Saab", "5", "2"),
+                                                            Array("Land Rover", "17", "15")
+                                                        );
+                                                    arr[arr[arr[3+4]]] = Array (
+                                                            Array("Volvo", "22", "18"),
+                                                            Array("Saab", "5", "2"),
+                                                            Array("")
+                                                            );
+                                                            
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }                        
+                        }
+                    }
+                """
+        expect = "successful"
+        self.assertTrue(TestParser.test(input,expect,1021))

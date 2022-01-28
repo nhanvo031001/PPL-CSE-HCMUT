@@ -46,7 +46,8 @@ value_list[count] returns[count_after]:	exp {$count-=1} ({$count > 0}? COMMA exp
 block_stmt: LP stmt* RP;
 stmt:   variable_and_constant_stmt | assignment_stmt 
         | if_stmt | for_in_stmt | break_stmt 
-        | continue_stmt | return_stmt | method_invocation_stmt;
+        | continue_stmt | return_stmt | method_invocation_stmt
+        | block_stmt;
 
 variable_and_constant_stmt: (VAR | VAL) variable_name_list_in_method COLON type_data (EQUAL value_list_stmt[$variable_name_list_in_method.count] ({$value_list_stmt.count_after == 0}? SEMI)| SEMI);
 variable_name_list_in_method returns[count = 0]: ID {$count+=1} (COMMA ID {$count+=1})*;
@@ -399,7 +400,7 @@ STATIC_ID: DOLLAR [_a-zA-Z0-9]+;
 // fragment CHAR : ~[\b\t\f\r\n\\"'] | ESCAPE;
 fragment CHAR : ~[\b\t\f\r\n\\"] | ESCAPE;
 fragment ESCAPE: '\\' [btnfr'\\] | ('\'' '"');
-fragment ILL_ESC: '\\'~[btrfn\\'] | '\\'; // | '\''~'"'  ;
+fragment ILL_ESC: '\\'~[btrfn\\'] | '\\';// | '\''~'"' ;
 
 // UNTERMINATED_COMMENT: '##' ('#'~'#' | ~'#')* EOF
 // {
