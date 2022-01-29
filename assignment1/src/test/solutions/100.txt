@@ -1,1 +1,1 @@
-abcxyz,<EOF>
+Unclose string: abc

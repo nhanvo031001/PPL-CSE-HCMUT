@@ -462,7 +462,7 @@ class D96Lexer(Lexer):
         if actionIndex == 3:
 
                 y = str(self.text)
-                error_seq = ['\b', '\t', '\f', '\n', '\r', '"', '\\']
+                error_seq = ['\b', '\t', '\f', '\n', '\r', '"']
                 if y[-1] in error_seq:
                     raise UncloseString(y[1:-1])
                 else:

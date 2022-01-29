@@ -416,7 +416,7 @@ fragment ILL_ESC: '\\'~[btrfn\\'] | '\\';// | '\''~'"' ;
 UNCLOSE_STRING:'"' CHAR* ( [\b\t\f\r\n\\"] | EOF )
 {
     y = str(self.text)
-    error_seq = ['\b', '\t', '\f', '\n', '\r', '"']
+    error_seq = ['\b', '\t', '\f', '\n', '\r', '"', '\\']
     if y[-1] in error_seq:
         raise UncloseString(y[1:-1])
     else:
@@ -433,3 +433,4 @@ ERROR_CHAR: .
 {
     raise ErrorToken(self.text)
 };
+
