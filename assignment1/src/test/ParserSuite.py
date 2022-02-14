@@ -2,6 +2,20 @@ import unittest
 from TestUtils import TestParser
 
 class ParserSuite(unittest.TestCase):
+    
+    def test_200_invalid_variable_declare_3(self):
+        input = """ 
+                    Class Program {
+                        Var x: Array[Array[Int, 1], 1] = Array();
+                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
+                    
+                        main() {
+                            Var _X_YZ, _123_123_123, $y: Int = 5, "nhan" +. 0.123123, x != 13; 
+                        }
+                    }
+                """
+        expect = "Error on line 7 col 53: $y"
+        self.assertTrue(TestParser.test(input,expect,200))
 
     def test_201_some_relational_expressions(self):
         input = """
@@ -2161,18 +2175,6 @@ class ParserSuite(unittest.TestCase):
         expect = "Error on line 7 col 80: ,"
         self.assertTrue(TestParser.test(input,expect,299))
         
-    def test_300_invalid_variable_declare_3(self):
-        input = """ 
-                    Class Program {
-                        Var x: Array[Array[Int, 1], 1] = Array();
-                        Val $x, y, $z: String = "nhan", 1.000 + "nhan", ---True - !!!!!False;    
-                    
-                        main() {
-                            Var _X_YZ, _123_123_123, $y: Int = 5, "nhan" +. 0.123123, x != 13; 
-                        }
-                    }
-                """
-        expect = "Error on line 7 col 53: $y"
-        self.assertTrue(TestParser.test(input,expect,300))
+    
         
         

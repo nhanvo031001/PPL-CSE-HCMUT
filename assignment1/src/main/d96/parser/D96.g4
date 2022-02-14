@@ -433,3 +433,4 @@ ERROR_CHAR: .
 {
     raise ErrorToken(self.text)
 };
+
