@@ -1,0 +1,27 @@
+ 
+                    Class Program {
+                        Var x: Array[Boolean, 1];
+                        Var x: Array[String, 1] = ____[True && False -45 + 2 / 2];
+                        Var x: Array[Float, 1] = _["nhan" - 12 + 4];
+                        Var x, $y: Array[Int, 1] = "Nhan", "Vo";
+                        
+                        main() {
+                            x = 1[1];
+                            x = 1.23434e+10[1];
+                            x = 1.23434e+10[12/3%2-4514+34141];
+                            x = True[Null];
+                            x = 1[1.000000000];
+                            x = 1_2_3_4_5_6[Array(1,2,3,4,"nhan")];
+                            x = 1_2_3_4_5_6.e-00000000[Array(1,2,3,4,"nhan")];
+                            x = 0[Array(1,2,3,4,"nhan")];
+                            x = 00[Array(1,2,3,4,"nhan")];
+                            x = 0b0[Array(1,2,3,4,"nhan")];
+                            x = 0B0[Array(1,2,3,4,"nhan")];
+                            x = 0x0[Array(1,2,3,4,"nhan")];
+                            x = 0X0[Array(1,2,3,4,"nhan")];
+                            x = New X()[2];
+                            x = !New X()[2];
+                            x = -New X()[2];
+                        }
+                    }
+                

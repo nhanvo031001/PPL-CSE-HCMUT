@@ -429,7 +429,7 @@ class ASTGeneration(D96Visitor):
         if ctx.exp_list():
             literal_list.extend(self.visit(ctx.exp_list()))
         return ArrayLiteral(literal_list)
-    
+        
     def visitExp_list(self, ctx: D96Parser.Exp_listContext):
         exp_list = []
         for each_exp in ctx.exp():
@@ -476,3 +476,5 @@ class ASTGeneration(D96Visitor):
         
     # def visitTest_var2(self, ctx:D96Parser.Test_var2Context):
     #     return ctx.LSB().getText() + ctx.ID().getText() + ctx.RSB().getText() 
+
+    

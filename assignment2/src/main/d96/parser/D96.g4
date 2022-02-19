@@ -261,14 +261,9 @@ exp9:   ID DOUBLE_COLON STATIC_ID
         | exp10;
 exp10: NEW ID LB exp_list? RB | operands;
 
-
 // sửa lại tạm thời để test AST
 // exp8: operands;
 // exp9: 'nhanvo';
-
-
-
-
 operands: ID | LB exp RB | literals | SELF | NULL;
 literals: ZERO_LIT | INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
 boolean_literal: TRUE | FALSE;
