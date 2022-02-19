@@ -1,1 +1,1 @@
-Program([BinaryOp(+,IntLit(2),IntLit(3))])
+Program([ClassDecl(Id(Program),[]),ClassDecl(Id(Main),[]),ClassDecl(Id(Shape),[]),ClassDecl(Id(Square),Id(Shape),[]),ClassDecl(Id(Square),Id(Main),[])])

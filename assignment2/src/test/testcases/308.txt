@@ -1,0 +1,12 @@
+ 
+                    Class Program : Parent {
+                        Var x: Int;
+                        Var y: Float;
+                        Var x, y: String;
+                        Var m, n, p: Boolean;
+                        Var a: Array[Int, 5];
+                        Var b: Array[Array[Float, 3], 5];
+                        Var c: SomeClass;
+                        Var x, y, z: Array[Int, 01234567];
+                    }
+                

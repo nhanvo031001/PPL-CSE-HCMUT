@@ -104,6 +104,11 @@ class D96Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by D96Parser#id_or_staticID.
+    def visitId_or_staticID(self, ctx:D96Parser.Id_or_staticIDContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by D96Parser#value_list.
     def visitValue_list(self, ctx:D96Parser.Value_listContext):
         return self.visitChildren(ctx)

@@ -1,3 +1,7 @@
-
-                    2 + 3;
+ 
+                    Class Program {}
+                    Class Main {}
+                    Class Shape {}
+                    Class Square : Shape {}
+                    Class Square : Main {}
                 

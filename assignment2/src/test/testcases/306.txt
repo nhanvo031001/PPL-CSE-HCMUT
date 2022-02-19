@@ -1,0 +1,19 @@
+ 
+                    Class Program {
+                        method1(a: Array[Array[Int, 0XABCDEF], 0XABCDEF1234567890]) {
+                            Return;
+                        }
+                        
+                        method2(a: Array[Array[Float, 01234567], 0123]) {
+                            Return 7;
+                        }
+                        
+                        method3(a: Array[Array[Boolean, 01234567], 0B101010]) {
+                            a.b();
+                        }
+                        
+                        method4(a: Array[Array[String, 01234567], 0B101010]) {
+                            Shape::$func();
+                        }
+                    }
+                

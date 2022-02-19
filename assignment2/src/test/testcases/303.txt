@@ -1,0 +1,17 @@
+ 
+                    Class Program {
+                        method1(a: Int) {
+                            obj = 1;
+                        }
+                        
+                        method2(a: Float; b, c, d: String) {
+                            obj = 2;
+                        }
+                        
+                        method3() {
+                            obj = 3;
+                        }
+                        
+                        method4(a, b, c: Boolean) {}
+                    }
+                

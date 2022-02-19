@@ -1,0 +1,12 @@
+ 
+                    Class Program : Parent {
+                        Val x: Int;
+                        Val y: Float;
+                        Val x, y: String;
+                        Val m, n, p: Boolean;
+                        Val a: Array[Int, 5];
+                        Val b: Array[Array[Float, 3], 5];
+                        Val c: SomeClass;
+                        Val x, y, z: Array[Int, 01234567];
+                    }
+                

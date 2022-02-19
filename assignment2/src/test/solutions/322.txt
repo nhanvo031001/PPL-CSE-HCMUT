@@ -1,0 +1,1 @@
+Program([ClassDecl(Id(Program),[MethodDecl(Id(method),Instance,[],Block([Call(CallExpr(CallExpr(Id(Shape),Id($getLength),[]),Id(func1),[]),Id(func2),[]),Call(Id(Shape),Id($getLength),[]),Call(Id(Shape),Id($getLength),[ArrayCell(Id(arr),[IntLit(1)])])]))])])

@@ -11,10 +11,10 @@ options {
 }
 
 
-program: exp+ EOF;
+program: class_declare+ EOF;
 // program: test_declare EOF;
 
-// test_declare: VAR ID SEMI;
+
 
 
 // *****************************CLASS STRUCTURE*****************************
@@ -39,7 +39,9 @@ destructor_declare: DESTRUCTOR LB RB block_stmt;
 method_declare: (ID | STATIC_ID) LB params_list? RB block_stmt;
 
 attribute_declare: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list[$variable_name_list.count] ({$value_list.count_after == 0}? SEMI)| SEMI);
-variable_name_list returns[count = 0]: (ID | STATIC_ID) {$count+=1} (COMMA (ID | STATIC_ID) {$count+=1})*;
+// variable_name_list returns[count = 0]: (ID | STATIC_ID) {$count+=1} (COMMA (ID | STATIC_ID) {$count+=1})*;
+variable_name_list returns[count = 0]: (id_or_staticID) {$count+=1} (COMMA (id_or_staticID) {$count+=1})*;
+id_or_staticID: ID | STATIC_ID;
 value_list[count] returns[count_after]:	exp {$count-=1} ({$count > 0}? COMMA exp {$count-=1})* {$count_after = $count};
 // *****************************END CLASS STRUCTURE*****************************
 
@@ -69,14 +71,15 @@ scalar_variable: ID // biến thường
                 | name_class DOUBLE_COLON STATIC_ID // biến dollar
                 | exp8 DOT ID // cái cuối là biến thường, phía trước gọi hàm vẫn được
                 | index_exp_for_scalar_variable; // index expression
-index_exp_for_scalar_variable:  exp7 LSB exp RSB;
+// index_exp_for_scalar_variable:  exp7 LSB exp RSB;
+index_exp_for_scalar_variable:  exp8 index_operator;
 
 if_stmt:    IF LB exp RB block_stmt       
             | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+            
             | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+ (ELSE block_stmt)
             | IF LB exp RB block_stmt (ELSE block_stmt);
 
-for_in_stmt: FOREACH LB scalar_variable  IN exp DOUBLE_DOT exp (BY exp)? RB block_stmt;
+for_in_stmt: FOREACH LB ID IN exp DOUBLE_DOT exp (BY exp)? RB block_stmt;
 
 break_stmt: BREAK SEMI;
 
@@ -264,6 +267,8 @@ exp10: NEW ID LB exp_list? RB | operands;
 // exp9: 'nhanvo';
 
 
+
+
 operands: ID | LB exp RB | literals | SELF | NULL;
 literals: ZERO_LIT | INT_LIT | FLOAT_LIT | STRING_LIT | boolean_literal | array_literal;
 boolean_literal: TRUE | FALSE;
@@ -273,7 +278,7 @@ array_list: array_literal (COMMA array_literal)*;
 indexed_array: ARRAY LB exp_list? RB;
 exp_list: exp (COMMA exp)*;
 
-index_operator: LSB exp RSB | LSB exp RSB index_operator;
+index_operator: LSB exp RSB index_operator | LSB exp RSB;
 // sửa theo để dễ viết AST, viết ok
 // index_operator: (LSB exp RSB)+;
 
