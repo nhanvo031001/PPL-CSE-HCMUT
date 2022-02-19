@@ -413,10 +413,11 @@ class ASTGeneration(D96Visitor):
         return self.visitIndexed_array(ctx.indexed_array())
     
     def visitMultidimensional_array(self, ctx: D96Parser.Multidimensional_arrayContext):
-        array_list = []
-        if ctx.array_list():
-            array_list = self.visit(ctx.array_list())
-        return ArrayLiteral(array_list)
+        # array_list = []
+        # if ctx.array_list():
+        #     array_list = self.visit(ctx.array_list())
+        # return ArrayLiteral(array_list)
+        return ArrayLiteral(self.visit(ctx.array_list()))
     
     def visitArray_list(self, ctx: D96Parser.Array_listContext):
         array_literal_list = []
