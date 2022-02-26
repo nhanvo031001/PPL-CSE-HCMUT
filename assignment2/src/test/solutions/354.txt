@@ -1,0 +1,1 @@
+Program([ClassDecl(Id(Shape),[MethodDecl(Id(main),Instance,[],Block([AssignStmt(Id(a),FieldAccess(Id(object),Id(length))),AssignStmt(Id(c),FieldAccess(Id(Shape),Id($width))),AssignStmt(Id(d),CallExpr(Id(obj),Id(getLength),[StringLit(abcd),IntLit(12)])),AssignStmt(Id(f),CallExpr(Id(Shape),Id($getWidth),[]))]))])])

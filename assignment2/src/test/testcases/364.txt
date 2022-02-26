@@ -1,0 +1,12 @@
+ 
+                    Class Program {
+                        Var a: Boolean = True;
+                        Val $b, $c: Boolean = False, !True;
+                        main() {
+                            Var a: Boolean = False;
+                            Val b: Boolean = !False;
+                            Var c: Boolean = False && False;
+                            Var d: Boolean = -True;
+                        }
+                    }
+                

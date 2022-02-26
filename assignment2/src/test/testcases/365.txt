@@ -1,0 +1,10 @@
+ 
+                    Class Program {
+                        main() {
+                            Var a: Float = -1;
+                            Var b: Boolean = !True;
+                            Var c: Boolean = -(!True);
+                            Var d: Boolean = !(-True);
+                        }
+                    }
+                

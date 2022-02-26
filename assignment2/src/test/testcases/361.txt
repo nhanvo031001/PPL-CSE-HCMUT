@@ -1,0 +1,12 @@
+ 
+                    Class Program {
+                        Var a: Int = 0x123_345;
+                        Val $b: Float = 0xA_F900_09;
+                        main() {
+                            Var a: Int = 0X1A_2B_3C_4D_5EF;
+                            Val b: Float = 0X1_2_3_A_F_0_9;
+                            Var c: Int = 0x0;
+                            Var d: Int = 0X0;
+                        }
+                    }
+                

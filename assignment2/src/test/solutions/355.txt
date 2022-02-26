@@ -1,0 +1,1 @@
+Program([ClassDecl(Id(Shape),[AttributeDecl(Instance,VarDecl(Id(a),IntType)),MethodDecl(Id(Notmain),Instance,[],Block([AssignStmt(Id(x),IntLit(4))]))]),ClassDecl(Id(_program),[MethodDecl(Id(main),Instance,[],Block([ConstDecl(Id(x),FloatType,None)]))])])

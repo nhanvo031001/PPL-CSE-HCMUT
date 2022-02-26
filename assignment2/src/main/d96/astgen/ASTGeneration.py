@@ -4,9 +4,7 @@ from distutils.command.sdist import sdist
 from D96Visitor import D96Visitor
 from D96Parser import D96Parser
 from AST import *
-from main.d96.utils.AST import ArrayCell, ArrayLiteral, Assign, AttributeDecl, BinaryOp, Block, BoolType, BooleanLiteral, CallExpr, CallStmt, ClassDecl, ClassType, ConstDecl, Continue, Expr, FieldAccess, FloatLiteral, FloatType, For, Id, Instance, IntLiteral, IntType, MethodDecl, NewExpr, NullLiteral, Program, SelfLiteral, Static, StringLiteral, StringType, UnaryOp, VarDecl
-
-from pprint import pprint
+from main.d96.utils.AST import ArrayCell, ArrayLiteral, Assign, AttributeDecl, BinaryOp, Block, BoolType, BooleanLiteral, CallExpr, CallStmt, ClassDecl, ClassType, ConstDecl, Continue, Expr, FieldAccess, FloatLiteral, FloatType, For, Id, If, Instance, IntLiteral, IntType, MethodDecl, NewExpr, NullLiteral, Program, SelfLiteral, Static, StringLiteral, StringType, UnaryOp, VarDecl
 
 
 class ASTGeneration(D96Visitor):
@@ -32,6 +30,9 @@ class ASTGeneration(D96Visitor):
             if (isinstance(visit_res, list)):   # vì attribute_declare trả về list, phải xài extend
                 list_declare_in_class.extend(visit_res)
             else:
+                # if isinstance(visit_res, MethodDecl):
+                #     if visit_res.name.name == 'Constructor' or visit_res.name.name == 'Destructor':
+                #         visit_res.kind = Static()
                 list_declare_in_class.append(visit_res)
         return list_declare_in_class
     
@@ -45,6 +46,8 @@ class ASTGeneration(D96Visitor):
                 if isinstance(visit_res, MethodDecl):
                     if visit_res.name.name == 'main' and visit_res.param == []:
                         visit_res.kind = Static()
+                    # if visit_res.name.name == 'Constructor' or visit_res.name.name == 'Destructor':
+                    #     visit_res.kind = Static()
                 list_declare_in_class.append(visit_res)
         return list_declare_in_class
     
@@ -136,13 +139,22 @@ class ASTGeneration(D96Visitor):
         type_data = self.visit(ctx.type_data())
         value_list = self.visit(ctx.value_list()) if ctx.value_list() else []
         res = []
+        # for i in range(len(variable_name_list)):
+        #     res.append(AttributeDecl(Static() if variable_name_list[i].name[0] == '$' else Instance(),  # first param
+                                     
+        #                             VarDecl(variable_name_list[i], type_data, value_list[i] if value_list else None) if ctx.VAR()   # second param
+        #                             else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else None)
+        #                             )
+        #                )
+            
         for i in range(len(variable_name_list)):
             res.append(AttributeDecl(Static() if variable_name_list[i].name[0] == '$' else Instance(),  # first param
                                      
-                                    VarDecl(variable_name_list[i], type_data, value_list[i] if value_list else None) if ctx.VAR()   # second param
-                                    else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else None)
+                                    VarDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None)) if ctx.VAR()   # second param
+                                    else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None))
                                     )
                        )
+            
         return res
                  
     
@@ -180,10 +192,14 @@ class ASTGeneration(D96Visitor):
         if ctx.VAR():
             for i in range(len(variable_name_list)):
                 initial_exp = value_list_stmt[i] if value_list_stmt else None
+                if isinstance(varType, ClassType) and initial_exp is None:
+                    initial_exp = NullLiteral()
                 res.append(VarDecl(variable_name_list[i], varType, initial_exp))
         else:
             for i in range(len(variable_name_list)):
                 initial_exp = value_list_stmt[i] if value_list_stmt else None
+                if isinstance(varType, ClassType) and initial_exp is None:
+                    initial_exp = NullLiteral()
                 res.append(ConstDecl(variable_name_list[i], varType, initial_exp))
         return res
     
@@ -217,7 +233,39 @@ class ASTGeneration(D96Visitor):
         return ArrayCell(self.visit(ctx.getChild(0)), self.visit(ctx.getChild(1)))
             
     def visitIf_stmt(self, ctx: D96Parser.If_stmtContext):
-        pass
+        expr = self.visit(ctx.exp())
+        thenStmt = self.visit(ctx.block_stmt())
+        elseif_block_list = [self.visit(each_elseif_block) for each_elseif_block in ctx.elseif_block()] if ctx.elseif_block() else []   # trả về [ [elseif]... ]
+        else_block = self.visit(ctx.else_block()) if ctx.else_block() else None
+
+        if else_block:
+            elseif_block_list.append([else_block]) # vì mỗi phần tử của elseif_block_list là list ---> [else_block]
+
+        if elseif_block_list == []:
+            return If(expr, thenStmt, else_block)
+        return If(expr, thenStmt, self.supportElseStmt(elseif_block_list))
+    
+    def supportElseStmt(self, elseif_block_list):
+        # if len(elseif_block_list) == 0: return None     # trường hợp chỉ có elseif, k có else ---> vế elseStmt là None
+        # if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 2:  # trường hợp chỉ có elseif, k có else, tiếp tục đệ quy đến trường hợp return None ở hàng trên
+        #     return Block([If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))])
+        # if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 1:  # trường hợp vừa elseIf và else, trong list chỉ còn lại elseStmt ---> trả về block_stmt luôn
+        #     return elseif_block_list[0][0]
+        # return Block([If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))])   # đệ quy hết cái list
+        
+        
+        if len(elseif_block_list) == 0: return None     # trường hợp chỉ có elseif, k có else ---> vế elseStmt là None
+        if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 2:  # trường hợp chỉ có elseif, k có else, tiếp tục đệ quy đến trường hợp return None ở hàng trên
+            return If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))
+        if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 1:  # trường hợp vừa elseIf và else, trong list chỉ còn lại elseStmt ---> trả về block_stmt luôn
+            return elseif_block_list[0][0]
+        return If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))   # đệ quy hết cái list
+    
+    def visitElseif_block(self, ctx: D96Parser.Elseif_blockContext):
+        return [self.visit(ctx.exp()), self.visit(ctx.block_stmt())]
+    
+    def visitElse_block(self, ctx: D96Parser.Else_blockContext):
+        return self.visit(ctx.block_stmt())
     
     def visitFor_in_stmt(self, ctx: D96Parser.For_in_stmtContext):
         var = Id(ctx.ID().getText())

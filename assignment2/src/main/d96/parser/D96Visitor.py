@@ -159,6 +159,16 @@ class D96Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by D96Parser#elseif_block.
+    def visitElseif_block(self, ctx:D96Parser.Elseif_blockContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by D96Parser#else_block.
+    def visitElse_block(self, ctx:D96Parser.Else_blockContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by D96Parser#for_in_stmt.
     def visitFor_in_stmt(self, ctx:D96Parser.For_in_stmtContext):
         return self.visitChildren(ctx)

@@ -1,0 +1,1 @@
+Program([ClassDecl(Id(Program),[MethodDecl(Id(main),Static,[],Block([AssignStmt(FieldAccess(Id(a),Id(b)),StringLit(True)),AssignStmt(FieldAccess(StringLit(Nhan),Id(b)),StringLit(True)),AssignStmt(FieldAccess(CallExpr(Id(a),Id(func),[]),Id(b)),FloatLit(12.45))]))])])

@@ -1,0 +1,26 @@
+ 
+                    Class NhanVo {
+                        
+                        Constructor(a, b, c, d: Int; d, e, f: NhanVo; m: Float; n: String) {
+                            Foreach (i In 1 .. 100 By 2) {
+                                ## none ##
+                            }      
+                        }
+                        
+                        Destructor() {
+                            Return;
+                        }
+                        
+                        getElement(a, b, c, d: Int; d, e, f: NhanVo; m: Float; n: String) {
+                            ##nothing##
+                        }
+                        
+                        getIndex(a, b, c, d: Int; d, e, f: NhanVo; m: Float; n: String) {
+                            If (a == b) {
+                                If (c == d) {
+                                    ##nothing##
+                                }
+                            }
+                        }
+                    }
+                

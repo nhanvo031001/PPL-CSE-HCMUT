@@ -74,10 +74,14 @@ scalar_variable: ID // biến thường
 // index_exp_for_scalar_variable:  exp7 LSB exp RSB;
 index_exp_for_scalar_variable:  exp8 index_operator;
 
-if_stmt:    IF LB exp RB block_stmt       
-            | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+            
-            | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+ (ELSE block_stmt)
-            | IF LB exp RB block_stmt (ELSE block_stmt);
+// if_stmt:    IF LB exp RB block_stmt       
+//             | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+            
+//             | IF LB exp RB block_stmt (ELSEIF LB exp RB block_stmt)+ (ELSE block_stmt)
+//             | IF LB exp RB block_stmt (ELSE block_stmt);
+
+if_stmt: IF LB exp RB block_stmt elseif_block* else_block?;
+elseif_block: ELSEIF LB exp RB block_stmt;
+else_block: ELSE block_stmt;
 
 for_in_stmt: FOREACH LB ID IN exp DOUBLE_DOT exp (BY exp)? RB block_stmt;
 
