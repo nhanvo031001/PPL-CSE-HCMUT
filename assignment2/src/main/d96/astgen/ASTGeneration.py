@@ -1,18 +1,22 @@
 from array import ArrayType
 from ast import Break, Return
 from distutils.command.sdist import sdist
+from inspect import Attribute
 from D96Visitor import D96Visitor
 from D96Parser import D96Parser
 from AST import *
+from functools import reduce
 from main.d96.utils.AST import ArrayCell, ArrayLiteral, Assign, AttributeDecl, BinaryOp, Block, BoolType, BooleanLiteral, CallExpr, CallStmt, ClassDecl, ClassType, ConstDecl, Continue, Expr, FieldAccess, FloatLiteral, FloatType, For, Id, If, Instance, IntLiteral, IntType, MethodDecl, NewExpr, NullLiteral, Program, SelfLiteral, Static, StringLiteral, StringType, UnaryOp, VarDecl
 
 
 class ASTGeneration(D96Visitor):
     def visitProgram(self, ctx: D96Parser.ProgramContext):
-        class_declare_list = []
-        for each_declare in ctx.class_declare():
-            class_declare_list.append(self.visit(each_declare))
-        return Program(class_declare_list)
+        # class_declare_list = []
+        # for each_declare in ctx.class_declare():
+        #     class_declare_list.append(self.visit(each_declare))
+        # return Program(class_declare_list)
+        
+        return Program([self.visit(each_declare) for each_declare in ctx.class_declare()])
         
     def visitClass_declare(self, ctx: D96Parser.Class_declareContext):
         class_name = self.visit(ctx.name_class())
@@ -24,31 +28,40 @@ class ASTGeneration(D96Visitor):
         return Id(ctx.ID().getText())
     
     def visitBody_class(self, ctx: D96Parser.Body_classContext):
-        list_declare_in_class = []
-        for each_declare in ctx.mem_class_declare():
-            visit_res = self.visit(each_declare)
-            if (isinstance(visit_res, list)):   # vì attribute_declare trả về list, phải xài extend
-                list_declare_in_class.extend(visit_res)
-            else:
-                # if isinstance(visit_res, MethodDecl):
-                #     if visit_res.name.name == 'Constructor' or visit_res.name.name == 'Destructor':
-                #         visit_res.kind = Static()
-                list_declare_in_class.append(visit_res)
+        # list_declare_in_class = []
+        # for each_declare in ctx.mem_class_declare():
+        #     visit_res = self.visit(each_declare)
+        #     if (isinstance(visit_res, list)):   # vì attribute_declare trả về list, phải xài extend
+        #         list_declare_in_class.extend(visit_res)
+        #     else:
+        #         # if isinstance(visit_res, MethodDecl):
+        #         #     if visit_res.name.name == 'Constructor' or visit_res.name.name == 'Destructor':
+        #         #         visit_res.kind = Static()
+        #         list_declare_in_class.append(visit_res)
+                
+        list_declare_in_class = reduce(lambda x, y: x + y if isinstance(y, list) else x + [y], [self.visit(each_declare) for each_declare in ctx.mem_class_declare()], [])
         return list_declare_in_class
     
+    def check_main_function(self, method):
+        if method.name.name == 'main' and method.param == []:
+            method.kind = Static()
+        return method
+    
     def visit_class_program_mem_list(self, ctx: D96Parser.Body_classContext):
-        list_declare_in_class = []
-        for each_declare in ctx.mem_class_declare():
-            visit_res = self.visit(each_declare)
-            if (isinstance(visit_res, list)):   # vì attribute_declare trả về list, phải xài extend
-                list_declare_in_class.extend(visit_res)
-            else:
-                if isinstance(visit_res, MethodDecl):
-                    if visit_res.name.name == 'main' and visit_res.param == []:
-                        visit_res.kind = Static()
-                    # if visit_res.name.name == 'Constructor' or visit_res.name.name == 'Destructor':
-                    #     visit_res.kind = Static()
-                list_declare_in_class.append(visit_res)
+        # list_declare_in_class = []
+        # for each_declare in ctx.mem_class_declare():
+        #     visit_res = self.visit(each_declare)
+        #     if (isinstance(visit_res, list)):   # vì attribute_declare trả về list, phải xài extend
+        #         list_declare_in_class.extend(visit_res)
+        #     else:
+        #         if isinstance(visit_res, MethodDecl):
+        #             if visit_res.name.name == 'main' and visit_res.param == []:
+        #                 visit_res.kind = Static()
+        #             # if visit_res.name.name == 'Constructor' or visit_res.name.name == 'Destructor':
+        #             #     visit_res.kind = Static()
+        #         list_declare_in_class.append(visit_res)
+        
+        list_declare_in_class = reduce(lambda x, y: x + y if isinstance(y, list) else x + [self.check_main_function(y)], [self.visit(each_declare) for each_declare in ctx.mem_class_declare()], [])
         return list_declare_in_class
     
     def visitMem_class_declare(self, ctx: D96Parser.Mem_class_declareContext):
@@ -68,24 +81,31 @@ class ASTGeneration(D96Visitor):
         return MethodDecl(kind, name, param, body)
     
     def visitParams_list(self, ctx: D96Parser.Params_listContext):
-        params_list = []
-        for each_params_declare in ctx.params_declare():
-            params_list.extend(self.visit(each_params_declare))     # xài extend vì self.visit(each_params_declare) trả về 1 list
+        # params_list = []
+        # for each_params_declare in ctx.params_declare():
+        #     params_list.extend(self.visit(each_params_declare))     # xài extend vì self.visit(each_params_declare) trả về 1 list
+        
+        params_list = reduce(lambda x, y: x + y, [self.visit(each_params_declare) for each_params_declare in ctx.params_declare()],[])
         return params_list
     
     def visitParams_declare(self, ctx: D96Parser.Params_declareContext):
         res = []
         id_list = self.visit(ctx.id_list())
         type_data = self.visit(ctx.type_data())
-        for each_id in id_list:
-            res.append(VarDecl(each_id, type_data))
+        # for each_id in id_list:
+        #     res.append(VarDecl(each_id, type_data))
+        
+        res += [VarDecl(each_id, type_data) for each_id in id_list]
         return res
+        
     
     def visitId_list(self, ctx: D96Parser.Id_listContext):
-        id_list = []
-        for each_id in ctx.ID():
-            id_list.append(Id(each_id.getText()))
-        return id_list
+        # id_list = []
+        # for each_id in ctx.ID():
+        #     id_list.append(Id(each_id.getText()))
+        # return id_list
+        
+        return [Id(each_id.getText()) for each_id in ctx.ID()] if ctx.ID() else []
     
     def visitType_data(self, ctx: D96Parser.Type_dataContext):
         if ctx.primitive_type():
@@ -147,14 +167,22 @@ class ASTGeneration(D96Visitor):
         #                             )
         #                )
             
-        for i in range(len(variable_name_list)):
-            res.append(AttributeDecl(Static() if variable_name_list[i].name[0] == '$' else Instance(),  # first param
+        # for i in range(len(variable_name_list)):
+        #     res.append(AttributeDecl(Static() if variable_name_list[i].name[0] == '$' else Instance(),  # first param
                                      
-                                    VarDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None)) if ctx.VAR()   # second param
-                                    else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None))
-                                    )
-                       )
-            
+        #                             VarDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None)) if ctx.VAR()   # second param
+        #                             else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None))
+        #                             )
+        #                )
+        
+        res += [AttributeDecl(Static() if variable_name_list[i].name[0] == '$' else Instance(),     # first param
+                            
+                            VarDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None)) if ctx.VAR()   # second param
+                            else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None))
+                            )
+
+                    for i in range(len(variable_name_list))
+                ]
         return res
                  
     
@@ -167,18 +195,21 @@ class ASTGeneration(D96Visitor):
         return Id(ctx.STATIC_ID().getText())
     
     def visitValue_list(self, ctx: D96Parser.Value_listContext):
-        value_list = []
-        for each_value in ctx.exp():
-            value_list.append(self.visit(each_value))
-        return value_list
+        # value_list = []
+        # for each_value in ctx.exp():
+        #     value_list.append(self.visit(each_value))
+        # return value_list
+        
+        return [self.visit(each_value) for each_value in ctx.exp()] if ctx.exp() else []
     
     def visitBlock_stmt(self, ctx: D96Parser.Block_stmtContext):
-        res = []
-        for each_stmt in ctx.stmt():
-            if (isinstance(self.visit(each_stmt), list)):   # vì visitVariable_and_constant_stmt trả về list, phải xài extend
-                res.extend(self.visit(each_stmt))
-            else:
-                res.append(self.visit(each_stmt))
+        # res = []
+        # for each_stmt in ctx.stmt():
+        #     if (isinstance(self.visit(each_stmt), list)):   # vì visitVariable_and_constant_stmt trả về list, phải xài extend
+        #         res.extend(self.visit(each_stmt))
+        #     else:
+        #         res.append(self.visit(each_stmt))
+        res = reduce(lambda x, y: x + y if isinstance(y, list) else x + [y], [self.visit(each_stmt) for each_stmt in ctx.stmt()], [])
         return Block(res)
     
     def visitStmt(self, ctx: D96Parser.StmtContext):
@@ -190,17 +221,21 @@ class ASTGeneration(D96Visitor):
         value_list_stmt = self.visit(ctx.value_list_stmt()) if ctx.value_list_stmt() else []
         res = []
         if ctx.VAR():
-            for i in range(len(variable_name_list)):
-                initial_exp = value_list_stmt[i] if value_list_stmt else None
-                if isinstance(varType, ClassType) and initial_exp is None:
-                    initial_exp = NullLiteral()
-                res.append(VarDecl(variable_name_list[i], varType, initial_exp))
+            # for i in range(len(variable_name_list)):
+            #     initial_exp = value_list_stmt[i] if value_list_stmt else None
+            #     if isinstance(varType, ClassType) and initial_exp is None:
+            #         initial_exp = NullLiteral()
+            #     res.append(VarDecl(variable_name_list[i], varType, initial_exp))
+                
+            res += [VarDecl(variable_name_list[i], varType, value_list_stmt[i] if value_list_stmt else (NullLiteral() if isinstance(varType, ClassType) else None)) for i in range(len(variable_name_list))]
         else:
-            for i in range(len(variable_name_list)):
-                initial_exp = value_list_stmt[i] if value_list_stmt else None
-                if isinstance(varType, ClassType) and initial_exp is None:
-                    initial_exp = NullLiteral()
-                res.append(ConstDecl(variable_name_list[i], varType, initial_exp))
+            # for i in range(len(variable_name_list)):
+            #     initial_exp = value_list_stmt[i] if value_list_stmt else None
+            #     if isinstance(varType, ClassType) and initial_exp is None:
+            #         initial_exp = NullLiteral()
+            #     res.append(ConstDecl(variable_name_list[i], varType, initial_exp))
+            
+            res += [ConstDecl(variable_name_list[i], varType, value_list_stmt[i] if value_list_stmt else (NullLiteral() if isinstance(varType, ClassType) else None)) for i in range(len(variable_name_list))]
         return res
     
     def visitVariable_name_list_in_method(self, ctx: D96Parser.Variable_name_list_in_methodContext):
@@ -468,10 +503,12 @@ class ASTGeneration(D96Visitor):
         return ArrayLiteral(self.visit(ctx.array_list()))
     
     def visitArray_list(self, ctx: D96Parser.Array_listContext):
-        array_literal_list = []
-        for each_array_literal in ctx.array_literal():
-            array_literal_list.append(self.visit(each_array_literal))
-        return array_literal_list
+        # array_literal_list = []
+        # for each_array_literal in ctx.array_literal():
+        #     array_literal_list.append(self.visit(each_array_literal))
+        # return array_literal_list
+        
+        return [self.visit(each_array_literal) for each_array_literal in ctx.array_literal()] if ctx.array_literal() else []
     
     def visitIndexed_array(self, ctx: D96Parser.Indexed_arrayContext):
         literal_list = []
@@ -480,10 +517,11 @@ class ASTGeneration(D96Visitor):
         return ArrayLiteral(literal_list)
         
     def visitExp_list(self, ctx: D96Parser.Exp_listContext):
-        exp_list = []
-        for each_exp in ctx.exp():
-            exp_list.append(self.visit(each_exp))
-        return exp_list
+        # exp_list = []
+        # for each_exp in ctx.exp():
+        #     exp_list.append(self.visit(each_exp))
+        # return exp_list
+        return [self.visit(each_exp) for each_exp in ctx.exp()] if ctx.exp() else []
     
     def visitIndex_operator(self, ctx: D96Parser.Index_operatorContext):
         if ctx.getChildCount() == 3:
@@ -511,19 +549,6 @@ class ASTGeneration(D96Visitor):
         # if ctx.getChildCount() == 3:
         #     return exp_list
         # return exp_list + self.visitIndex_operator(ctx.index_operator())
-        
 
-
-    # def visitTest_var(self, ctx:D96Parser.Test_varContext):
-    #     if ctx.ID():
-    #         print("ID testvar2")
-    #         print("child 0: ", ctx.ID().getText())
-    #         print("child 1: ", self.visit(ctx.test_var2()))
-    #         return
-    #     print("only test var 2")
-    #     print("child 0: ", self.visit(ctx.test_var2()))
-        
-    # def visitTest_var2(self, ctx:D96Parser.Test_var2Context):
-    #     return ctx.LSB().getText() + ctx.ID().getText() + ctx.RSB().getText() 
 
     

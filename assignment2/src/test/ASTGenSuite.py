@@ -1937,3 +1937,39 @@ class ASTGenSuite(unittest.TestCase):
                 """ 
         expect = """Program([ClassDecl(Id(Program),[MethodDecl(Id(main),Instance,[param(Id(a),ClassType(Id(SomeClass))),param(Id(b),ClassType(Id(SomeClass))),param(Id(c),ClassType(Id(SomeClass)))],Block([]))])])"""
         self.assertTrue(TestAST.test(input,expect,395))
+        
+    def test_396_some_complicated_program_1(self):
+        input = """ 
+                    Class Program {
+                        Var a: Float;
+                    }
+                """ 
+        expect = """Program([ClassDecl(Id(Program),[AttributeDecl(Instance,VarDecl(Id(a),FloatType))])])"""
+        self.assertTrue(TestAST.test(input,expect,396))
+        
+    def test_397_some_complicated_program_2(self):
+        input = """ 
+                    Class Program {
+                        Var a, $b: Float = 1, 2;
+                    }
+                """ 
+        expect = """Program([ClassDecl(Id(Program),[AttributeDecl(Instance,VarDecl(Id(a),FloatType,IntLit(1))),AttributeDecl(Static,VarDecl(Id($b),FloatType,IntLit(2)))])])"""
+        self.assertTrue(TestAST.test(input,expect,397))
+        
+    def test_398_some_complicated_program_3(self):
+        input = """ 
+                    Class Program {
+                        Var a, $b: Float = 1, Array();
+                    }
+                """ 
+        expect = """Program([ClassDecl(Id(Program),[AttributeDecl(Instance,VarDecl(Id(a),FloatType,IntLit(1))),AttributeDecl(Static,VarDecl(Id($b),FloatType,[]))])])"""
+        self.assertTrue(TestAST.test(input,expect,398))
+        
+    def test_399_some_complicated_program_4(self):
+        input = """ 
+                    Class Program {
+                        ## nothing ##
+                    }
+                """ 
+        expect = """Program([ClassDecl(Id(Program),[])])"""
+        self.assertTrue(TestAST.test(input,expect,399))
