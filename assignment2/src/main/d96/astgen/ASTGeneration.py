@@ -1,13 +1,11 @@
-from array import ArrayType
-from ast import Break, Return
-from distutils.command.sdist import sdist
-from inspect import Attribute
 from D96Visitor import D96Visitor
 from D96Parser import D96Parser
 from AST import *
 from functools import reduce
-from main.d96.utils.AST import ArrayCell, ArrayLiteral, Assign, AttributeDecl, BinaryOp, Block, BoolType, BooleanLiteral, CallExpr, CallStmt, ClassDecl, ClassType, ConstDecl, Continue, Expr, FieldAccess, FloatLiteral, FloatType, For, Id, If, Instance, IntLiteral, IntType, MethodDecl, NewExpr, NullLiteral, Program, SelfLiteral, Static, StringLiteral, StringType, UnaryOp, VarDecl
 
+from main.d96.utils.AST import *
+from main.d96.parser.D96Parser import D96Parser
+from main.d96.parser.D96Visitor import D96Visitor
 
 class ASTGeneration(D96Visitor):
     def visitProgram(self, ctx: D96Parser.ProgramContext):
@@ -549,6 +547,3 @@ class ASTGeneration(D96Visitor):
         # if ctx.getChildCount() == 3:
         #     return exp_list
         # return exp_list + self.visitIndex_operator(ctx.index_operator())
-
-
-    
