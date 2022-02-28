@@ -2,7 +2,6 @@ import unittest
 from TestUtils import TestParser
 
 class ParserSuite(unittest.TestCase):
-    
     def test_200_invalid_variable_declare_3(self):
         input = """ 
                     Class Program {

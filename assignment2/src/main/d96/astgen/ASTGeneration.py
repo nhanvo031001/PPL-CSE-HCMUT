@@ -3,9 +3,12 @@ from D96Parser import D96Parser
 from AST import *
 from functools import reduce
 
-from main.d96.utils.AST import *
-from main.d96.parser.D96Parser import D96Parser
-from main.d96.parser.D96Visitor import D96Visitor
+# remember to comment 3 lines bottom
+# from main.d96.utils.AST import *
+# from main.d96.parser.D96Parser import D96Parser
+# from main.d96.parser.D96Visitor import D96Visitor
+###############################################
+
 
 class ASTGeneration(D96Visitor):
     def visitProgram(self, ctx: D96Parser.ProgramContext):
@@ -29,7 +32,7 @@ class ASTGeneration(D96Visitor):
         # list_declare_in_class = []
         # for each_declare in ctx.mem_class_declare():
         #     visit_res = self.visit(each_declare)
-        #     if (isinstance(visit_res, list)):   # vì attribute_declare trả về list, phải xài extend
+        #     if (isinstance(visit_res, list)):   # because attribute_declare return list, use extend
         #         list_declare_in_class.extend(visit_res)
         #     else:
         #         # if isinstance(visit_res, MethodDecl):
@@ -49,7 +52,7 @@ class ASTGeneration(D96Visitor):
         # list_declare_in_class = []
         # for each_declare in ctx.mem_class_declare():
         #     visit_res = self.visit(each_declare)
-        #     if (isinstance(visit_res, list)):   # vì attribute_declare trả về list, phải xài extend
+        #     if (isinstance(visit_res, list)):   # because attribute_declare return list, use extend
         #         list_declare_in_class.extend(visit_res)
         #     else:
         #         if isinstance(visit_res, MethodDecl):
@@ -81,7 +84,7 @@ class ASTGeneration(D96Visitor):
     def visitParams_list(self, ctx: D96Parser.Params_listContext):
         # params_list = []
         # for each_params_declare in ctx.params_declare():
-        #     params_list.extend(self.visit(each_params_declare))     # xài extend vì self.visit(each_params_declare) trả về 1 list
+        #     params_list.extend(self.visit(each_params_declare))     # because self.visit(each_params_declare) return a list
         
         params_list = reduce(lambda x, y: x + y, [self.visit(each_params_declare) for each_params_declare in ctx.params_declare()],[])
         return params_list
@@ -203,7 +206,7 @@ class ASTGeneration(D96Visitor):
     def visitBlock_stmt(self, ctx: D96Parser.Block_stmtContext):
         # res = []
         # for each_stmt in ctx.stmt():
-        #     if (isinstance(self.visit(each_stmt), list)):   # vì visitVariable_and_constant_stmt trả về list, phải xài extend
+        #     if (isinstance(self.visit(each_stmt), list)):   # because visitVariable_and_constant_stmt return a list, use extend
         #         res.extend(self.visit(each_stmt))
         #     else:
         #         res.append(self.visit(each_stmt))
@@ -268,31 +271,31 @@ class ASTGeneration(D96Visitor):
     def visitIf_stmt(self, ctx: D96Parser.If_stmtContext):
         expr = self.visit(ctx.exp())
         thenStmt = self.visit(ctx.block_stmt())
-        elseif_block_list = [self.visit(each_elseif_block) for each_elseif_block in ctx.elseif_block()] if ctx.elseif_block() else []   # trả về [ [elseif]... ]
+        elseif_block_list = [self.visit(each_elseif_block) for each_elseif_block in ctx.elseif_block()] if ctx.elseif_block() else []   # return [ [elseif]... ]
         else_block = self.visit(ctx.else_block()) if ctx.else_block() else None
 
         if else_block:
-            elseif_block_list.append([else_block]) # vì mỗi phần tử của elseif_block_list là list ---> [else_block]
+            elseif_block_list.append([else_block]) # because each element of elseif_block_list is list ---> [else_block]
 
         if elseif_block_list == []:
             return If(expr, thenStmt, else_block)
         return If(expr, thenStmt, self.supportElseStmt(elseif_block_list))
     
     def supportElseStmt(self, elseif_block_list):
-        # if len(elseif_block_list) == 0: return None     # trường hợp chỉ có elseif, k có else ---> vế elseStmt là None
-        # if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 2:  # trường hợp chỉ có elseif, k có else, tiếp tục đệ quy đến trường hợp return None ở hàng trên
+        # if len(elseif_block_list) == 0: return None     # case: only elseif, no else ---> elseStmt is None
+        # if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 2:  # case: only elseif, no else, continue to recursive until reach None of the above line
         #     return Block([If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))])
-        # if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 1:  # trường hợp vừa elseIf và else, trong list chỉ còn lại elseStmt ---> trả về block_stmt luôn
+        # if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 1:  # case: elseif and else, the list only contain elseStmt ---> return block_stmt immediately
         #     return elseif_block_list[0][0]
-        # return Block([If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))])   # đệ quy hết cái list
+        # return Block([If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))])   # recursive all list
         
         
-        if len(elseif_block_list) == 0: return None     # trường hợp chỉ có elseif, k có else ---> vế elseStmt là None
-        if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 2:  # trường hợp chỉ có elseif, k có else, tiếp tục đệ quy đến trường hợp return None ở hàng trên
+        if len(elseif_block_list) == 0: return None     # case: only elseif, no else ---> elseStmt is None
+        if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 2:  # case: only elseif, no else, continue to recursive until reach None of the above line
             return If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))
-        if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 1:  # trường hợp vừa elseIf và else, trong list chỉ còn lại elseStmt ---> trả về block_stmt luôn
+        if len(elseif_block_list) == 1 and len(elseif_block_list[0]) == 1:  # case: elseif and else, the list only contain elseStmt ---> return block_stmt immediately
             return elseif_block_list[0][0]
-        return If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))   # đệ quy hết cái list
+        return If(elseif_block_list[0][0], elseif_block_list[0][1], self.supportElseStmt(elseif_block_list[1:]))   # recursive all list
     
     def visitElseif_block(self, ctx: D96Parser.Elseif_blockContext):
         return [self.visit(ctx.exp()), self.visit(ctx.block_stmt())]
@@ -444,7 +447,7 @@ class ASTGeneration(D96Visitor):
             return self.visit(ctx.operands())
         list_exp = []
         if ctx.exp_list():
-            list_exp.extend(self.visit(ctx.exp_list()))     # xài extend vì self.visit(ctx.exp_list()) trả về một list rồi
+            list_exp.extend(self.visit(ctx.exp_list()))     # self.visit(ctx.exp_list()) return a list ---> use extend
         return NewExpr(Id(ctx.ID().getText()), list_exp)
             
     def visitOperands(self, ctx:D96Parser.OperandsContext):
@@ -460,7 +463,7 @@ class ASTGeneration(D96Visitor):
             return self.visit(ctx.exp())
         
     def changeFormatInteger(self, int_string):
-        if int_string[0] != '0' or (len(int_string) == 1 and int_string[0] == '0'):      # số 0 hệ decimal
+        if int_string[0] != '0' or (len(int_string) == 1 and int_string[0] == '0'):      # 0 number in decimal
             return (int(int_string, 10))
         elif int_string[0] == '0' and (int_string[1] == 'x' or int_string[1] == 'X'):
             return (int(int_string, 16))
@@ -526,7 +529,7 @@ class ASTGeneration(D96Visitor):
             return [self.visit(ctx.exp())]
         return [self.visit(ctx.exp())] + self.visit(ctx.index_operator())
     
-        # viết cách index_operator: (LSB exp RSB)+;
+        # write in the way index_operator: (LSB exp RSB)+;
         # exp_list = []
         # print("bug: ", type(ctx.exp()))
         # print("bug: ", (ctx.exp()))
@@ -538,7 +541,7 @@ class ASTGeneration(D96Visitor):
         #         exp_list.append(exp_res)
         # return exp_list
         
-        # viết cách cũ --> index_operator: LSB exp RSB | LSB exp RSB index_operator;
+        # write in old way --> index_operator: LSB exp RSB | LSB exp RSB index_operator;
         # exp_list = []
         # if isinstance(self.visit(ctx.exp()), list): 
         #     exp_list.extend(self.visit(ctx.exp()))

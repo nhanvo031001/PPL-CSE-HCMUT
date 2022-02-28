@@ -55,7 +55,7 @@ stmt:   variable_and_constant_stmt | assignment_stmt
         | continue_stmt | return_stmt | method_invocation_stmt
         | block_stmt;
 
-// thay đổi theo AST
+// thay doi theo AST
 // block_stmt: LP variable_and_constant_stmt* stmt* RP;
 // stmt:   assignment_stmt 
 //         | if_stmt | for_in_stmt | break_stmt 
@@ -67,9 +67,9 @@ variable_name_list_in_method returns[count = 0]: ID {$count+=1} (COMMA ID {$coun
 value_list_stmt[count] returns[count_after]: exp {$count-=1} ({$count > 0}? COMMA exp {$count-=1})* {$count_after = $count};
 
 assignment_stmt: scalar_variable EQUAL exp SEMI;
-scalar_variable: ID // biến thường    
-                | name_class DOUBLE_COLON STATIC_ID // biến dollar
-                | exp8 DOT ID // cái cuối là biến thường, phía trước gọi hàm vẫn được
+scalar_variable: ID // bien thuong  
+                | name_class DOUBLE_COLON STATIC_ID // bien dollar
+                | exp8 DOT ID // cai cuoi la bien thuong, phia truoc goi ham van duoc
                 | index_exp_for_scalar_variable; // index expression
 // index_exp_for_scalar_variable:  exp7 LSB exp RSB;
 index_exp_for_scalar_variable:  exp8 index_operator;
@@ -139,7 +139,7 @@ pre_exp: pre_exp DOT ID
 //                         | instance_method_invocation
 //                         | static_method_invocation; //
 
-// static_attr_access: ID DOUBLE_COLON STATIC_ID;  // không gọi chaining: Shape::$a::$b ---> không
+// static_attr_access: ID DOUBLE_COLON STATIC_ID;  // khong goi chaining: Shape::$a::$b ---> No
 
 // instance_method_invocation: instance_method_invocation DOT ID LB exp_list? RB
 //                             | instance_method_invocation DOT ID
@@ -170,7 +170,7 @@ pre_exp: pre_exp DOT ID
 
 
 
-// style recursion, change theo ver 1.2
+// style recursion, change according to ver 1.2
 // exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
 // exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
 // exp2: exp2 (AND | OR) exp3 | exp3;
@@ -213,7 +213,7 @@ pre_exp: pre_exp DOT ID
 
 
 
-// change theo ver 1.2, recursive cách khác, đổi cách viết member access
+// change according to ver 1.2, recursive cach khac, doi cach viet member access
 // exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
 // exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
 // exp2: exp2 (AND | OR) exp3 | exp3;
@@ -247,8 +247,8 @@ pre_exp: pre_exp DOT ID
 
 
 
-// giống cái trên, nhưng điều chỉnh theo mục sai sót forum
-// bỏ calling_method_inside_class, operands ko có static ID
+// giong cai tren, nhung dieu chinh muc sai sot theo forum
+// remove calling_method_inside_class, operands ko co static ID
 exp: exp1 (ADD_STR | IS_EQUAL_STR) exp1 | exp1;
 exp1: exp2 (IS_EQUAL | NOT_EQUAL | LT | GT | LTE | GTE) exp2 | exp2;
 exp2: exp2 (AND | OR) exp3 | exp3;
@@ -265,7 +265,7 @@ exp9:   ID DOUBLE_COLON STATIC_ID
         | exp10;
 exp10: NEW ID LB exp_list? RB | operands;
 
-// sửa lại tạm thời để test AST
+// sua lai tam thoi de test AST
 // exp8: operands;
 // exp9: 'nhanvo';
 operands: ID | LB exp RB | literals | SELF | NULL;
@@ -279,7 +279,7 @@ indexed_array: ARRAY LB exp_list? RB;
 exp_list: exp (COMMA exp)*;
 
 index_operator: LSB exp RSB index_operator | LSB exp RSB;
-// sửa theo để dễ viết AST, viết ok
+// sua theo for easy writing AST, write ok
 // index_operator: (LSB exp RSB)+;
 
 // *****************************END EXPRESSION*****************************
@@ -352,7 +352,7 @@ STRING_LIT:'"' CHAR* '"'
 }
 ;
 
-// fix lại: chỉ có underscore ở integer_part
+// fix lai: chi co underscore o phan integer_part
 // underscore only between digits, not start and after, only 1 underscore
 fragment E: [eE];
 fragment SIGN: [+-];
@@ -436,7 +436,7 @@ fragment ILL_ESC: '\\'~[btrfn\\'] | '\\';// | '\''~'"' ;
 //     raise UncloseString(self.text[1:])
 // };
 
-// cách khác
+// cach khac
 UNCLOSE_STRING:'"' CHAR* ( [\b\t\f\r\n\\"] | EOF )
 {
     y = str(self.text)
