@@ -1,0 +1,7 @@
+ 
+                    Class Program {
+                        Destructor() {
+                            Self.a = 1;
+                        }
+                    }
+                

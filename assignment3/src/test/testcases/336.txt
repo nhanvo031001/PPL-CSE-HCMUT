@@ -1,0 +1,30 @@
+ 
+                    Class Program {
+                        Var arr: Array[Array[Int, 5], 5] = Array (
+                                                            Array(1,2,3,4,54),
+                                                            Array(1,2,3,4,55),
+                                                            Array(1,2,3,4,56),
+                                                            Array(1,2,3,4,57),
+                                                            Array(1,2,3,4,58)
+                                                                );
+                        main() {
+                            Var arr: Array[Array[Array[Int, 2], 1], 2] 
+                                = Array (
+                                    Array(
+                                        Array(1,2)
+                                    ),
+                                    Array (
+                                        Array(3,4)
+                                    )
+                                );
+                                
+                            Val arr: Array[Int, 0b111];
+                            Var arr: Array[Int, 0x123];
+                            Val arr: Array[Int, 0xABCD];
+                            Var arr: Array[Int, 0XEF099];
+                            Var arr: Array[Int, 0123];
+                            Val arr: Array[Int, 0456];
+                            Var arr: Array[Int, 100];
+                        }
+                    }
+                

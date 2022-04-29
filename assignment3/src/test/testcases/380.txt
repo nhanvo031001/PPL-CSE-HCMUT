@@ -1,0 +1,10 @@
+ 
+                    Class Program {
+                        main() {
+                            If (a > b) {}                  
+                            Else {
+                                a = 2;
+                            }                         
+                        }
+                    }
+                

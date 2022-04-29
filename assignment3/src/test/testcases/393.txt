@@ -1,0 +1,10 @@
+ 
+                    Class Program {
+                        Var a, b: SomeClass;
+                        Val c, $d: SomeClass;
+                        Var $e, $f: SomeClass = New X(), "Nhan";
+                        main() {
+                            
+                        }
+                    }
+                

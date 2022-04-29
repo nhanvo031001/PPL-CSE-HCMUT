@@ -4,9 +4,9 @@ from AST import *
 from functools import reduce
 
 # remember to comment 3 lines bottom
-# from main.d96.utils.AST import *
-# from main.d96.parser.D96Parser import D96Parser
-# from main.d96.parser.D96Visitor import D96Visitor
+from main.d96.utils.AST import *
+from main.d96.parser.D96Parser import D96Parser
+from main.d96.parser.D96Visitor import D96Visitor
 ###############################################
 
 
@@ -176,10 +176,28 @@ class ASTGeneration(D96Visitor):
         #                             )
         #                )
         
+        # res += [AttributeDecl(Static() if variable_name_list[i].name[0] == '$' else Instance(),     # first param
+                            
+        #                     VarDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None)) if ctx.VAR()   # second param
+        #                     else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None))
+        #                     )
+
+        #             for i in range(len(variable_name_list))
+        #         ]
+        
+        # res += [AttributeDecl(Static() if variable_name_list[i].name[0] == '$' else Instance(),     # first param
+                            
+        #                     VarDecl(variable_name_list[i], type_data, value_list[i] if value_list else None) if ctx.VAR()   # second param
+        #                     else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else None)
+        #                     )
+
+        #             for i in range(len(variable_name_list))
+        #         ]
+        
         res += [AttributeDecl(Static() if variable_name_list[i].name[0] == '$' else Instance(),     # first param
                             
                             VarDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None)) if ctx.VAR()   # second param
-                            else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else (NullLiteral() if isinstance(type_data, ClassType) else None))
+                            else ConstDecl(variable_name_list[i], type_data, value_list[i] if value_list else None)
                             )
 
                     for i in range(len(variable_name_list))
@@ -228,6 +246,8 @@ class ASTGeneration(D96Visitor):
             #         initial_exp = NullLiteral()
             #     res.append(VarDecl(variable_name_list[i], varType, initial_exp))
                 
+            # res += [VarDecl(variable_name_list[i], varType, value_list_stmt[i] if value_list_stmt else (NullLiteral() if isinstance(varType, ClassType) else None)) for i in range(len(variable_name_list))]
+            # res += [VarDecl(variable_name_list[i], varType, value_list_stmt[i] if value_list_stmt else None) for i in range(len(variable_name_list))]
             res += [VarDecl(variable_name_list[i], varType, value_list_stmt[i] if value_list_stmt else (NullLiteral() if isinstance(varType, ClassType) else None)) for i in range(len(variable_name_list))]
         else:
             # for i in range(len(variable_name_list)):
@@ -236,7 +256,8 @@ class ASTGeneration(D96Visitor):
             #         initial_exp = NullLiteral()
             #     res.append(ConstDecl(variable_name_list[i], varType, initial_exp))
             
-            res += [ConstDecl(variable_name_list[i], varType, value_list_stmt[i] if value_list_stmt else (NullLiteral() if isinstance(varType, ClassType) else None)) for i in range(len(variable_name_list))]
+            # res += [ConstDecl(variable_name_list[i], varType, value_list_stmt[i] if value_list_stmt else (NullLiteral() if isinstance(varType, ClassType) else None)) for i in range(len(variable_name_list))]
+            res += [ConstDecl(variable_name_list[i], varType, value_list_stmt[i] if value_list_stmt else None) for i in range(len(variable_name_list))]
         return res
     
     def visitVariable_name_list_in_method(self, ctx: D96Parser.Variable_name_list_in_methodContext):

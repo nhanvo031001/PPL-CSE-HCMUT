@@ -1,0 +1,8 @@
+
+            Class Nhan {
+                method() {
+                    Var a : Float = 2;
+                    Var b : Int = a;
+                }
+            }
+        

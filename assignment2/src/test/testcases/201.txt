@@ -1,3 +1,5 @@
 
-                Class main{}
+                Class Program {
+                    Var a,b,c: Int = 1,2,3,4,5;
+                }
                 

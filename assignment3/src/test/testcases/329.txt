@@ -1,0 +1,12 @@
+ 
+                    Class Program : Parent {
+                        main() {
+                            a = Shape::$obj;
+                            b = Shape::$func();
+                            c = Shape::$func(1, "Nhan", Array(1.2, 3, True, False, !False));
+                            d = New X();
+                            e = New X(New Shape(), 1.2, Array(New Square()), Array());
+                        }
+                    }
+                    
+                

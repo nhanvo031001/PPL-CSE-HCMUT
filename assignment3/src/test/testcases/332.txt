@@ -1,0 +1,16 @@
+ 
+                    Class Program{
+                        main() {
+                            Var a: Array[Int, 5] = Array(1, 1.2, Self, Null, a[1][2][3], "Nhan", True, !False);
+                            Val b: Array[Float, 4] = Array(1, 2, Array(1, 1.2, Self, Null, a[1][2][3]), 0.0);
+                            Var c: Array[String, 3] = Array();
+                            Val d: Array[Array[Int, 3], 5] = Array(
+                                                                Array(1, 2, "Nhan"),
+                                                                Array(1.4, Self, "Nhan"),
+                                                                Array(Null, 2, "Nhan"),
+                                                                Array(!True, a[1 - a[a[1]]][2], "Nhan"),
+                                                                Array(False, 2, "Nhan")
+                                                            );
+                        }
+                    }
+                

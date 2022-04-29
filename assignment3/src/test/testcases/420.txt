@@ -1,0 +1,6 @@
+
+            Class A {
+                Var function : Float;
+                function() {}
+            }
+        

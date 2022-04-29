@@ -1,0 +1,15 @@
+ 
+                    Class Program {
+                        method1() {
+                            Return;
+                        }
+                        
+                        method2() {
+                            Return 0x123 + 0b1011;
+                        }
+                        
+                        $method3() {
+                            Return Array(1,2,3);
+                        }
+                    }
+                

@@ -1,0 +1,14 @@
+ 
+                    Class Program {
+                        main() {
+                            Var a: Float = 2;
+                        }
+                    }
+                    
+                    Class Shape : Program {
+                        Val x: String = "Nhan";
+                        main() {
+                            
+                        }
+                    }
+                

@@ -1,0 +1,1 @@
+Program([ClassDecl(Id(Program),[MethodDecl(Id(main),Static,[],Block([Block([Block([Block([Block([Block([Return(BinaryOp(+.,StringLit(NHAN VO),StringLit(LDPV)))])])])])])]))])])

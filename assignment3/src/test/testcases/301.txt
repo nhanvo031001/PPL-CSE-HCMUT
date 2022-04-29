@@ -1,0 +1,11 @@
+ 
+                    Class Program {
+                        Constructor() {
+                            Self.a = 1;
+                        }
+                        
+                        Constructor(a: Int; b, c: Float) {
+                            Self.a = 1;
+                        }
+                    }
+                

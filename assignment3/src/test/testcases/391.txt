@@ -1,0 +1,9 @@
+ 
+                    Class Program {
+                        Var x: SomeClass;
+                        Val y: SomeClass;
+                        Var $a: SomeClass;
+                        Val $y: SomeClass;
+                        main() {}
+                    }
+                

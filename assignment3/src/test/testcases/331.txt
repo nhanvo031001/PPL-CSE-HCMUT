@@ -1,0 +1,16 @@
+ 
+                    Class Program{
+                        main() {
+                            a = True;
+                            b = False;
+                            c = !True;
+                            d = !False;
+                            e = True || !False;
+                            f = !True && !False;
+                            g = -True;
+                            h = -False;
+                            i = True + !False - (-False) * True / !False;
+                        }
+                    }
+                    
+                

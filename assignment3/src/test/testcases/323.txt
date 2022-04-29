@@ -1,0 +1,7 @@
+ 
+                    Class Program {
+                        method() {
+                            a.b(m, "Nhan", 1+2, arr[1][2]).c.d();
+                        }
+                    }
+                

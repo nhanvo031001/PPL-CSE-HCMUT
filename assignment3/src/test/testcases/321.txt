@@ -1,0 +1,11 @@
+ 
+                    Class Program {
+                        method() {
+                            New X().func();
+                            New X().func().func2();
+                            (New X().func().objInClass).func2();
+                            (Shape::$obj).func();
+                            obj.obj2.func();
+                        }
+                    }
+                

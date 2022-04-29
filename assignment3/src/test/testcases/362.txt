@@ -1,0 +1,13 @@
+ 
+                    Class Program {
+                        Var a: Int = 0b1010000;
+                        Val $b: Float = 0B1000_0001;
+                        main() {
+                            Var a: Int = 0b1_1_1_1_0_0_0;
+                            Val b: Float = 0B1_0_0_0;
+                            Var c: Int = 0b11100;
+                            Var d: Int = 0B0;
+                            Var e: Int = 0b0;
+                        }
+                    }
+                

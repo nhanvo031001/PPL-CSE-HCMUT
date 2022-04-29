@@ -1,0 +1,12 @@
+ 
+                    Class Program {
+                        main() {}
+                        main() {}
+                        main(a: Int) {}
+                    }
+                    
+                    Class Shapee {
+                        main() {}
+                        main(b: String) {}
+                    }
+                

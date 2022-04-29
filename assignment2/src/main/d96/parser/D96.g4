@@ -38,11 +38,11 @@ destructor_declare: DESTRUCTOR LB RB block_stmt;
 
 method_declare: (ID | STATIC_ID) LB params_list? RB block_stmt;
 
-attribute_declare: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list[$variable_name_list.count] ({$value_list.count_after == 0}? SEMI)| SEMI);
+attribute_declare: (VAR | VAL) variable_name_list COLON type_data (EQUAL value_list[$variable_name_list.count] ({$value_list.count_after == 0}? SEMI) | SEMI);
 // variable_name_list returns[count = 0]: (ID | STATIC_ID) {$count+=1} (COMMA (ID | STATIC_ID) {$count+=1})*;
-variable_name_list returns[count = 0]: (id_or_staticID) {$count+=1} (COMMA (id_or_staticID) {$count+=1})*;
+variable_name_list returns[count = 0]: (id_or_staticID) {$count+=1} (COMMA (id_or_staticID) {$count+=1})* ; // 3
 id_or_staticID: ID | STATIC_ID;
-value_list[count] returns[count_after]:	exp {$count-=1} ({$count > 0}? COMMA exp {$count-=1})* {$count_after = $count};
+value_list[count] returns[count_after]:	exp {$count-=1} ({$count > 0}? COMMA exp {$count-=1})* {$count_after = $count} ;
 // *****************************END CLASS STRUCTURE*****************************
 
 

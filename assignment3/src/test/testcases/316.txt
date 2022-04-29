@@ -1,0 +1,15 @@
+ 
+                    Class Program {
+                        method() {
+                            Foreach (x In arr[1] .. arr[arr[2]]) {}
+                            Foreach (x In arr[1] - 12.3 + 5.0 .. arr[1][2][3][4][5]) {}
+                            Foreach (x In "Nhan" ..  "Vo" By "LDPV") {
+                                {
+                                    {
+                                        a = 2;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                

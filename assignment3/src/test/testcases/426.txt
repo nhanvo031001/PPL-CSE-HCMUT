@@ -1,0 +1,6 @@
+
+            Class A {
+                Var c : String;
+                Var d : String = -c;
+            }
+        

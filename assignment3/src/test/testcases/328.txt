@@ -1,0 +1,13 @@
+ 
+                    Class Program : Parent {
+                        main() {
+                            a = New X() / 2;
+                            b = a[1][2][3] % Array(1,2,3,Array(4,5));
+                            c = !Null + (-Self);
+                            d = b[c[1][2][3]][4][5];
+                            e = obj.func();
+                            f = obj.func(1, 1.20, New Shape());
+                            g = Shape::$func().method().obj.method();
+                        }
+                    }
+                

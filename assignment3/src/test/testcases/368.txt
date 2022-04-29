@@ -1,0 +1,9 @@
+ 
+                    Class Program {
+                        main() {
+                            a.b = "True";
+                            "Nhan".b = "True";
+                            a.func().b = 12.45;
+                        }
+                    }
+                
