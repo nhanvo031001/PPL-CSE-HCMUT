@@ -1,8 +1,13 @@
 
-            Class A {
-                Var x, y: Int = 1, 1;
-                Var a, b: Int = x, y;
-                Var m, n: Int = p, q; 
-                method(a,b: Int) {}
+            Class B {
+                Var x, y, z: Float;
+            }
+            
+            Class A : B {
+                Var a,b : Int;
+                main(c,d:Int) {
+                    Var Nhan, Vo, Nguyen : Float = x, y, z;
+                    Var somevalue : String = m;
+                }
             }
         

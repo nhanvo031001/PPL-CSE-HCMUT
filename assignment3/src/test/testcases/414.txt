@@ -1,15 +1,7 @@
 
             Class A {
-                Var a: Int  = 1;
-            }
-            Class B : A {
-                Var b: Int = 1;
-            }
-            Class C: B {
-                Var c: Int = 1;
-                method() {
-                    Var a_1, a_2, a_3 : Int = a, b, c;
-                    Var x_1 : Int = x;
+                main(a, b:Int) {
+                    Val m, n, m : Float = 2.4, 5.6, 7.8;
                 }
             }
         

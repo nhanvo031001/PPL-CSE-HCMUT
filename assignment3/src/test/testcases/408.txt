@@ -1,6 +1,5 @@
 
             Class A {
-                x() {}
-                Val x, y: Int = 1, 1;
+                main(a, a:Int) {}
             }
         

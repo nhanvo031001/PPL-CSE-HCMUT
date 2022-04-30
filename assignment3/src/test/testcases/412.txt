@@ -1,5 +1,8 @@
 
             Class A {
-                method(a,a: Int) {}
+                main(a, b:Int) {
+                    Var y: Float;
+                    Var y: Int;
+                }
             }
         

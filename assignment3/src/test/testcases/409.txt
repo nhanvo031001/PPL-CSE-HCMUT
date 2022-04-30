@@ -1,4 +1,5 @@
 
-            Class A {}
-            Class A {}
+            Class A {
+                main(a,b:Int; c,d:Float; c:String) {}
+            }
         

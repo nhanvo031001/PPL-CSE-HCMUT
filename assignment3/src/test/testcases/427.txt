@@ -1,6 +1,8 @@
 
             Class A {
-                Var c : Boolean = True;
-                Val d : String = !c;
+                method() {
+                    Var c : Boolean = True;
+                    Var d : String = c;
+                }
             }
         

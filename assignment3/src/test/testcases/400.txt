@@ -1,9 +1,13 @@
 
-            Class A {
-                Var x, y: Int = 1, 1;
-                method(a,b: Int) {
-                    Var x, y : Int = x, y;
-                    Var x: Int = x;
+            Class Program {
+                main() {
+                    
+                    Var a : Int;
+                    Foreach (a In 1 .. 2 By 4) {
+                        Continue;
+                        Break;
+                        Var c : Float;
+                    }
                 }
             }
         

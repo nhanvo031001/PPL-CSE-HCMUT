@@ -1,6 +1,7 @@
 
             Class A {
-                method() {}
-                method() {}
+                main(a, b:Int) {
+                    Var x, a: Float;
+                }
             }
         

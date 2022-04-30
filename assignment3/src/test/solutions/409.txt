@@ -1,1 +1,1 @@
-Redeclared Class: A
+Redeclared Parameter: c

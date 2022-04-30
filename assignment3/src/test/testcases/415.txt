@@ -1,11 +1,8 @@
 
             Class A {
-                Var x: Int = 1;
-                method(x: Int) {}
+                main(a, b:Int) {
+                    Val m, n: Float = 2.3, 4.5;
+                    Val c, n: String = "Nhan", "Vo";
+                }
             }
-            Class B : A {
-                Var a: A;
-                method(x: A) {}
-            }
-            Class C: Object {}
         

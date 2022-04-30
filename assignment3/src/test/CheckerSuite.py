@@ -3,6 +3,23 @@ from TestUtils import TestChecker
 from AST import *
 
 class CheckerSuite(unittest.TestCase):
+    def test(self):
+        input = """
+            Class Program {
+                main() {
+                    
+                    Var a : Int;
+                    Foreach (a In 1 .. 2 By 4) {
+                        Continue;
+                        Break;
+                        Var c : Float;
+                    }
+                }
+            }
+        """
+        expect = "Redeclared Class: B"
+        self.assertTrue(TestChecker.test(input, expect, 400))
+    
     # def test_400_redeclared_class(self):
     #     input = """
     #         Class A {}
@@ -290,11 +307,12 @@ class CheckerSuite(unittest.TestCase):
     # def test_425_illegal_const_exp_2(self):
     #     # assign to mutable attribute
     #     input = """
-    #         Class Nhan {
+    #         Class A {
     #             method() {
     #                 Var a : Float = 2;
     #                 Var b : Int = a;
     #             }
+
     #         }
     #     """
     #     expect = "Illegal Constant Expression: Id(a)"
@@ -305,22 +323,24 @@ class CheckerSuite(unittest.TestCase):
     #     input = """
     #         Class A {
     #             Var c : String;
-    #             Val d : String = -c;
+    #             Var d : String = -c;
     #         }
     #     """
     #     expect = "Illegal Constant Expression: UnaryOp(-,Id(c))"
     #     self.assertTrue(TestChecker.test(input, expect, 426))
         
-    def test_427_illegal_const_exp_4(self):
-        # 
-        input = """
-            Class A {
-                Var c : Boolean = True;
-                Val d : String = !c;
-            }
-        """
-        expect = "Illegal Constant Expression: UnaryOp(!,Id(c))"
-        self.assertTrue(TestChecker.test(input, expect, 427))
+    # def test_427_illegal_const_exp_4(self):
+    #     # 
+    #     input = """
+    #         Class A {
+    #             method() {
+    #                 Var c : Boolean = True;
+    #                 Var d : String = c;
+    #             }
+    #         }
+    #     """
+    #     expect = "Illegal Constant Expression: UnaryOp(!,Id(c))"
+    #     self.assertTrue(TestChecker.test(input, expect, 427))
     
 
 

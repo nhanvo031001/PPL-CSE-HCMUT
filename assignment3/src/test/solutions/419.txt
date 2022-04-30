@@ -1,1 +1,1 @@
-Type Mismatch In Expression: FieldAccess(Self(),Id(a))
+Redeclared Method: function

@@ -1,6 +1,6 @@
 
-            Class Program {
-                Var a: Int = Self.a;
-                main() {}
+            Class A {
+                function() {}
+                function() {}
             }
         
