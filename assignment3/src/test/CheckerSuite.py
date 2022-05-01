@@ -4,16 +4,10 @@ from AST import *
 
 class CheckerSuite(unittest.TestCase):
     def test(self):
-        input = """
+        input = r"""
             Class Program {
                 main() {
-                    
-                    Var a : Int;
-                    Foreach (a In 1 .. 2 By 4) {
-                        Continue;
-                        Break;
-                        Var c : Float;
-                    }
+                     
                 }
             }
         """
