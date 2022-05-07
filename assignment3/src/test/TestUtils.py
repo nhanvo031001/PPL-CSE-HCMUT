@@ -131,7 +131,6 @@ class TestChecker:
             parser = Parser(tokens)
             tree = parser.program()
             asttree = ASTGeneration().visit(tree)
-            # print("asttree: ", asttree, "\n")
         else:
             inputfile = TestUtil.makeSource(str(input),num)
             asttree = input       
@@ -146,11 +145,9 @@ class TestChecker:
         checker = StaticChecker(asttree)
         try:
             res = checker.check()
-            # print("res: ", res, "\n")
-            # dest.write(str(list(res)))        # myself: not error ----> res = None ---> cannot write
-            dest.write("none error")        # myself
+            # dest.write(str(list(res)))
+            dest.write("none error")
         except StaticError as e:
-            # print("res error: ", str(e))
             dest.write(str(e))
         finally:
             dest.close()

@@ -1,1 +1,0 @@
-Program([ClassDecl(Id(Program),[MethodDecl(Id(main),Static,[],Block([VarDecl(Id(a),FloatType,UnaryOp(-,IntLit(1))),VarDecl(Id(b),BoolType,UnaryOp(!,BooleanLit(True))),VarDecl(Id(c),BoolType,UnaryOp(-,UnaryOp(!,BooleanLit(True)))),VarDecl(Id(d),BoolType,UnaryOp(!,UnaryOp(-,BooleanLit(True))))]))])])

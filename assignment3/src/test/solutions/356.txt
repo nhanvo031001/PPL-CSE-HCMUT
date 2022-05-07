@@ -1,1 +1,0 @@
-Program([ClassDecl(Id(Program),[MethodDecl(Id(method),Instance,[param(Id(arr1),ArrayType(5,IntType)),param(Id(arr2),ArrayType(5,IntType)),param(Id(arr3),ArrayType(3,ArrayType(3,IntType)))],Block([VarDecl(Id(newArr),ArrayType(3,FloatType),[FloatLit(1.2),FloatLit(4.3),FloatLit(5.6)])])),MethodDecl(Id(main),Static,[],Block([VarDecl(Id(arr),ArrayType(1,StringType),[])]))])])

@@ -1,5 +1,0 @@
- 
-                    Class Program {
-                        Var a, $b: Float = 1, Array();
-                    }
-                

@@ -1,6 +1,0 @@
-
-            Class A {
-                Var c : Boolean = True;
-                Val d : String = !c;
-            }
-        

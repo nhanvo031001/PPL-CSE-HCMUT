@@ -1,1 +1,0 @@
-Program([ClassDecl(Id(Program),[MethodDecl(Id(main),Static,[],Block([If(BinaryOp(>,Id(a),Id(b)),Block([]),If(BinaryOp(<,Id(c),Id(d)),Block([]),Block([If(BinaryOp(==,Id(m),Id(n)),Block([AssignStmt(Id(a),StringLit(vo))]),Block([AssignStmt(Id(b),StringLit(nhan))])),AssignStmt(Id(a),IntLit(2))])))]))])])

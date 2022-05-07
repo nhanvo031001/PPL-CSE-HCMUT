@@ -1,1 +1,0 @@
-Program([ClassDecl(Id(Program),[MethodDecl(Id(main),Static,[],Block([AssignStmt(FieldAccess(Id(Shape),Id($attr)),ArrayCell(Id(arr),[IntLit(1),IntLit(2),BinaryOp(+,IntLit(3),IntLit(4))]))]))])])

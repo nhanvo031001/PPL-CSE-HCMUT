@@ -1,8 +1,0 @@
-
-            Class A {
-                main(a, b:Int) {
-                    Val m, n: Float = 2.3, 4.5;
-                    Val c, n: String = "Nhan", "Vo";
-                }
-            }
-        

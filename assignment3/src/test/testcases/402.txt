@@ -1,4 +1,0 @@
-
-            Class A : B{}
-            Class B {}
-        

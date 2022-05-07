@@ -1,9 +1,0 @@
-
-            Class A {
-                method() {
-                    Var a : Float = 2;
-                    Var b : Int = a;
-                }
-
-            }
-        

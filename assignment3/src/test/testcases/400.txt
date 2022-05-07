@@ -1,7 +1,5 @@
 
             Class Program {
-                main() {
-                     
-                }
+                main() {}
             }
         

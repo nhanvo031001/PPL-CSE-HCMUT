@@ -1,1 +1,0 @@
-Program([ClassDecl(Id(Program),[AttributeDecl(Instance,VarDecl(Id(a),FloatType,IntLit(1))),AttributeDecl(Static,VarDecl(Id($b),FloatType,[]))])])

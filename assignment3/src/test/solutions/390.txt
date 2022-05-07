@@ -1,1 +1,0 @@
-Program([ClassDecl(Id(Program),[MethodDecl(Id(main),Static,[],Block([VarDecl(Id(a),FloatType,IntLit(2))]))]),ClassDecl(Id(Shape),Id(Program),[AttributeDecl(Instance,ConstDecl(Id(x),StringType,StringLit(Nhan))),MethodDecl(Id(main),Instance,[],Block([]))])])

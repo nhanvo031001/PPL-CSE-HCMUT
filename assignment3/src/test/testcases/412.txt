@@ -1,8 +1,0 @@
-
-            Class A {
-                main(a, b:Int) {
-                    Var y: Float;
-                    Var y: Int;
-                }
-            }
-        

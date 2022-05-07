@@ -1,7 +1,0 @@
-
-            Class A {
-                main(a, b:Int) {
-                    Val a : Float = 5.4;
-                }
-            }
-        

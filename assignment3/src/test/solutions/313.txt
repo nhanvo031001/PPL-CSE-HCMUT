@@ -1,1 +1,0 @@
-Program([ClassDecl(Id(Program),[MethodDecl(Id(method),Instance,[],Block([AssignStmt(Id(a),FloatLit(0.0)),AssignStmt(Id(b),FloatLit(0.123)),AssignStmt(Id(c),FloatLit(0.0)),AssignStmt(Id(d),FloatLit(0.0)),AssignStmt(Id(e),FloatLit(0.0)),AssignStmt(Id(f),FloatLit(0.0))]))])])

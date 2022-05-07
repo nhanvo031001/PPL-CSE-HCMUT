@@ -1,9 +1,0 @@
-
-            Class A {
-                Var a : Float = 2.4;
-                Var b : Int = -a;
-                
-                Var c : Boolean = True;
-                Var d : Boolean = -c;
-            }
-        

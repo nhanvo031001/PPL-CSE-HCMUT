@@ -1,9 +1,0 @@
- 
-                    Class Program {
-                        method() {
-                            Shape::$getLength().func1().func2();
-                            Shape::$getLength();
-                            Shape::$getLength(arr[1]);
-                        }
-                    }
-                

@@ -1,8 +1,0 @@
- 
-                    Class Program {
-                        Var m: Int = 2;
-                        Val x, $y, z: String = "Nhan", "Vo", "Nguyen";
-                        Var a: Array[Int, 5] = Array(1,2,3,4,5);
-                        Val $b: Array[Float, 5] = Array(1,2,3,4,"String");
-                    }
-                

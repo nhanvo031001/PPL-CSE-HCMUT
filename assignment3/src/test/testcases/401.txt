@@ -1,4 +1,0 @@
-
-            Class A {}
-            Class B : D {}
-        

@@ -1,9 +1,0 @@
-
-            Class A {
-                Var m : Int;
-                Var a,b : Int;
-                main(a,b:Int) {
-                    Var m: Float = u;
-                }
-            }
-        

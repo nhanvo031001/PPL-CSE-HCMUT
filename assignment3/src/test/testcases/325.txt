@@ -1,8 +1,0 @@
- 
-                    Class Program {
-                        main() {}
-                        main(a: Int) {}
-                        method() {}
-                        func(b: Float) {}
-                    }
-                

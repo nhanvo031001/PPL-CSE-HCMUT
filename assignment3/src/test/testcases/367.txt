@@ -1,7 +1,0 @@
- 
-                    Class Program {
-                        main() {
-                            Shape::$attr = arr[1][2][3 + 4];
-                        }
-                    }
-                

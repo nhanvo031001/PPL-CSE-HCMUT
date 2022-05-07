@@ -1,5 +1,0 @@
-
-            Class A {
-                Var x,y,z : Int = 1, 2, a;
-            }
-        

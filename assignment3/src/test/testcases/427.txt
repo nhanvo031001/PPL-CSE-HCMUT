@@ -1,8 +1,0 @@
-
-            Class A {
-                method() {
-                    Var c : Boolean = True;
-                    Var d : String = c;
-                }
-            }
-        

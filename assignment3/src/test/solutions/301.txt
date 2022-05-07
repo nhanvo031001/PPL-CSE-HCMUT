@@ -1,1 +1,0 @@
-Program([ClassDecl(Id(Program),[MethodDecl(Id(Constructor),Instance,[],Block([AssignStmt(FieldAccess(Self(),Id(a)),IntLit(1))])),MethodDecl(Id(Constructor),Instance,[param(Id(a),IntType),param(Id(b),FloatType),param(Id(c),FloatType)],Block([AssignStmt(FieldAccess(Self(),Id(a)),IntLit(1))]))])])

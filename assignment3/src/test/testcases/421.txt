@@ -1,7 +1,0 @@
-
-            Class A {
-                Var function : Float;
-                $function() {}
-                Var $function : String = function;
-            }
-        

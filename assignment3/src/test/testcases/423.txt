@@ -1,6 +1,0 @@
-
-            Class A {
-                Var a, b, c : Boolean;
-                Var d : Int = -b;
-            }
-        

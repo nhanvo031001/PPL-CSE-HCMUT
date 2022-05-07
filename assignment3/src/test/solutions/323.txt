@@ -1,1 +1,0 @@
-Program([ClassDecl(Id(Program),[MethodDecl(Id(method),Instance,[],Block([Call(FieldAccess(CallExpr(Id(a),Id(b),[Id(m),StringLit(Nhan),BinaryOp(+,IntLit(1),IntLit(2)),ArrayCell(Id(arr),[IntLit(1),IntLit(2)])]),Id(c)),Id(d),[])]))])])
