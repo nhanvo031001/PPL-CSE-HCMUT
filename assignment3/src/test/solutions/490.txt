@@ -1,0 +1,1 @@
+Type Mismatch In Expression: NewExpr(Id(Object),[FieldAccess(Self(),Id(a)),FieldAccess(Self(),Id(b))])

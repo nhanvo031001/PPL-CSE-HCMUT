@@ -370,3 +370,11 @@ class Program(AST):
 
     def __str__(self):
         return "Program([" + ','.join(str(i) for i in self.decl) + "])"
+
+
+
+# scope {
+#     'global': {
+#         'Program' : Class_scope( {'attribute': {} , 'method': {} }  )
+#     }
+# }

@@ -1,0 +1,18 @@
+
+            Class Object {
+                Var a: Int;
+                Var $o: Object;
+                method() {
+                    Return New Object();
+                }
+                $method() {
+                    Return New Object();
+                }
+            }
+            Class Program : Object {
+                main() {
+                    Var o: Object = New Object();
+                    o = Object::$a();
+                }
+            }
+        

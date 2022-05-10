@@ -1,0 +1,6 @@
+
+            Class Object {main() {}}
+            Class ABC {
+                main() {}
+            }
+        
