@@ -1,10 +1,8 @@
 
-            Class A {
-                Val x, y: Int = 1, 1;
-                method(a,b: Int) {
-                    Val x, y : Int = 1, 1;                    
-                    Val x: Int = 1;
-                    
-                }
+            Class A{
+                main() {}
+            }
+            Class Program{
+                main(a: Int; b,c: String) {}
             }
         

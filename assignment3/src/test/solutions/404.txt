@@ -1,1 +1,1 @@
-Redeclared Constant: a
+No Entry Point

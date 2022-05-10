@@ -8,6 +8,7 @@
                     a_f = a_i;
                     a_i = Array(1,2,3,4,5);
                     a_f = Array(1,2,3,4,5);
+
                     a_i = Array(1,2,3);
                 }
             }

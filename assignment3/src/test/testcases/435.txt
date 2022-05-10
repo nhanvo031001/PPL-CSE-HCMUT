@@ -1,13 +1,11 @@
 
-            Class Class_type {}
-            Class Program {
+            Class A {
+                Val a : Int = 1;
+            }
+            Class Program{
                 main() {
-                    Var a: Boolean = True;
-                    Var b: Boolean = False;
-                    Var x: Boolean = True || False;
-                    Var y: Boolean = True || a;
-                    Var z: Boolean = a || b;
-                    Var m: Boolean = 1 || True;
+                    Var obj : A = New A();
+                    obj.a = 1;
                 }
             }
         

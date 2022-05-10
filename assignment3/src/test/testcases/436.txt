@@ -1,13 +1,13 @@
 
-            Class Class_type {}
-            Class Program {
+            Class Program{
                 main() {
-                    Var a: String = "abc";
-                    Var b: String = "abc";
-                    Var c: String = "abc" +. "abc";
-                    Var d: String = a +. "abc";
-                    Var e: String = a +. b;
-                    Var f: String = a +. 1;
+                    Var a,b,c,d : Boolean;
+                    Var e : Int;
+                    If (!a) {}
+                    Elseif(!b) {}
+                    Elseif(c) {}
+                    Elseif(!d) {}
+                    Elseif(e) {}
                 }
             }
         

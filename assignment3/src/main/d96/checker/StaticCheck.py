@@ -13,16 +13,57 @@ from main.d96.parser.D96Visitor import D96Visitor
 from StaticError import *
 ## REMEMBER TO COMMENT 3 LINES BEFORE SUBMIT ##
 
-def lookup_attribute (attri_name, class_name, global_scope, list_inherit):
+class Symbol:
+    def __init__(self, name, kind, static_or_instance, type_data, param_type_list = None):
+        self.name = name
+        self.kind = kind
+        self.static_or_instance = static_or_instance
+        self.type_data = type_data
+        self.param_type_list = param_type_list
+    
+    def __str__(self):
+        return "Symbol" + "("+ str(self.name) + ", " + str(self.kind) + ", " + str(self.static_or_instance) + ", " +str(self.type_data)  + (", " + str(self.param_type_list) if self.param_type_list else "") + ")"
+
+class ComponentClass:
+    def __init__(self):
+        self.attribute = {}
+        self.method = {}
+        
+    def add_attribute(self, name, type_data):
+        self.attribute[name] = type_data
+        
+    def lookup_attribute(self, name):
+        return self.attribute[name] if name in self.attribute else None
+    
+    def add_method(self, name, type_data):
+        self.method[name] = type_data
+        
+    def lookup_method(self, name):
+        return self.method[name] if name in self.method else None
+    
+    def __str__(self):
+        # return "Component Class: " + str(self.attribute) + "\t break" + str(self.method)
+        method_list = [str(str(item[0]) + "->" + str(item[1])) for item in self.method.items()]
+        attri_list = [str(str(item[0]) + "->" + str(item[1])) for item in self.attribute.items()]
+        return "attribute: " + " " + str(attri_list) + "\nmethod: " + str(method_list) + "\n"
+
+
+def lookup_attribute_func (attri_name, class_name, global_scope, list_inherit):
     # current_class = class_name
     # while current_class:
     #     if attri_name in global_scope['global'][current_class]:
     #         return global_scope['global'][current_class][attri_name]    # return Symbol
     #     current_class = list_inherit[current_class]
-    current_class = class_name
-    if attri_name in global_scope['global'][current_class]:
-        return global_scope['global'][current_class][attri_name]
-    return None
+    
+    # current_class = class_name
+    # if attri_name in global_scope['global'][current_class]:
+    #     return global_scope['global'][current_class][attri_name]
+    # return None
+    
+    return global_scope['global'][class_name].lookup_attribute(attri_name)
+
+def lookup_method_func (method_name, class_name, global_scope, list_inherit):
+    return global_scope['global'][class_name].lookup_method(method_name)
 
 def type_inference (lhs, rhs, list_inherit):
     # print("\ntype infer: ", type(lhs), type(rhs))
@@ -61,17 +102,7 @@ def type_params_and_args_list (params, args, list_inherit):
             return False
     return True
 
-class Symbol:
-    def __init__(self, name, kind, static_or_instance, type_data, param_type_list = None):
-        self.name = name
-        self.kind = kind
-        self.static_or_instance = static_or_instance
-        self.type_data = type_data
-        self.param_type_list = param_type_list
     
-    def __str__(self):
-        return "Symbol" + "("+ str(self.name) + ", " + str(self.kind) + ", " + str(self.static_or_instance) + ", " +str(self.type_data)  + (", " + str(self.param_type_list) if self.param_type_list else "") + ")"
-
 class StaticChecker(BaseVisitor):
     
     def __init__(self,ast):
@@ -89,11 +120,11 @@ class StaticChecker(BaseVisitor):
         # check local
         for each_local in o['local']:
             if ast.name in each_local:
-                if flag_const_init and (each_local[ast.name].kind == 'mutable' or each_local[ast.name].kind == 'variable'):
-                    raise IllegalConstantExpression(flag_const_init)
+                # if flag_const_init and (each_local[ast.name].kind == 'mutable' or each_local[ast.name].kind == 'variable'):
+                #     raise IllegalConstantExpression(flag_const_init)
                 return each_local[ast.name]     # return Symbol
         
-        # lookup_attri = lookup_attribute(ast.name, o['current_class'], o, self.list_inherit)
+        # lookup_attri = lookup_attribute_func(ast.name, o['current_class'], o, self.list_inherit)
         # if lookup_attri: 
         #     if const_decl and (lookup_attri.kind == 'mutable' or lookup_attri.kind == 'variable'):
         #         raise IllegalConstantExpression(ast)
@@ -188,9 +219,11 @@ class StaticChecker(BaseVisitor):
         if isinstance(ast.obj, SelfLiteral):
             current_class = o['current_class']     
             current_method = o['current_method'] 
-            if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class][current_method].static_or_instance, Static): 
+            # if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class][current_method].static_or_instance, Static): 
+            #     raise IllegalMemberAccess(ast)
+            if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class].lookup_method(current_method).static_or_instance, Static): 
                 raise IllegalMemberAccess(ast)
-            lookup_method = lookup_attribute(method, current_class, o, self.list_inherit)
+            lookup_method = lookup_method_func(method, current_class, o, self.list_inherit)
             if not lookup_method: raise Undeclared(Method(), method)
             if not isinstance(lookup_method.static_or_instance, Instance): raise IllegalMemberAccess(ast)
             if lookup_method.kind != 'method': raise Undeclared(Method(), method)
@@ -198,20 +231,6 @@ class StaticChecker(BaseVisitor):
             if not type_params_and_args_list(lookup_method.param_type_list, args_list, self.list_inherit):
                 raise TypeMismatchInExpression(ast)
             return lookup_method.type_data
-
-        # static method invocation
-        # if isinstance(ast.obj, Id) and method[0] == '$':
-        #     print("\nstatic method invoke")
-        #     class_name = ast.obj.name
-        #     if class_name not in o['global']: raise Undeclared(Class(), class_name)
-        #     lookup_method = lookup_attribute(method, class_name, o, self.list_inherit)
-        #     if not lookup_method: raise Undeclared(Method(), method)
-        #     if not isinstance(lookup_method.static_or_instance, Static): raise IllegalMemberAccess(ast)
-        #     if lookup_method.kind != 'method': raise Undeclared(Method(), method)
-        #     if not type_params_and_args_list(lookup_method.param_type_list, args_list, self.list_inherit):
-        #         raise TypeMismatchInExpression(ast)
-        #     print("\n pass static method invoke")
-        #     return lookup_method.type_data
         
         if isinstance(ast.obj, Id):
             if method[0] == '$':
@@ -228,7 +247,7 @@ class StaticChecker(BaseVisitor):
                     raise Undeclared(Class(), class_name)       # don't have local var A --> undeclare class
                 
                 # has class name
-                lookup_method = lookup_attribute(method, class_name, o, self.list_inherit)
+                lookup_method = lookup_method_func(method, class_name, o, self.list_inherit)
                 if not lookup_method: raise Undeclared(Method(), method)
                 if not isinstance(lookup_method.static_or_instance, Static): raise IllegalMemberAccess(ast)
                 if lookup_method.kind != 'method': raise Undeclared(Method(), method)
@@ -247,7 +266,7 @@ class StaticChecker(BaseVisitor):
             if lookup_local:        # has variable type object
                 if isinstance(lookup_local.type_data, ClassType):
                     class_name = lookup_local.type_data.classname.name
-                    lookup_method = lookup_attribute(method, class_name, o, self.list_inherit)
+                    lookup_method = lookup_method_func(method, class_name, o, self.list_inherit)
                     if not lookup_method: raise Undeclared(Method(), method)
                     if not isinstance(lookup_method.static_or_instance, Instance): raise IllegalMemberAccess(ast)
                     if lookup_method.kind != 'method': raise Undeclared(Method(), method)
@@ -263,8 +282,11 @@ class StaticChecker(BaseVisitor):
         
         # instance method invocation    
         obj = self.visit(ast.obj, temp)     # Symbol
-        if isinstance(obj.type_data, ClassType):
-            lookup_method = lookup_attribute(method, obj.type_data.classname.name, o, self.list_inherit)
+        if isinstance(obj, Symbol):
+            obj = obj.type_data
+        if isinstance(obj, ClassType):
+            # lookup_method = lookup_method_func(method, obj.type_data.classname.name, o, self.list_inherit)
+            lookup_method = lookup_method_func(method, obj.classname.name, o, self.list_inherit)
             if not lookup_method: raise Undeclared(Method(), method)
             if not isinstance(lookup_method.static_or_instance, Instance): raise IllegalMemberAccess(ast)
             if lookup_method.kind != 'method': raise Undeclared(Method(), method)
@@ -284,8 +306,16 @@ class StaticChecker(BaseVisitor):
             raise Undeclared(Class(), class_name)
         
         if len(ast.param) != 0:
-            if 'Constructor' in o['global'][class_name]:
-                method_constructor = o['global'][class_name]['Constructor']     # return Symbol
+            # if 'Constructor' in o['global'][class_name]:
+            #     method_constructor = o['global'][class_name]['Constructor']     # return Symbol
+            #     args = [self.visit(each_arg, o) for each_arg in ast.param]
+            #     if type_params_and_args_list(method_constructor.param_type_list, args, self.list_inherit) == False:
+            #         raise TypeMismatchInExpression(ast)
+            # else:
+            #     raise Undeclared(Method(), 'Constructor')
+            
+            if o['global'][class_name].lookup_method('Constructor'):
+                method_constructor = o['global'][class_name].lookup_method('Constructor')    # return Symbol
                 args = [self.visit(each_arg, o) for each_arg in ast.param]
                 if type_params_and_args_list(method_constructor.param_type_list, args, self.list_inherit) == False:
                     raise TypeMismatchInExpression(ast)
@@ -329,29 +359,15 @@ class StaticChecker(BaseVisitor):
         if isinstance(ast.obj, SelfLiteral):
             class_name = o['current_class']     
             current_method = o['current_method'] 
-            if current_method != '-1' and current_method != 'main' and isinstance(o['global'][class_name][current_method].static_or_instance, Static): 
+            if current_method != '-1' and current_method != 'main' and isinstance(o['global'][class_name].lookup_method(current_method).static_or_instance, Static): 
                 raise IllegalMemberAccess(ast)
-            find_attribute = lookup_attribute(field_name, class_name, o, self.list_inherit)
+            find_attribute = lookup_attribute_func(field_name, class_name, o, self.list_inherit)
             if not find_attribute: raise Undeclared(Attribute(), field_name)
             if not isinstance(find_attribute.static_or_instance, Instance): raise IllegalMemberAccess(ast)      # should add ??
             if find_attribute.kind == 'method': raise Undeclared(Attribute(), field_name)
-            if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
+            # if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
             return find_attribute
-        
-        # static field access
-        # if isinstance(ast.obj, Id) and field_name[0] == '$':
-        #     print("\n static field access")
-        #     class_name = ast.obj.name
-        #     if class_name not in o['global']: raise Undeclared(Class(), class_name)
-        #     find_attribute = lookup_attribute(field_name, class_name, o, self.list_inherit)
-        #     if not find_attribute: raise Undeclared(Attribute(), field_name)
-        #     if not isinstance(find_attribute.static_or_instance, Static): raise IllegalMemberAccess(ast)
-        #     if find_attribute.kind == 'method': raise Undeclared(Attribute(), field_name)
-        #     if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(ast)
-        #     print("\n pass static field access")
-        #     # return find_attribute.type_data
-        #     return find_attribute
-        
+
         if isinstance(ast.obj, Id):
             if field_name[0] == '$':
                 # example: A is local variable and has class A, A::$attri
@@ -367,11 +383,11 @@ class StaticChecker(BaseVisitor):
                     raise Undeclared(Class(), class_name)       # don't have local var A --> undeclare class
                 
                 # has class name
-                find_attribute = lookup_attribute(field_name, class_name, o, self.list_inherit)
+                find_attribute = lookup_attribute_func(field_name, class_name, o, self.list_inherit)
                 if not find_attribute: raise Undeclared(Attribute(), field_name)
                 if not isinstance(find_attribute.static_or_instance, Static): raise IllegalMemberAccess(ast)
                 if find_attribute.kind == 'method': raise Undeclared(Attribute(), field_name)
-                if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
+                # if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
                 return find_attribute
 
             # example: A is local variable and has class A, A.attri
@@ -384,11 +400,11 @@ class StaticChecker(BaseVisitor):
             if lookup_local:        # has variable type object
                 if isinstance(lookup_local.type_data, ClassType):
                     class_name = lookup_local.type_data.classname.name
-                    find_attribute = lookup_attribute(field_name, class_name, o, self.list_inherit)
+                    find_attribute = lookup_attribute_func(field_name, class_name, o, self.list_inherit)
                     if not find_attribute: raise Undeclared(Attribute(), field_name)
                     if not isinstance(find_attribute.static_or_instance, Instance): raise IllegalMemberAccess(ast)
                     if find_attribute.kind == 'method': raise Undeclared(Attribute(), field_name)
-                    if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
+                    # if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
                     return find_attribute
                 else:
                     raise TypeMismatchInExpression(ast)
@@ -398,13 +414,15 @@ class StaticChecker(BaseVisitor):
         
         # instance field access
         obj = self.visit(ast.obj, temp)     # Symbol
-        if isinstance(obj.type_data, ClassType):
-            class_name = obj.type_data.classname.name
-            find_attribute = lookup_attribute(field_name, class_name, o, self.list_inherit)
+        if isinstance(obj, Symbol): 
+            obj = obj.type_data
+        if isinstance(obj, ClassType):
+            class_name = obj.classname.name
+            find_attribute = lookup_attribute_func(field_name, class_name, o, self.list_inherit)
             if not find_attribute: raise Undeclared(Attribute(), field_name)
             if not isinstance(find_attribute.static_or_instance, Instance): raise IllegalMemberAccess(ast)
             if find_attribute.kind == 'method': raise Undeclared(Attribute(), field_name)
-            if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
+            # if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
             # return find_attribute.type_data
             return find_attribute
         raise TypeMismatchInExpression(ast)
@@ -428,19 +446,43 @@ class StaticChecker(BaseVisitor):
         return SelfLiteral()
     
     def visitArrayLiteral(self, ast: ArrayLiteral, o):
-        if o['saved_array_literal']['first'] == False:  
-            o['saved_array_literal']['first'] = True
-            print("\n bug here: ", ast)
-            o['saved_array_literal']['arr_lit'] = ast
+        temp = o
+        flag_const_init = None
+        if len(o) == 2:
+            flag_const_init, o = o
             
-        value_list = [self.visit(each_value, o) for each_value in ast.value]
+        try:
+            value_list = [self.visit(each_value, temp) for each_value in ast.value]
+        except IllegalArrayLiteral:
+            raise IllegalArrayLiteral(ast)
+        
         for each_value in value_list:
             if type_compare(each_value, value_list[0]) == False:
-                o['saved_array_literal']['first'] = False
-                whole_array_literal = o['saved_array_literal']['arr_lit']
-                o['saved_array_literal']['arr_lit'] = '-1'
-                raise IllegalArrayLiteral(whole_array_literal)
+                raise IllegalArrayLiteral(ast)
+        
         return ArrayType(len(value_list), value_list[0])
+    
+        # temp = o
+        # flag_const_init = None
+        # if len(o) == 2:
+        #     flag_const_init, o = o
+            
+        # if o['saved_array_literal']['first'] == False:  
+        #     o['saved_array_literal']['first'] = True
+        #     o['saved_array_literal']['arr_lit'] = ast
+            
+        # value_list = [self.visit(each_value, temp) for each_value in ast.value]
+        # for each_value in value_list:
+        #     if type_compare(each_value, value_list[0]) == False:
+        #         o['saved_array_literal']['first'] = False
+        #         whole_array_literal = o['saved_array_literal']['arr_lit']
+        #         o['saved_array_literal']['arr_lit'] = '-1'
+        #         raise IllegalArrayLiteral(whole_array_literal)
+            
+        # o['saved_array_literal']['first'] = False
+        # o['saved_array_literal']['arr_lit'] = '-1'
+        
+        # return ArrayType(len(value_list), value_list[0])
     
     def visitAssign(self, ast: Assign, o):
         in_loop, o = o
@@ -453,35 +495,65 @@ class StaticChecker(BaseVisitor):
         if isinstance(rhs, Symbol):
             rhs = rhs.type_data
         if type_compare(lhs, rhs) == False and type_inference(lhs, rhs, self.list_inherit) == False:
+
             raise TypeMismatchInStatement(ast)
         
     def visitIf(self, ast: If, o):
+        # temp = o    
+        # if len(o) == 2:
+        #     in_loop, o = o
+            
+        # if o['saved_if_stmt']['first'] == False:
+        #     o['saved_if_stmt']['first'] = True
+        #     o['saved_if_stmt']['if_stmt'] = ast
+        
+        # conditional_expr = self.visit(ast.expr, o)
+        # if isinstance(conditional_expr, Symbol): conditional_expr = conditional_expr.type_data
+        # if not isinstance(conditional_expr, BoolType): 
+        #     o['saved_if_stmt']['first'] = False     # reset
+        #     whole_if_stmt = o['saved_if_stmt']['if_stmt']
+        #     o['saved_if_stmt']['if_stmt'] = '-1'    # reset
+        #     # raise TypeMismatchInStatement(ast)
+        #     raise TypeMismatchInStatement(whole_if_stmt)
+        
+        # self.visit(ast.thenStmt, temp)
+        # if len(temp[1]['local']) != 0:      # after visit thenStmt, pop local
+        #     temp[1]['local'].pop(0) # 
+        # temp[1]['local'] = [{}] + temp[1]['local']
+        # if ast.elseStmt:
+        #     self.visit(ast.elseStmt, temp)
+            
+        # o['saved_if_stmt']['first'] = False     # reset
+        # o['saved_if_stmt']['if_stmt'] = '-1'    # reset
+        
         temp = o    
         if len(o) == 2:
             in_loop, o = o
-            
-        if o['saved_if_stmt']['first'] == False:
-            o['saved_if_stmt']['first'] = True
-            o['saved_if_stmt']['if_stmt'] = ast
         
         conditional_expr = self.visit(ast.expr, o)
         if isinstance(conditional_expr, Symbol): conditional_expr = conditional_expr.type_data
         if not isinstance(conditional_expr, BoolType): 
-            o['saved_if_stmt']['first'] = False     # reset
-            whole_if_stmt = o['saved_if_stmt']['if_stmt']
-            o['saved_if_stmt']['if_stmt'] = '-1'    # reset
+            if o['saved_if_stmt']['if_stmt'] != '-1':
+                raise TypeMismatchInStatement(o['saved_if_stmt']['if_stmt'])
             raise TypeMismatchInStatement(ast)
-            # raise TypeMismatchInStatement(whole_if_stmt)
         
+        save_top_level_if_statement = o['saved_if_stmt']['if_stmt']
+        o['saved_if_stmt']['if_stmt'] = '-1'
         self.visit(ast.thenStmt, temp)
+        o['saved_if_stmt']['if_stmt'] = save_top_level_if_statement
+        
         if len(temp[1]['local']) != 0:      # after visit thenStmt, pop local
             temp[1]['local'].pop(0) # 
         temp[1]['local'] = [{}] + temp[1]['local']
-        if ast.elseStmt:
-            self.visit(ast.elseStmt, temp)
-            
-        o['saved_if_stmt']['first'] = False     # reset
-        o['saved_if_stmt']['if_stmt'] = '-1'    # reset
+        
+        if isinstance(ast.elseStmt, If):
+            if o['saved_if_stmt']['if_stmt'] == '-1': 
+                o['saved_if_stmt']['if_stmt'] = ast
+        else: o['saved_if_stmt']['if_stmt'] = '-1'
+
+        if ast.elseStmt: self.visit(ast.elseStmt, temp) 
+        o['saved_if_stmt']['if_stmt'] = save_top_level_if_statement
+        
     
     def visitFor(self, ast: For, o):
         in_loop, o = o
@@ -495,10 +567,10 @@ class StaticChecker(BaseVisitor):
         if id.kind == 'immutable' or id.kind == 'constant':
             # raise CannotAssignToConstant(ast.expr1)
             raise CannotAssignToConstant(Assign(ast.id, ast.expr1))
-        
+
         if isinstance(expr1, Symbol): expr1 = expr1.type_data
         if isinstance(expr2, Symbol): expr2 = expr2.type_data
-        if isinstance(expr3, Symbol): expr2 = expr3.type_data
+        if isinstance(expr3, Symbol): expr3 = expr3.type_data
         
         if not isinstance(id.type_data, IntType) and not isinstance(id.type_data, FloatType):
             raise TypeMismatchInStatement(ast)
@@ -535,9 +607,10 @@ class StaticChecker(BaseVisitor):
         if expr is None: expr = VoidType()
         if isinstance(expr, Symbol): expr = expr.type_data
         
-        method_return_type = o['global'][current_class][current_method].type_data
+        # method_return_type = o['global'][current_class][current_method].type_data
+        method_return_type = o['global'][current_class].lookup_method(current_method).type_data
         if method_return_type is None:
-            o['global'][current_class][current_method].type_data =  expr
+            o['global'][current_class].lookup_method(current_method).type_data =  expr
         else:
             if not type_compare(expr, method_return_type) and not type_inference(method_return_type, expr, self.list_inherit):
                 raise TypeMismatchInStatement(ast)
@@ -552,9 +625,12 @@ class StaticChecker(BaseVisitor):
         if isinstance(ast.obj, SelfLiteral):
             current_class = o['current_class']     
             current_method = o['current_method'] 
-            if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class][current_method].static_or_instance, Static): 
+            # if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class][current_method].static_or_instance, Static): 
+            #     raise IllegalMemberAccess(ast)
+            if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class].lookup_method(current_method).static_or_instance, Static): 
                 raise IllegalMemberAccess(ast)
-            lookup_method = lookup_attribute(method, current_class, o, self.list_inherit)
+            # lookup_method = lookup_attribute_func(method, current_class, o, self.list_inherit)
+            lookup_method = lookup_method_func(method, current_class, o, self.list_inherit)
             if not lookup_method: raise Undeclared(Method(), method)
             if not isinstance(lookup_method.static_or_instance, Instance): raise IllegalMemberAccess(ast)
             if lookup_method.kind != 'method': raise Undeclared(Method(), method)
@@ -578,7 +654,7 @@ class StaticChecker(BaseVisitor):
                     raise Undeclared(Class(), class_name)       # don't have local var A --> undeclare class
                 
                 # has class name
-                lookup_method = lookup_attribute(method, class_name, o, self.list_inherit)
+                lookup_method = lookup_method_func(method, class_name, o, self.list_inherit)
                 if not lookup_method: raise Undeclared(Method(), method)
                 if not isinstance(lookup_method.static_or_instance, Static): raise IllegalMemberAccess(ast)
                 if lookup_method.kind != 'method': raise Undeclared(Method(), method)
@@ -597,7 +673,7 @@ class StaticChecker(BaseVisitor):
             if lookup_local:        # has variable type object
                 if isinstance(lookup_local.type_data, ClassType):
                     class_name = lookup_local.type_data.classname.name
-                    lookup_method = lookup_attribute(method, class_name, o, self.list_inherit)
+                    lookup_method = lookup_method_func(method, class_name, o, self.list_inherit)
                     if not lookup_method: raise Undeclared(Method(), method)
                     if not isinstance(lookup_method.static_or_instance, Instance): raise IllegalMemberAccess(ast)
                     if lookup_method.kind != 'method': raise Undeclared(Method(), method)
@@ -613,8 +689,11 @@ class StaticChecker(BaseVisitor):
         
         # instance method invocation    
         obj = self.visit(ast.obj, o)     # Symbol
-        if isinstance(obj.type_data, ClassType):
-            lookup_method = lookup_attribute(method, obj.type_data.classname.name, o, self.list_inherit)
+        if isinstance(obj, Symbol):
+            obj = obj.type_data
+        if isinstance(obj, ClassType):
+            # lookup_method = lookup_method_func(method, obj.type_data.classname.name, o, self.list_inherit)
+            lookup_method = lookup_method_func(method, obj.classname.name, o, self.list_inherit)
             if not lookup_method: raise Undeclared(Method(), method)
             if not isinstance(lookup_method.static_or_instance, Instance): raise IllegalMemberAccess(ast)
             if lookup_method.kind != 'method': raise Undeclared(Method(), method)
@@ -624,37 +703,7 @@ class StaticChecker(BaseVisitor):
             # return lookup_method.type_data
             return
         raise TypeMismatchInStatement(ast)
-    
-    
 
-        # # static method invocation
-        # if isinstance(ast.obj, Id) and method[0] == '$':
-        #     print("\nstatic method invoke")
-        #     class_name = ast.obj.name
-        #     if class_name not in o['global']: raise Undeclared(Class(), class_name)
-        #     lookup_method = lookup_attribute(method, class_name, o, self.list_inherit)
-        #     if not lookup_method: raise Undeclared(Method(), method)
-        #     if not isinstance(lookup_method.static_or_instance, Static): raise IllegalMemberAccess(ast)
-        #     if lookup_method.kind != 'method': raise Undeclared(Method(), method)
-        #     if not type_params_and_args_list(lookup_method.param_type_list, args_list, self.list_inherit):
-        #         raise TypeMismatchInStatement(ast)
-        #     print("\n pass static method invoke")
-        #     return
-        
-        # # instance method invocation
-        # obj = self.visit(ast.obj, temp)
-        # if isinstance(obj.type_data, ClassType):
-        #     print("\ninstance method invoke")
-        #     lookup_method = lookup_attribute(method, obj.type_data.classname.name, o, self.list_inherit)
-        #     if not lookup_method: raise Undeclared(Method(), method)
-        #     if not isinstance(lookup_method.static_or_instance, Instance): raise IllegalMemberAccess(ast)
-        #     if lookup_method.kind != 'method': raise Undeclared(Method(), method)
-        #     if not type_params_and_args_list(lookup_method.param_type_list, args_list, self.list_inherit):
-        #         raise TypeMismatchInStatement(ast)
-        #     print("\npassinstance method invoke")
-        #     return
-            
-        # raise TypeMismatchInExpression(ast)
     
     def visitAttributeDecl(self, ast: AttributeDecl, o):
         o['out_or_in_method'] = 'out'
@@ -669,11 +718,14 @@ class StaticChecker(BaseVisitor):
         
         # check redeclare method
         current_class = o['current_class']
-        if name in o['global'][current_class]:
-            # if o['global'][current_class][name].kind == 'method':       # variable and method can have same name
-                raise Redeclared(Method(), name)
+        # if name in o['global'][current_class]:
+        #     if o['global'][current_class][name].kind == 'method':       # variable and method can have same name
+        #         raise Redeclared(Method(), name)
+        if o['global'][current_class].lookup_method(name):
+            raise Redeclared(Method(), name)
         param_type_list = [self.visit(each_param.varType, o) for each_param in ast.param]
-        o['global'][current_class][name] = Symbol(name, 'method', kind, None, param_type_list)
+        # o['global'][current_class][name] = Symbol(name, 'method', kind, None, param_type_list)
+        o['global'][current_class].add_method(name, Symbol(name, 'method', kind, None, param_type_list))
         
 
         o['local'] = [{}] + o['local']
@@ -687,7 +739,10 @@ class StaticChecker(BaseVisitor):
         # Check block
         self.visit(ast.body, (in_loop, o))
         
-
+        # if no return expr --> void type
+        if o['global'][current_class].lookup_method(name).type_data is None:
+            o['global'][current_class].lookup_method(name).type_data = VoidType()
+        
         o['local'] = []   # reset after finishing visit 1 method --> local empty
         o['current_method'] = '-1'
     
@@ -702,10 +757,10 @@ class StaticChecker(BaseVisitor):
         
         if o['out_or_in_method'] == 'out':          # check attribute outside method
             current_class = o['current_class']
-            if variable in o['global'][current_class]:
+            if o['global'][current_class].lookup_attribute(variable):
                 raise Redeclared(Attribute(), variable)
-            o['global'][current_class][variable] = Symbol(variable, 'mutable', kind, var_type)  # kind: Static or Instance
-            o['out_or_in_method'] == 'none'         # reset
+            o['global'][current_class].add_attribute(variable, Symbol(variable, 'mutable', kind, var_type))
+            o['out_or_in_method'] == 'none'     # reset
             
         if o['out_or_in_method'] == 'in':           # check param and variable inside method
             if variable in o['local'][0]:
@@ -733,10 +788,15 @@ class StaticChecker(BaseVisitor):
 
         if o['out_or_in_method'] == 'out':          # check attribute outside method
             current_class = o['current_class']
-            if constant in o['global'][current_class]:
+            # if constant in o['global'][current_class]:
+            #     raise Redeclared(Attribute(), constant)
+            # o['global'][current_class][constant] = Symbol(constant, 'immutable', kind, const_type)      # kind: Static or Instance
+            # o['out_or_in_method'] == 'none'         # reset
+            
+            if o['global'][current_class].lookup_attribute(constant):
                 raise Redeclared(Attribute(), constant)
-            o['global'][current_class][constant] = Symbol(constant, 'immutable', kind, const_type)      # kind: Static or Instance
-            o['out_or_in_method'] == 'none'         # reset
+            o['global'][current_class].add_attribute(constant, Symbol(constant, 'immutable', kind, const_type))
+            o['out_or_in_method'] == 'none'     # reset
             
         if o['out_or_in_method'] == 'in':           # check constant inside method
             if constant in o['local'][0]:
@@ -746,6 +806,8 @@ class StaticChecker(BaseVisitor):
             
         if value:
             if isinstance(value, Symbol):
+                if value.kind != 'constant' and value.kind != 'immutable':
+                    raise IllegalConstantExpression(ast.value)
                 value = value.type_data
             if not type_compare(const_type, value) and not type_inference(const_type, value, self.list_inherit):
                 raise TypeMismatchInConstant(ast)
@@ -790,7 +852,8 @@ class StaticChecker(BaseVisitor):
         else: self.list_inherit[class_name] = None
         
         o['current_class'] = class_name
-        o['global'][class_name] = {}        # init scope for current class
+        # o['global'][class_name] = {}        # init scope for current class
+        o['global'][class_name] = ComponentClass()        # init scope for current class
         
         
         check_no_entry_point = True if ast.classname.name == 'Program' else False
@@ -844,6 +907,8 @@ class StaticChecker(BaseVisitor):
         
         if check_have_program_class == False:       # no program class
             raise NoEntryPoint()
+        
+        print(global_env['global']['Program'])
 
     
     

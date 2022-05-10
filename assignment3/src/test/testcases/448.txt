@@ -1,9 +1,9 @@
 
-            Class Object {}
-            Class Program {
-                main() {
-                    Var o_1: Object = New Object();
-                    Var o_2: Object = New Object(1);
+            Class Program{
+                func() {
+                    Return 1;
+                    Return 1.2;
                 }
+                main() {}
             }
         

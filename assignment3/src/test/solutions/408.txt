@@ -1,1 +1,1 @@
-Redeclared Attribute: x
+Redeclared Variable: a

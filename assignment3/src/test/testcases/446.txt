@@ -1,11 +1,14 @@
 
-            Class Object {
-                Constructor() {}
+            Class A {
+                Var func, $func : Int;
+                func(a,b: Float; c,d: Boolean) {}
+                $func(a,b: Float; c,d: Boolean) {}
             }
-            Class Program {
+            
+            Class Program{
                 main() {
-                    Var o: Object = New Object();
-                    Var e: Object = New Object(1);
+                    Var a : A = New A();
+                    A::$func(1.2, 1, !False, "True");       ## param type error with coercion ##
                 }
             }
         

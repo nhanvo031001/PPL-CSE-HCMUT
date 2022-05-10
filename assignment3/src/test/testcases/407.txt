@@ -1,6 +1,8 @@
 
-            Class A {
-                Val x, y: Int = 1, 1;
-                Var x: Int = 1;
+            Class Program{
+                main() {}
+                func(a, b: Int) {
+                    Var a : Int;
+                }
             }
         

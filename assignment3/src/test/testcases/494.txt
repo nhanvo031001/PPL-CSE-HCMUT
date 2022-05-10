@@ -1,0 +1,20 @@
+
+            Class Object {
+                Var o : Object;
+                Var $o : Object;
+                method() {
+                    Return 1;
+                }
+            }
+
+            Class Program : Object {
+                Var o : Object;
+                Var $o : Object;
+                method() {
+                    Return 1;
+                }
+                main() {
+                    Self.method();
+                }
+            }
+        

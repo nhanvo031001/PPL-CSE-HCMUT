@@ -1,6 +1,8 @@
 
-            Class A {
-                x() {}
-                Val x, y: Int = 1, 1;
+            Class Program{
+                main() {
+                    Val a : Int = 1;
+                    Var a : String;
+                }
             }
         

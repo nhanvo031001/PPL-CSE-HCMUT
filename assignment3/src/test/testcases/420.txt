@@ -1,8 +1,9 @@
 
-            Class Program {
-                Var a : Int = 1;
-                Var b : Int = Self.a; 
-                Var c : Int = a;
-                main() {}
+            Class Program{
+                Var a, b: Int;
+                main() {
+                    Var a : Int = Self.a;
+                    b = a;
+                }
             }
         

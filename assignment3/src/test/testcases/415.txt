@@ -1,11 +1,7 @@
 
-            Class A {
-                Var x: Int = 1;
-                method(x: Int) {}
+            Class Program{
+                Val a : Float = 1.4;
+                Val a : Int = 1;
+                main(){}
             }
-            Class B : A {
-                Var a: A;
-                method(x: A) {}
-            }
-            Class C: Object {}
         

@@ -1,13 +1,10 @@
 
-            Class Class_type {}
-            Class Program {
+            Class Program{
                 main() {
-                    Var a: Boolean = True;
-                    Var b: Boolean = False;
-                    Var c: Boolean = True == False;
-                    Var d: Boolean = a == True;
-                    Var e: Boolean = a == b;
-                    Var f: Boolean = a == 1;
+                    Var a : Int;
+                    Var b : Float;
+                    b = a;      ## infer type ##
+                    a = b;
                 }
             }
         

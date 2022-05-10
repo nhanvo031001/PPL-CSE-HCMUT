@@ -1,1 +1,1 @@
-Type Mismatch In Expression: NewExpr(Id(Object),[FieldAccess(Self(),Id(a)),FieldAccess(Self(),Id(b))])
+Type Mismatch In Expression: CallExpr(Self(),Id(object_method),[NewExpr(Id(Animal),[]),NewExpr(Id(Animal),[])])

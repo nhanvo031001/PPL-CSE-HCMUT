@@ -1,16 +1,19 @@
 
-            Class Base {}
-            Class Sub: Base {}
-            Class Object {
-                Constructor(x: Float; y: Base) {}
+            Class A {
+                Var func, $func : Int;
+                func(a,b: Float; c,d: Boolean) {
+                    Return;
+                }
+                $func(a,b: Float; c,d: Boolean) {
+                    Return 1;
+                }
             }
-            Class Program {
+            
+            Class Program{
                 main() {
-                    Var o_1: Object = New Object(1.2, New Base());
-                    Var o_2: Object = New Object(1.2, New Sub());
-                    Var o_3: Object = New Object(1, New Base());
-                    Var o_4: Object = New Object(1, New Sub());
-                    Var o : Object = New Object(1, 1);
+                    Var a : A = New A();
+                    a.func(1, 2, True, True);       ## OK ##
+                    A::$func(1, 2, True, True);     ## Failed, not void type return ##
                 }
             }
         

@@ -1,0 +1,17 @@
+
+            Class Program {
+                
+                main() {
+                    Var myArray: Array[Array[Array[Int,4],2],2] = Array(
+                    Array(
+                        Array(1,2,3,4),
+                        Array(5,6,7,8)
+                    ),
+                    Array(
+                        Array(-1,-2,-3,-4),
+                        Array(-5,-6,-7, False)
+                    )
+                    );
+                }
+            }
+        

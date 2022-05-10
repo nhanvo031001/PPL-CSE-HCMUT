@@ -1,9 +1,14 @@
 
-            Class Object {}
-            Class Program {
+            Class A {
+                Var func, $func : Int;
+                func(a,b: Int; c,d: Boolean) {}
+                $func(a,b: Int; c,d: Boolean) {}
+            }
+            
+            Class Program{
                 main() {
-                    Var o: Object = New Object();
-                    Var e: Object = New E();
+                    Var a : A = New A();
+                    A::$func();
                 }
             }
         

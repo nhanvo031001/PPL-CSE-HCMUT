@@ -1,6 +1,6 @@
 
-            Class Object {main(){}}
-            Class Program {
-                main(x: Int) {}
+            Class Program{
+                Var a: Int = Self.x;
+                main(){}
             }
         

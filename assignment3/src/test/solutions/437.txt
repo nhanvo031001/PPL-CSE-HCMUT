@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(==.,Id(a),IntLit(1))
+Type Mismatch In Statement: For(Id(i),Id(x),Id(b),Id(a),Block([])])

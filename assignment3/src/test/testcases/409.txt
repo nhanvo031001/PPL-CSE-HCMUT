@@ -1,4 +1,8 @@
 
-            Class A {}
-            Class A {}
+            Class Program{
+                main() {
+                    Val a : Int = 1;
+                    Val a : String = "Nhan";
+                }
+            }
         

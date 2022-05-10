@@ -1,9 +1,8 @@
 
-            Class Class_type {}
-            Class Program {
-                main() {
-                    Var x: Class_type = New Class_type();
-                    Var y: Int = - x;
+            Class Program{
+                func_1() {}
+                main(){
+                    Self.func();
                 }
             }
         

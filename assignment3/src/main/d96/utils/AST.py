@@ -375,6 +375,13 @@ class Program(AST):
 
 # scope {
 #     'global': {
-#         'Program' : Class_scope( {'attribute': {} , 'method': {} }  )
+#         'Program' : Class_scope( {'attribute': {} , 'method': {  'func' : D96Type(..., type: D96()   )    } }  )
 #     }
 # }
+
+
+# if isinstance(conditional_expr, D96Type): 
+#     conditional_expr = conditional_expr.type_data
+    
+# if isinstance(conditional_expr, D96Type):
+#     conditional_expr = conditional_expr.type_data

@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(==,Id(a),IntLit(1))
+Type Mismatch In Statement: AssignStmt(Id(a),Id(b))

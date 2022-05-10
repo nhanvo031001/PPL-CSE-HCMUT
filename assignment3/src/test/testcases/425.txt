@@ -1,6 +1,8 @@
 
-            Class Program {
-                Var x: Int = - "String";
-                main() {}
+            Class Program{
+                Val b: Int = 1;
+                main(){
+                    Var a : Int = Self.a;
+                }
             }
         

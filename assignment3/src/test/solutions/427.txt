@@ -1,1 +1,1 @@
-Type Mismatch In Expression: UnaryOp(-,Id(x))
+Undeclared Method: func

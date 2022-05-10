@@ -1,1 +1,1 @@
-Redeclared Method: x
+Redeclared Constant: a

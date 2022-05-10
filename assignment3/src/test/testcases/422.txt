@@ -1,4 +1,6 @@
 
-            Class Object {main(){}}
-            Class Program {}
+            Class Program{
+                Var a, b: Int = a, b;
+                main(){}
+            }
         

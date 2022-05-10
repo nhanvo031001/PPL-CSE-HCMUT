@@ -1,1 +1,1 @@
-Type Mismatch In Expression: UnaryOp(-,BooleanLit(True))
+Undeclared Attribute: $a

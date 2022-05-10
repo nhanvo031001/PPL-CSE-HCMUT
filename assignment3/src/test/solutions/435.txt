@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(||,IntLit(1),BooleanLit(True))
+Cannot Assign To Constant: AssignStmt(FieldAccess(Id(obj),Id(a)),IntLit(1))

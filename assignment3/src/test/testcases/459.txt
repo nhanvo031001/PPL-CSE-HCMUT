@@ -6,6 +6,7 @@
                 Var o_1: Object_1;
                 Var o_2: Object_2;
             }
+
             Class Program : Object_2 {
                 main() {
                     Var o_2 : Object_2 = New Object_2();

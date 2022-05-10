@@ -40,23 +40,28 @@
                     o = o.o.o.method().o.o.o;
                     o = o.o.o.method().o.o.o.method();
                     o = o.o.o.method().o.o.o.method().method().method();
+
                     o = Object::$o;
                     o = Object::$o.o.o.o.method().method();
                     o = Object::$o.o.o.o.method().method().o.o.o;
                     o = Object::$o.o.o.o.method().method().o.o.o.method();
                     o = Object::$method();
+
+                    ##
                     o = Object_1::$o;
                     o = Object_1::$o.o.o.o.method().method();
                     o = Object_1::$o.o.o.o.method().method().o.o.o;
                     o = Object_1::$o.o.o.o.method().method().o.o.o.method();
                     o = Object_1::$method();
+
                     o = Program::$o;
                     o = Program::$o.o.o.o.method().method();
                     o = Program::$o.o.o.o.method().method().o.o.o;
                     o = Program::$o.o.o.o.method().method().o.o.o.method();
                     o = Program::$method();
-                    
+                    ##
                     ## Program : Object_1 : Object --> It can see attribute of itself, Object_1, and Object ##
+
                     ## Attribute of Object ##
                     o = Object::$o;
                     o = Object::$o.o.o;
@@ -65,7 +70,9 @@
                     o = Object::$method();
                     o = Object::$method().o.o.o;
                     o = Object::$method().o.o.o.method();
+
                     ## Attribute of Object_1 ##
+                    ##
                     o = Object_1::$o_1;
                     o = Object_1::$o_1.o_1.o_1;
                     o = Object_1::$o_1.method_1();
@@ -73,7 +80,9 @@
                     o = Object_1::$method_1();
                     o = Object_1::$method_1().o_1.o_1.o_1;
                     o = Object_1::$method_1().o_1.o_1.o_1.method_1().method_1();
+                    ##
                     ## Attribute of Program ##
+                    ##
                     o = Program::$o;
                     o = Program::$o.o.o;
                     o = Program::$o.method();
@@ -88,15 +97,20 @@
                     o = Program::$method_1();
                     o = Program::$method_1().o_1.o_1.o_1;
                     o = Program::$method_1().o_1.o_1.o_1.method_1().method_1();
+                    ##
+                    
+                    
                     
                     ## Mix ##
                     ## OK, Program see Object_1, Object attribute ##
+                    ##
                     Var o_1: Object_1 = New Object_1();
                     o = o_1.o.o.o.o.o.method();     
                     o = o_1.o_1.o.o.o.o.method();   
                     o = o_1.o.o.o.o.o.method().o.o.o;
                     o = o_1.o.o.o.o.o.method().o.o.o.method();
                     o = o_1.o.o.o.o.o.method().o.o.o.method().method().method();
+
                     o = o_1.o_1.o_1.o_1.o.o.o.method();
                     o = o_1.o_1.o_1.method_1().method_1();
                     o = o_1.o_1.o_1.method_1().o.o.method();                                        
@@ -111,13 +125,17 @@
                     o = Program::$o_1.o_1.method_1().method_1().method();
                     o = Program::$o_1.o_1.method_1().method_1().o.o.method().method();
                     o = Program::$o_1.o_1.method_1().method_1().o_1.o_1.method_1().method_1().method();
-                    
+                    ##
                     Var o_o: Other_object = New Other_object();
                     ## OK, Program can see Other_object's method and Object's attribute##
                     o = o_o.method().method();      
                     o = o_o.method().method().o.o.o;
                     o = o_o.method().method().o.o.o.method().method();
-                    o = o_o.o.method();             ## Fail, Program can's see Other_object's attribute ##                 
+
+                    o = o_o.o.method();      
+                    ## Test inheritance ##
+                    Var o_1: Object_1 = New Object_1();
+                    o = o_1.o.o.o.o.o.method();                   
                 }
             }
         

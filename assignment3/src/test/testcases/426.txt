@@ -1,13 +1,12 @@
 
-            Class Program {
-                main() {
-                    Var a: Int = 1;
-                    Var b: Int = - a;
-                    Var c: Float = 1.2;
-                    Var d: Float = - 1.2;
-                    Var e: Float = - c;
-                    Var x: Boolean = True;
-                    Var y: Int = - x;
+            Class A {
+                Var a : Int = 1;
+            }
+            
+            Class Program : A {
+                Val b: Int = 1;
+                main(){
+                    Var a : Int = Self.a;
                 }
             }
         

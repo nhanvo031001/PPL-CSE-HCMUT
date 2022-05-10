@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(>,IntLit(1),BooleanLit(True))
+Type Mismatch In Statement: AssignStmt(ArrayCell(Id(arr),[IntLit(0),IntLit(0)]),[IntLit(1),IntLit(2)])

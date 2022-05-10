@@ -1,6 +1,8 @@
 
-            Class Program {
-                Var a: Int = a;
-                main() {}
+            Class Program{
+                Val $a : Int = 1;
+                $a() {}
+                $a() {}
+                main(){}
             }
         

@@ -1,6 +1,8 @@
 
-            Class A {
-                Val x, y: Int = 1, 1;
-                Val x: Int = 1;
+            Class Program{
+                main() {
+                    Var a : Int;
+                    Var a : Float = 1.2;
+                }
             }
         

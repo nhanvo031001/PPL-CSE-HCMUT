@@ -1,5 +1,7 @@
 
-            Class A {
-                method(a,a: Int) {}
+            Class Program{
+                Var a : Int = 1;
+                Var a : Float = 1.4;
+                main(){}
             }
         
