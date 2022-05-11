@@ -1,1 +1,1 @@
-Type Mismatch In Statement: AssignStmt(Id(a),Id(e))
+Illegal Array Literal: [Id(a),Id(b),UnaryOp(-,Id(c))]

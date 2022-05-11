@@ -1,1 +1,1 @@
-Type Mismatch In Expression: CallExpr(Id(o),Id(method_void),[])
+Illegal Array Literal: [IntLit(1),FloatLit(2.5)]

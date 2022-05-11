@@ -897,7 +897,7 @@ class StaticChecker(BaseVisitor):
         if check_have_program_class == False:       # no program class
             raise NoEntryPoint()
         
-        print(global_env['global']['Program'])
+        # print(global_env['global']['Program'])
 
     
     

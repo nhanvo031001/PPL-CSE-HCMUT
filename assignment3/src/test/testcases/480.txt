@@ -1,20 +1,10 @@
-
-            Class Object {}
-            Class Object_1 : Object {}
-            Class Program  {
+    
+            Class Program {
                 main() {
-                    Var i : Int = 1;
-                    Var j: Float = 1;
-                    Var f: Float = 1.2;
-                    f = i; 
-                    
-                    Var o : Object = New Object();
-                    Var o_1: Object_1 = New Object_1();
-                    o = Null;
-                    o_1 = Null;
-                    o = o_1;
-
-                    o_1 = o;
+                    Var arr : Array[Array[Int, 3], 2] = Array(
+                        Array(1, 2, 3),    
+                        Array(1.0, 2.2, 3.4)        ## not same type ##
+                    );
                 }
             }
         

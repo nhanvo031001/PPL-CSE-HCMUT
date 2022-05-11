@@ -1,1 +1,1 @@
-Type Mismatch In Expression: CallExpr(Id(Object),Id($method_void),[])
+Illegal Array Literal: [[FloatLit(1.2),IntLit(3),IntLit(4)],[IntLit(1),IntLit(3),IntLit(4)]]
