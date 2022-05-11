@@ -1,25 +1,25 @@
-
-            Class Object {
-                Var a: Int;
-                method_int() {
+    
+            Class A {
+                Var a : Int = 1;
+                Val b : Int = 2;
+                func_A() {
                     Return Self.a;
-                }
-                method_void() {
-                    Return;
                 }
             }
-            Class Program : Object {
-                Var a: Int;
-                method_int() {
-                    Return Self.a;
+            
+            Class B {
+                Var b : Int = 1;
+                Var obj_a : A = New A();
+            }
+            
+            Class Program {
+                func1() {
+                    Var obj : B;
+                    Return obj.obj_a.b;
                 }
-                method_void() {
-                    Return;
-                }
+                
                 main() {
-                    Var a: Int = 1;
-                    a = Self.method_int();
-                    a = Self.method_void();
+                    Val x : Int = Self.func1();
                 }
             }
         

@@ -1,14 +1,15 @@
 
-            Class Object {
-                Var $a: Int = 1;
+            Class A {
+                func() {
+                    Return 1;
+                }
             }
-            Class Program : Object {
+            
+            Class Program{
                 main() {
-                    Var Object: Object = New Object();
-                    Var a: Int = 1;
-                    
-                    a = Object::$a;       ## OK because of having a class "Object" ##
-                    a = Object_2::$a;     ## Fail because of NOT having a class "Object_2" and Object_2 is NOT a local variable ##
+                    Var a : A = New A();
+                    Val x : Int = a.func();
+                    Var y : Int = x.func();     ## error cuz pbject is not class type ##
                 }
             }
         

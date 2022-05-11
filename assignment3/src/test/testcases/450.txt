@@ -1,11 +1,9 @@
 
-            Class Program {
+            Class Program{
                 main() {
-                    Var a: Array[Int, 3] = Array(1,2,3);
-                    a[0] = 1;
-                    a[1] = 2;
-                    a[a[a[0]]] = 1;
-                    a[0][0] = 1;
+                    Var idx : Float = 1.2;
+                    Var arr : Array[Int, 3];
+                    arr[idx] = 1;
                 }
             }
         

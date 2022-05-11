@@ -1,11 +1,9 @@
 
-            Class Program {
+            Class Program{
                 main() {
-                    Var a: Array[Int, 3] = Array(1,2,3);
-                    Var x: Int = 1;
-                    Var y: Float = 1.2;
-                    a[x] = 1;
-                    a[x + y] = 1;
+                    Var a : Int = 1 % 2;
+                    Var b : Float = 1 % 2;
+                    Var c : Int = 1.5 % 2;      ## failed ##
                 }
             }
         

@@ -1,1 +1,1 @@
-Undeclared Class: Object_2
+Type Mismatch In Expression: CallExpr(Id(x),Id(func),[])

@@ -1,1 +1,1 @@
-Undeclared Method: $a
+Illegal Constant Expression: Id(x)

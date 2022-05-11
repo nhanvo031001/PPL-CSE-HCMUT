@@ -1,1 +1,1 @@
-Undeclared Attribute: method
+Type Mismatch In Constant Declaration: ConstDecl(Id(obj),ClassType(Id(Program)),FieldAccess(Self(),Id(a)))

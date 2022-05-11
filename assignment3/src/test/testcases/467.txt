@@ -1,14 +1,27 @@
 
-            Class Object {
-                $method() {
-                    Return 1;
+            Class A {
+                Var a : Int = 1;
+            }
+            
+            Class B {
+                Var b : Int = 2;
+                Var obj_a : A;
+            }
+            
+            Class C {
+                Var c : Int = 2;
+                Var obj_b : B;
+                func_C() {
+                    Return New B();
                 }
             }
-            Class Program {
+            
+            Class Program{
                 main() {
-                    Var a: Int = 1;
-                    a = Object::$method();
-                    a = Object::$method_1();
+                   Var c : C;
+                   Var x : Int = c.obj_b.obj_a.a;
+                   Var y : Int = c.func_C().obj_a.a;
+                   Var m : Int = c.func_C().b.a;
                 }
             }
         

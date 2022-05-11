@@ -2,8 +2,6 @@
 """
  * @author Vo Nguyen Thien Nhan 1910409
 """
-from distutils.filelist import findall
-from gettext import find
 from AST import * 
 from Visitor import *
 from StaticError import *
@@ -74,12 +72,12 @@ def type_inference (lhs, rhs, list_inherit):
     
     if isinstance(lhs, FloatType) and isinstance(rhs, IntType): return True
     
-    # if isinstance(lhs, ClassType) and isinstance(rhs, ClassType):
-    #     parent_class = list_inherit[rhs.classname.name]
-    #     while (parent_class):
-    #         if lhs.classname.name == parent_class: return True
-    #         parent_class = list_inherit[parent_class]
-    #     return lhs.classname.name == rhs.classname.name
+    if isinstance(lhs, ClassType) and isinstance(rhs, ClassType):
+        # parent_class = list_inherit[rhs.classname.name]
+        # while (parent_class):
+        #     if lhs.classname.name == parent_class: return True
+        #     parent_class = list_inherit[parent_class]
+        return lhs.classname.name == rhs.classname.name
     
     if isinstance(lhs, ClassType) and isinstance(rhs, NullLiteral): return True
             
@@ -142,58 +140,46 @@ class StaticChecker(BaseVisitor):
         if len(o) == 2:
             flag_const_init, o = o
             
-        # if flag_const_init:
-        #     if isinstance(left, Symbol):
-        #         if left.kind == 'mutable' or left.kind == 'variable': 
-        #             raise IllegalConstantExpression(flag_const_init)
-        #     if isinstance(right, Symbol):
-        #         if right.kind == 'mutable' or right.kind == 'variable': 
-        #             raise IllegalConstantExpression(flag_const_init)
-
-        # if isinstance(left, Symbol): left = left.type_data
-        # if isinstance(right, Symbol): right = right.type_data
-        
-        expr_kind = 'immutable'
-        if isinstance(left, Symbol):
-            if left.kind != 'immutable' and left.kind != 'constant': 
-                expr_kind = 'mutable'
-            left = left.type_data
+        if flag_const_init:
+            if isinstance(left, Symbol):
+                if left.kind == 'mutable' or left.kind == 'variable': raise IllegalConstantExpression(flag_const_init)
+            if isinstance(right, Symbol):
+                if right.kind == 'mutable' or right.kind == 'variable': raise IllegalConstantExpression(flag_const_init)
             
-        if isinstance(right, Symbol):
-            if right.kind != 'immutable' and right.kind != 'constant': 
-                expr_kind = 'mutable'
-            right = right.type_data
+        if isinstance(left, Symbol): left = left.type_data
+        if isinstance(right, Symbol): right = right.type_data
         
         if op in ['+', '-', '*', '/']:
-            if not (isinstance(left, IntType) or isinstance(left, FloatType)) or not (isinstance(right, IntType) or isinstance(right, FloatType)):
-                raise TypeMismatchInExpression(ast)
-            if isinstance(left, IntType) and isinstance(right, IntType): return Symbol('binary', expr_kind, None, IntType()) if ast.op != '/' else Symbol('binary', expr_kind, None, FloatType())
-            if isinstance(left, FloatType) or isinstance(right, FloatType): return Symbol('binary', expr_kind, None, FloatType())
-            
+            if isinstance(left, IntType) and isinstance(right, IntType): return IntType() if ast.op != '/' else FloatType()
+            if isinstance(left, FloatType) or isinstance(right, FloatType): return FloatType()
+            raise TypeMismatchInExpression(ast)
+        
         if op == '%':
-            if isinstance(left, IntType) and isinstance(right, IntType): return Symbol('binary', expr_kind, None, IntType())
+            if isinstance(left, IntType) and isinstance(right, IntType): return IntType()
             raise TypeMismatchInExpression(ast)
         
         if op in ['&&', '||']:
-            if isinstance(left, BoolType) and isinstance(right, BoolType): return Symbol('binary', expr_kind, None, BoolType())
+            if isinstance(left, BoolType) and isinstance(right, BoolType): return BoolType()
             raise TypeMismatchInExpression(ast)
         
         if op in ['==.']:
-            if isinstance(left, StringType) and isinstance(right, StringType): return Symbol('binary', expr_kind, None, BoolType())
+            if isinstance(left, StringType) and isinstance(right, StringType): return BoolType()
             raise TypeMismatchInExpression(ast)
         
         if op in ['+.']:
-            if isinstance(left, StringType) and isinstance(right, StringType): return Symbol('binary', expr_kind, None, StringType())
+            if isinstance(left, StringType) and isinstance(right, StringType): return StringType()
             raise TypeMismatchInExpression(ast)
         
         if op in ['<', '>', '<=', '>=']:
             if not (isinstance(left, IntType) or isinstance(left, FloatType)) or not (isinstance(right, IntType) or isinstance(right, FloatType)): 
                 raise TypeMismatchInExpression(ast)
-            return Symbol('binary', expr_kind, None, BoolType())
+            return BoolType()
         
         if op in ['==', '!=']:
+            # if not (isinstance(left, IntType) or isinstance(left, BoolType)) or not (isinstance(right, IntType) or isinstance(right, BoolType)): 
+            #     raise TypeMismatchInExpression(ast)
             if (isinstance(left, IntType) and isinstance(right, IntType)) or (isinstance(left, BoolType) and isinstance(right, BoolType)):
-                return Symbol('binary', expr_kind, None, BoolType())
+                return BoolType()
             raise TypeMismatchInExpression(ast)
     
     def visitUnaryOp(self, ast: UnaryOp, o):    # return data type
@@ -204,40 +190,19 @@ class StaticChecker(BaseVisitor):
         op = ast.op
         exp_type_data = self.visit(ast.body, o)
 
-        expr_kind = 'immutable'
+        # if isinstance(exp_type_data, Symbol):   # ID
+        #     if flag_const_init and (exp_type_data.kind == 'mutable' or exp_type_data.kind == 'variable'):
+        #         raise IllegalConstantExpression(ast)
         if isinstance(exp_type_data, Symbol):
-            if exp_type_data.kind != 'immutable' and exp_type_data.kind != 'constant':
-                expr_kind = 'mutable'
             exp_type_data = exp_type_data.type_data
         
         if op == '!':
-            if isinstance(exp_type_data, BoolType): return Symbol('unary', expr_kind, None, exp_type_data)
+            if isinstance(exp_type_data, BoolType): return BoolType()
             raise TypeMismatchInExpression(ast)
         if op == '-':
-            if isinstance(exp_type_data, IntType): return Symbol('unary', expr_kind, None, exp_type_data)
-            if isinstance(exp_type_data, FloatType): return Symbol('unary', expr_kind, None, exp_type_data)
+            if isinstance(exp_type_data, IntType): return IntType()
+            if isinstance(exp_type_data, FloatType): return FloatType()
             raise TypeMismatchInExpression(ast)
-        
-        # flag_const_init = None
-        # if len(o) == 2:
-        #     flag_const_init, o = o
-            
-        # op = ast.op
-        # exp_type_data = self.visit(ast.body, o)
-
-        # # if isinstance(exp_type_data, Symbol):   # ID
-        # #     if flag_const_init and (exp_type_data.kind == 'mutable' or exp_type_data.kind == 'variable'):
-        # #         raise IllegalConstantExpression(ast)
-        # if isinstance(exp_type_data, Symbol):
-        #     exp_type_data = exp_type_data.type_data
-        
-        # if op == '!':
-        #     if isinstance(exp_type_data, BoolType): return BoolType()
-        #     raise TypeMismatchInExpression(ast)
-        # if op == '-':
-        #     if isinstance(exp_type_data, IntType): return IntType()
-        #     if isinstance(exp_type_data, FloatType): return FloatType()
-        #     raise TypeMismatchInExpression(ast)
     
     def visitCallExpr(self, ast: CallExpr, o):
         temp = o
@@ -245,7 +210,7 @@ class StaticChecker(BaseVisitor):
         if len(o) == 2:
             flag_const_init, o = o
         
-        # if flag_const_init: raise IllegalConstantExpression(flag_const_init)
+        if flag_const_init: raise IllegalConstantExpression(flag_const_init)
         
         method = ast.method.name
         args_list = [self.visit(each_param, temp) for each_param in ast.param]
@@ -341,6 +306,14 @@ class StaticChecker(BaseVisitor):
             raise Undeclared(Class(), class_name)
         
         if len(ast.param) != 0:
+            # if 'Constructor' in o['global'][class_name]:
+            #     method_constructor = o['global'][class_name]['Constructor']     # return Symbol
+            #     args = [self.visit(each_arg, o) for each_arg in ast.param]
+            #     if type_params_and_args_list(method_constructor.param_type_list, args, self.list_inherit) == False:
+            #         raise TypeMismatchInExpression(ast)
+            # else:
+            #     raise Undeclared(Method(), 'Constructor')
+            
             if o['global'][class_name].lookup_method('Constructor'):
                 method_constructor = o['global'][class_name].lookup_method('Constructor')    # return Symbol
                 args = [self.visit(each_arg, o) for each_arg in ast.param]
@@ -393,7 +366,7 @@ class StaticChecker(BaseVisitor):
             if not isinstance(find_attribute.static_or_instance, Instance): raise IllegalMemberAccess(ast)      # should add ??
             if find_attribute.kind == 'method': raise Undeclared(Attribute(), field_name)
             # if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
-            return find_attribute       # symbol
+            return find_attribute
 
         if isinstance(ast.obj, Id):
             if field_name[0] == '$':
@@ -440,11 +413,8 @@ class StaticChecker(BaseVisitor):
             raise Undeclared(Identifier(), obj_name)
         
         # instance field access
-        expr_kind = 'immutable'
         obj = self.visit(ast.obj, temp)     # Symbol
         if isinstance(obj, Symbol): 
-            if obj.kind != 'immutable':
-                expr_kind = 'mutable'
             obj = obj.type_data
         if isinstance(obj, ClassType):
             class_name = obj.classname.name
@@ -454,25 +424,8 @@ class StaticChecker(BaseVisitor):
             if find_attribute.kind == 'method': raise Undeclared(Attribute(), field_name)
             # if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
             # return find_attribute.type_data
-            if find_attribute.kind != 'immutable': expr_kind = 'mutable'
-            # return find_attribute
-            return Symbol(find_attribute.name, expr_kind, find_attribute.static_or_instance, find_attribute.type_data, find_attribute.param_type_list)
+            return find_attribute
         raise TypeMismatchInExpression(ast)
-    
-    
-        # obj = self.visit(ast.obj, temp)     # Symbol
-        # if isinstance(obj, Symbol): 
-        #     obj = obj.type_data
-        # if isinstance(obj, ClassType):
-        #     class_name = obj.classname.name
-        #     find_attribute = lookup_attribute_func(field_name, class_name, o, self.list_inherit)
-        #     if not find_attribute: raise Undeclared(Attribute(), field_name)
-        #     if not isinstance(find_attribute.static_or_instance, Instance): raise IllegalMemberAccess(ast)
-        #     if find_attribute.kind == 'method': raise Undeclared(Attribute(), field_name)
-        #     # if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
-        #     # return find_attribute.type_data
-        #     return find_attribute
-        # raise TypeMismatchInExpression(ast)
 
     def visitIntLiteral(self, ast, o):
         return IntType()
@@ -509,11 +462,32 @@ class StaticChecker(BaseVisitor):
         
         return ArrayType(len(value_list), value_list[0])
     
+        # temp = o
+        # flag_const_init = None
+        # if len(o) == 2:
+        #     flag_const_init, o = o
+            
+        # if o['saved_array_literal']['first'] == False:  
+        #     o['saved_array_literal']['first'] = True
+        #     o['saved_array_literal']['arr_lit'] = ast
+            
+        # value_list = [self.visit(each_value, temp) for each_value in ast.value]
+        # for each_value in value_list:
+        #     if type_compare(each_value, value_list[0]) == False:
+        #         o['saved_array_literal']['first'] = False
+        #         whole_array_literal = o['saved_array_literal']['arr_lit']
+        #         o['saved_array_literal']['arr_lit'] = '-1'
+        #         raise IllegalArrayLiteral(whole_array_literal)
+            
+        # o['saved_array_literal']['first'] = False
+        # o['saved_array_literal']['arr_lit'] = '-1'
+        
+        # return ArrayType(len(value_list), value_list[0])
+    
     def visitAssign(self, ast: Assign, o):
         in_loop, o = o
         rhs = self.visit(ast.exp, o)
         lhs = self.visit(ast.lhs, o)
-        
         if isinstance(lhs, Symbol):
             if lhs.kind == 'immutable' or lhs.kind == 'constant': 
                 raise CannotAssignToConstant(ast)
@@ -521,9 +495,37 @@ class StaticChecker(BaseVisitor):
         if isinstance(rhs, Symbol):
             rhs = rhs.type_data
         if type_compare(lhs, rhs) == False and type_inference(lhs, rhs, self.list_inherit) == False:
+
             raise TypeMismatchInStatement(ast)
         
-    def visitIf(self, ast: If, o):      
+    def visitIf(self, ast: If, o):
+        # temp = o    
+        # if len(o) == 2:
+        #     in_loop, o = o
+            
+        # if o['saved_if_stmt']['first'] == False:
+        #     o['saved_if_stmt']['first'] = True
+        #     o['saved_if_stmt']['if_stmt'] = ast
+        
+        # conditional_expr = self.visit(ast.expr, o)
+        # if isinstance(conditional_expr, Symbol): conditional_expr = conditional_expr.type_data
+        # if not isinstance(conditional_expr, BoolType): 
+        #     o['saved_if_stmt']['first'] = False     # reset
+        #     whole_if_stmt = o['saved_if_stmt']['if_stmt']
+        #     o['saved_if_stmt']['if_stmt'] = '-1'    # reset
+        #     # raise TypeMismatchInStatement(ast)
+        #     raise TypeMismatchInStatement(whole_if_stmt)
+        
+        # self.visit(ast.thenStmt, temp)
+        # if len(temp[1]['local']) != 0:      # after visit thenStmt, pop local
+        #     temp[1]['local'].pop(0) # 
+        # temp[1]['local'] = [{}] + temp[1]['local']
+        # if ast.elseStmt:
+        #     self.visit(ast.elseStmt, temp)
+            
+        # o['saved_if_stmt']['first'] = False     # reset
+        # o['saved_if_stmt']['if_stmt'] = '-1'    # reset
+        
         temp = o    
         if len(o) == 2:
             in_loop, o = o
@@ -557,7 +559,7 @@ class StaticChecker(BaseVisitor):
         in_loop, o = o
         in_loop = True
         
-        id = self.visit(ast.id, o)      # Symbol
+        id = self.visit(ast.id, o)
         expr1 = self.visit(ast.expr1, o)
         expr2 = self.visit(ast.expr2, o)
         expr3 = self.visit(ast.expr3, o) if ast.expr3 else None
@@ -603,8 +605,9 @@ class StaticChecker(BaseVisitor):
         if current_method == 'Destructor':
             raise TypeMismatchInStatement(ast)
         if expr is None: expr = VoidType()
-        # if isinstance(expr, Symbol): expr = expr.type_data
-
+        if isinstance(expr, Symbol): expr = expr.type_data
+        
+        # method_return_type = o['global'][current_class][current_method].type_data
         method_return_type = o['global'][current_class].lookup_method(current_method).type_data
         if method_return_type is None:
             o['global'][current_class].lookup_method(current_method).type_data =  expr
@@ -715,6 +718,9 @@ class StaticChecker(BaseVisitor):
         
         # check redeclare method
         current_class = o['current_class']
+        # if name in o['global'][current_class]:
+        #     if o['global'][current_class][name].kind == 'method':       # variable and method can have same name
+        #         raise Redeclared(Method(), name)
         if o['global'][current_class].lookup_method(name):
             raise Redeclared(Method(), name)
         param_type_list = [self.visit(each_param.varType, o) for each_param in ast.param]
@@ -782,6 +788,11 @@ class StaticChecker(BaseVisitor):
 
         if o['out_or_in_method'] == 'out':          # check attribute outside method
             current_class = o['current_class']
+            # if constant in o['global'][current_class]:
+            #     raise Redeclared(Attribute(), constant)
+            # o['global'][current_class][constant] = Symbol(constant, 'immutable', kind, const_type)      # kind: Static or Instance
+            # o['out_or_in_method'] == 'none'         # reset
+            
             if o['global'][current_class].lookup_attribute(constant):
                 raise Redeclared(Attribute(), constant)
             o['global'][current_class].add_attribute(constant, Symbol(constant, 'immutable', kind, const_type))

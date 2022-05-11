@@ -1,14 +1,13 @@
 
-            Class Object {
-                Var a: Int = 1;
-            }
-            Class Program : Object {
+            Class Program{
+                func() {
+                    Return 1;
+                }
+                
                 main() {
-                    Var Object: Object = New Object();
-                    Var a: Int = 1;
-                    
-                    a = Object.a;       ## OK because of having a local variable "Object" ##
-                    a = Object_2.a;     ## Fail because of NOT having a local variable "Object_2" and Object_2 is NOT a classname ##
+                    Val x : Int = Self.func();
+                    Val y : Float = Self.func() + 1;
+                    Var z : Int = Self.func(1);         ## error params ##
                 }
             }
         

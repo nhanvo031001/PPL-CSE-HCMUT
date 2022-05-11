@@ -1,28 +1,14 @@
 
-            Class Object_1 {
-                Var a: Int = 1;
-            }
-            Class Object_2 : Object_1 {
-                Var o_1: Object_1;
-                Var o_2: Object_2;
-                Var $o_1: Object_1;
-                Var $o_2: Object_2;
-            }
-
-            Class Program : Object_2 {
+            Class Program{
                 main() {
-                    Var o_1 : Object_1;
-                    Var o_2 : Object_2;
-                    o_1 = Object_2::$o_1;
-                    o_2 = Object_2::$o_2;
-                    o_1 = Object_2::$o_2.o_1;
-                    o_1 = Object_2::$o_2.o_2.o_1;
-                    o_1 = Object_2::$o_2.o_2.o_2.o_2.o_2.o_2.o_1;
-
-                    Var a: Int = 1;
-                    a = Object_2::$o_1.a;
-                    a = Object_2::$o_2.o_2.o_2.o_2.o_2.o_2.o_1.a;
-                    a = Object_2::$o_2.o_2.o_2.o_2.o_2.o_2.o_1.b;
+                    Var a,b: Int;
+                    Var c,d: Float;
+                    Var m,n: Boolean = True, False;
+                    
+                    Var x : Int = -a;
+                    Var y : Float = -c;
+                    Var e : Boolean = !m;
+                    Var f : Boolean = -m;
                 }
             }
         

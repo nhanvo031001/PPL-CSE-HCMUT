@@ -1,1 +1,1 @@
-Illegal Member Access: FieldAccess(Id(Object_2),Id(a))
+Type Mismatch In Expression: UnaryOp(-,Id(a))

@@ -1,1 +1,1 @@
-Undeclared Attribute: a
+Type Mismatch In Expression: BinaryOp(<,FieldAccess(Self(),Id(x)),FieldAccess(Self(),Id(a)))

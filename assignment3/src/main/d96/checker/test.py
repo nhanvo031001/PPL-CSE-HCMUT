@@ -1,3 +1,6 @@
+from tokenize import Number
+
+
 class ComponentClass:
     def __init__(self):
         self.attribute = {}

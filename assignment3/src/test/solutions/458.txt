@@ -1,1 +1,1 @@
-Undeclared Attribute: $f
+Type Mismatch In Expression: BinaryOp(!=,FieldAccess(Self(),Id(a)),FieldAccess(Self(),Id(b)))

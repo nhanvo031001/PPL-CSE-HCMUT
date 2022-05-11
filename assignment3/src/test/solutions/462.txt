@@ -1,1 +1,1 @@
-Undeclared Identifier: Object_2
+Type Mismatch In Expression: CallExpr(Self(),Id(func),[IntLit(1)])

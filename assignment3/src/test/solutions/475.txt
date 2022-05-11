@@ -1,1 +1,1 @@
-Illegal Member Access: FieldAccess(Self(),Id(x))
+Illegal Constant Expression: CallExpr(Self(),Id(func1),[StringLit(Nhan)])

@@ -1,18 +1,9 @@
-
-            Class Object {
-                Var a: Int;
-                Var $o: Object;
-                method() {
-                    Return New Object();
-                }
-                $method() {
-                    Return New Object();
-                }
-            }
-            Class Program : Object {
+    
+            Class A {}
+            Class Program : A {
+                Val a : A = New A();
                 main() {
-                    Var o: Object = New Object();
-                    o = o.method;
+                    Val obj : Program = Self.a;
                 }
             }
         

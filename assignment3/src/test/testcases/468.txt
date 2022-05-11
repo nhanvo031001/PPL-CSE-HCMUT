@@ -1,25 +1,8 @@
-
-            Class Object {
-                Var a: Int;
-                method() {
-                    Return New Object();
-                }
-            }
-            Class Inheritance_object : Object {
+    
+            Class Program{
+                Val a : Int = 1;
                 main() {
-                    Var o: Object = New Object();
-                    o = o.method().method().method().method().method();
-                    Var a: Int = 1;
-                    a = o.method().method().a; ## OK because sub class can see "a" attribute of Object ##
-                }
-            }
-            Class Program {
-                main() {
-                    Var o: Object = New Object();
-                    o = o.method().method().method().method().method();
-                    Var a: Int = 1;
-                    a = o.method().method().a; 
-                    a = o.method().method().b;
+                    Val x : String = Self.a;
                 }
             }
         

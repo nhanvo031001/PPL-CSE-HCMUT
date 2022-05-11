@@ -1,14 +1,9 @@
 
-            Class Program {
-                Var a: Int = 1;
-                Var b: Float = 1.2;
-                method() {
-                    Var a: Int = 1;
-                    Var b: Float = 1.2;
-                    a = a + Self.a;
-                    b = b + Self.b;
-                    Var c: String = Self.c;
+            Class Program{
+                Var x , y : Int;
+                main() {
+                    Var a : Boolean = True || False && True;
+                    Var b : Boolean = Self.x && Self.y;
                 }
-                main() {}
             }
         

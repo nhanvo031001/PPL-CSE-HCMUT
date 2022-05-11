@@ -1,18 +1,22 @@
-
-            Class Object {
-                Var a: Int;
-                Var $o: Object;
-                method() {
-                    Return New Object();
-                }
-                $method() {
-                    Return New Object();
-                }
-            }
-            Class Program : Object {
+    
+            Class Program {
                 main() {
-                    Var o: Object = New Object();
-                    o = o.a();
+                    Var lower, upper, step : Int = 1, 2, 3;
+                    Var i : Int = 1;
+                    Foreach (i In lower .. upper) {
+                        Continue;
+                    }
+                    Foreach (i In lower .. upper By step) {
+                        {
+                            {
+                                {
+                                    Continue;
+                                }
+                            }
+                        }
+                    }
+                    
+                    Continue;          ## error ##
                 }
             }
         

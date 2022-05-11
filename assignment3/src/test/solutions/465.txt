@@ -1,1 +1,1 @@
-Undeclared Method: method_1
+Type Mismatch In Expression: CallExpr(Id(a),Id(func),[])

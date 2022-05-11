@@ -1,9 +1,16 @@
 
+            Class A {
+                Var func, $func : Int;
+                func(a,b: Int; c,d: Boolean) {}
+                $func(a,b: Int; c,d: Boolean) {}
+            }
+            
             Class Program{
-                func() {
-                    Return;
-                    Return 1.2;
+                main() {
+                    Var a : A = New A();
+                    Var b, c : Int;
+                    Var d, e : Boolean;
+                    a.func(b, c, d, 1.2);
                 }
-                main() {}
             }
         

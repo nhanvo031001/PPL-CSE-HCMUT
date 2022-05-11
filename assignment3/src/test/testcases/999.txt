@@ -1,17 +1,30 @@
 
+        
+            Class A {
+                Val a : Int = 1;
+            }
+            
+            Class B {
+                Var b : Int;
+                Var obj : A;
+            }
+            
+            Class C {
+                Val c : Int = 1;
+                Var obj : B;
+                func() {
+                    Return Self.c;
+                }
+            }
+
             Class Program {
+                func() {
+                    Var c : C = New C(); 
+                    Return c.func();
+                }
                 
                 main() {
-                    Var myArray: Array[Array[Array[Int,4],2],2] = Array(
-                    Array(
-                        Array(1,2,3,4),
-                        Array(5,6,7,8)
-                    ),
-                    Array(
-                        Array(-1,-2,-3,-4),
-                        Array(-5,-6,-7, False)
-                    )
-                    );
+                    Val x : Int = 1 + Self.func();
                 }
             }
         

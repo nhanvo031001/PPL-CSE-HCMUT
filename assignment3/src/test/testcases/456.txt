@@ -1,22 +1,10 @@
 
-            Class Object {
-                Var $a: Int = 1;
-                Var $b: Float = 1.2;
-                Var $c: Boolean = True;
-                Var $d: String = "abc";
-            }
-            Class Program {
+            Class Program{
+                Var x, y : String;
+                Var m, n : Int;
                 main() {
-                    Var o: Object = New Object();
-                    Var a: Int = 1;
-                    Var b: Float = 1.2;
-                    Var c: Boolean = True;
-                    Var d: String = "abc";
-                    a = a + Object::$a;
-                    b = b + Object::$b;
-                    c = c == Object::$c;
-                    d = d +. Object::$d;
-                    a = a - Object::$e;
+                    Var b : String = Self.x +. Self.y;
+                    Var c : String = Self.m +. Self.x;
                 }
             }
         

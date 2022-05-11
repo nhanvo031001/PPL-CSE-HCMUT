@@ -1,1 +1,1 @@
-Undeclared Attribute: $e
+Type Mismatch In Expression: BinaryOp(+.,FieldAccess(Self(),Id(m)),FieldAccess(Self(),Id(x)))
