@@ -1,1 +1,1 @@
-Continue Not In Loop
+Type Mismatch In Statement: Call(Self(),Id(func),[BooleanLit(True),FloatLit(2.2)])

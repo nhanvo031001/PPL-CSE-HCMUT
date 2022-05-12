@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Call(Self(),Id(method),[])
+Type Mismatch In Expression: NewExpr(Id(A),[StringLit(Nhan)])

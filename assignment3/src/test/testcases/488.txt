@@ -1,19 +1,11 @@
-
+ 
             Class Program {
+                func(a, b: Float) {
+                    Return;
+                }
                 main() {
-                    Var a: Int;
-                    Foreach(a In 1 .. 100) {
-                        Continue;
-                        {Continue;}
-                        If (True) {Continue;}
-                        Foreach(a In 1 .. 100) {
-                            Continue;
-                            {Continue;}
-                            If (True) {Continue;}
-                        }
-                        Continue;
-                    }
-                    Continue;
+                    Self.func(1, 2.2);   ## ok, coercion ##  
+                    Self.func(True, 2.2);   
                 }
             }
         

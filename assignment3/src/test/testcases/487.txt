@@ -1,19 +1,11 @@
-
+ 
             Class Program {
+                Var func : Int;
+                func() {
+                    Return "Nhan";
+                }
                 main() {
-                    Var a: Int;
-                    Foreach(a In 1 .. 100) {
-                        Break;
-                        {Break;}
-                        If (True) {Break;}
-                        Foreach(a In 1 .. 100) {
-                            Break;
-                            {Break;}
-                            If (True) {Break;}
-                        }
-                        Break;
-                    }
-                    Break;
+                    Self.func();        ## return non-void type ##
                 }
             }
         

@@ -340,6 +340,12 @@ class StaticChecker(BaseVisitor):
         if class_name not in o['global']:
             raise Undeclared(Class(), class_name)
         
+        if len(ast.param) == 0:
+            if o['global'][class_name].lookup_method('Constructor'):
+                method_constructor = o['global'][class_name].lookup_method('Constructor')    # return Symbol
+                if len(method_constructor.param_type_list) != 0:
+                    raise TypeMismatchInExpression(ast)
+                
         if len(ast.param) != 0:
             if o['global'][class_name].lookup_method('Constructor'):
                 method_constructor = o['global'][class_name].lookup_method('Constructor')    # return Symbol
@@ -347,7 +353,8 @@ class StaticChecker(BaseVisitor):
                 if type_params_and_args_list(method_constructor.param_type_list, args, self.list_inherit) == False:
                     raise TypeMismatchInExpression(ast)
             else:
-                raise Undeclared(Method(), 'Constructor')
+                # raise Undeclared(Method(), 'Constructor')
+                raise TypeMismatchInExpression(ast)
         
         return ClassType(ast.classname)
     
@@ -458,21 +465,6 @@ class StaticChecker(BaseVisitor):
             # return find_attribute
             return Symbol(find_attribute.name, expr_kind, find_attribute.static_or_instance, find_attribute.type_data, find_attribute.param_type_list)
         raise TypeMismatchInExpression(ast)
-    
-    
-        # obj = self.visit(ast.obj, temp)     # Symbol
-        # if isinstance(obj, Symbol): 
-        #     obj = obj.type_data
-        # if isinstance(obj, ClassType):
-        #     class_name = obj.classname.name
-        #     find_attribute = lookup_attribute_func(field_name, class_name, o, self.list_inherit)
-        #     if not find_attribute: raise Undeclared(Attribute(), field_name)
-        #     if not isinstance(find_attribute.static_or_instance, Instance): raise IllegalMemberAccess(ast)
-        #     if find_attribute.kind == 'method': raise Undeclared(Attribute(), field_name)
-        #     # if flag_const_init and find_attribute.kind == 'mutable': raise IllegalConstantExpression(flag_const_init)
-        #     # return find_attribute.type_data
-        #     return find_attribute
-        # raise TypeMismatchInExpression(ast)
 
     def visitIntLiteral(self, ast, o):
         return IntType()
@@ -898,7 +890,4 @@ class StaticChecker(BaseVisitor):
             raise NoEntryPoint()
         
         # print(global_env['global']['Program'])
-
-    
-    
 

@@ -1,1 +1,1 @@
-Redeclared Constant: x
+Illegal Member Access: FieldAccess(Self(),Id(a))

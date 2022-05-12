@@ -1,23 +1,15 @@
 
-            Class Object {
-                Var o : Object;
-                Var $o : Object;
-                method() {
-                    Return;
-                }
-                $method() {
-                    Return;
-                }
-                method_o() {
-                    Return New Object();
-                }
-                $method_o() {
-                    Return New Object();
+            Class A {
+                Var a : Int;
+                Constructor () {
+                    Self.a = Self.a;
                 }
             }
-            Class Program : Object {
+            
+            Class Program {
                 main() {
-                    Self.o();
+                    Val x : A = New A();        ## ok ##
+                    Var y : A = New A(1);       ## error params ##
                 }
             }
         

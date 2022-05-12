@@ -1,1 +1,1 @@
-Illegal Constant Expression: CallExpr(Self(),Id(method_var),[])
+Type Mismatch In Statement: If(Id(a),Block([]),If(Id(b),Block([]),If(Id(c),Block([]),If(Id(d),Block([]),If(Id(e),Block([]))))))

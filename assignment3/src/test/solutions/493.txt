@@ -1,1 +1,1 @@
-Undeclared Method: o
+Type Mismatch In Expression: NewExpr(Id(A),[IntLit(1)])

@@ -1,15 +1,12 @@
-
-            Class Program  {
+ 
+            Class Program {
+                Var a : Int;
                 main() {
-                    Var a: Int = 1;
-                    {
-                        Var a: Int = 1;
-                        {
-                            Var a: Int = 1;
-                        }
-                    }
-                    Var x: Int = 1;
-                    Val x: Int = 1;
+                    Var a : Int = Self.a;       ## ok ##     
+                }
+                
+                $func() {
+                    Var a : Int = Self.a;       ## error cuz in static method, not self ##
                 }
             }
         

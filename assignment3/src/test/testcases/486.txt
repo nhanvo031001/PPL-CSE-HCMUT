@@ -1,8 +1,13 @@
-
+ 
             Class Program {
+                Var func : Int;
+                func() {}
                 main() {
-                    Val a: Int = 1;
-                    Foreach(a In 1 .. 100) {}
+                    Self.func();        ## ok ##
+                }
+                
+                $static_func() {
+                    Self.func();        ## error ##
                 }
             }
         

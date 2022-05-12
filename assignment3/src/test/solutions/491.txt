@@ -1,1 +1,1 @@
-Type Mismatch In Expression: NewExpr(Id(Object),[IntLit(1),IntLit(2)])
+Illegal Constant Expression: FieldAccess(FieldAccess(FieldAccess(Id(c),Id(obj_b)),Id(obj_a)),Id(a))

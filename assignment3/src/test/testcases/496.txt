@@ -1,10 +1,16 @@
 
-            Class Program {
-                main() {
-                    Val x: Int = 1;
-                    Var y: Int = 1;
-                    Var z: Int = x + y;
-                    Val const: Int = x + y + z;
+            Class A {
+                Var a : Int;
+                A(a :Int) {
+                    Self.a = Self.a;
                 }
+                Destructor() {
+                    Self.a = Self.a;
+                    Return;         ## error, no return in destructor ##
+                }
+            }
+            
+            Class Program {
+                main() {}
             }
         
