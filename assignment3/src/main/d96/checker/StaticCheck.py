@@ -2,17 +2,15 @@
 """
  * @author Vo Nguyen Thien Nhan 1910409
 """
-from distutils.filelist import findall
-from gettext import find
 from AST import * 
 from Visitor import *
 from StaticError import *
 
 ## REMEMBER TO COMMENT 3 LINES BEFORE SUBMIT ##
-from main.d96.utils.AST import *
-from main.d96.parser.D96Parser import D96Parser
-from main.d96.parser.D96Visitor import D96Visitor
-from StaticError import *
+# from main.d96.utils.AST import *
+# from main.d96.parser.D96Parser import D96Parser
+# from main.d96.parser.D96Visitor import D96Visitor
+# from StaticError import *
 ## REMEMBER TO COMMENT 3 LINES BEFORE SUBMIT ##
 
 class Symbol:
@@ -142,17 +140,6 @@ class StaticChecker(BaseVisitor):
         if len(o) == 2:
             flag_const_init, o = o
             
-        # if flag_const_init:
-        #     if isinstance(left, Symbol):
-        #         if left.kind == 'mutable' or left.kind == 'variable': 
-        #             raise IllegalConstantExpression(flag_const_init)
-        #     if isinstance(right, Symbol):
-        #         if right.kind == 'mutable' or right.kind == 'variable': 
-        #             raise IllegalConstantExpression(flag_const_init)
-
-        # if isinstance(left, Symbol): left = left.type_data
-        # if isinstance(right, Symbol): right = right.type_data
-        
         expr_kind = 'immutable'
         if isinstance(left, Symbol):
             if left.kind != 'immutable' and left.kind != 'constant': 
@@ -217,27 +204,6 @@ class StaticChecker(BaseVisitor):
             if isinstance(exp_type_data, IntType): return Symbol('unary', expr_kind, None, exp_type_data)
             if isinstance(exp_type_data, FloatType): return Symbol('unary', expr_kind, None, exp_type_data)
             raise TypeMismatchInExpression(ast)
-        
-        # flag_const_init = None
-        # if len(o) == 2:
-        #     flag_const_init, o = o
-            
-        # op = ast.op
-        # exp_type_data = self.visit(ast.body, o)
-
-        # # if isinstance(exp_type_data, Symbol):   # ID
-        # #     if flag_const_init and (exp_type_data.kind == 'mutable' or exp_type_data.kind == 'variable'):
-        # #         raise IllegalConstantExpression(ast)
-        # if isinstance(exp_type_data, Symbol):
-        #     exp_type_data = exp_type_data.type_data
-        
-        # if op == '!':
-        #     if isinstance(exp_type_data, BoolType): return BoolType()
-        #     raise TypeMismatchInExpression(ast)
-        # if op == '-':
-        #     if isinstance(exp_type_data, IntType): return IntType()
-        #     if isinstance(exp_type_data, FloatType): return FloatType()
-        #     raise TypeMismatchInExpression(ast)
     
     def visitCallExpr(self, ast: CallExpr, o):
         temp = o
@@ -254,8 +220,6 @@ class StaticChecker(BaseVisitor):
         if isinstance(ast.obj, SelfLiteral):
             current_class = o['current_class']     
             current_method = o['current_method'] 
-            # if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class][current_method].static_or_instance, Static): 
-            #     raise IllegalMemberAccess(ast)
             if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class].lookup_method(current_method).static_or_instance, Static): 
                 raise IllegalMemberAccess(ast)
             lookup_method = lookup_method_func(method, current_class, o, self.list_inherit)
@@ -527,10 +491,10 @@ class StaticChecker(BaseVisitor):
                 raise TypeMismatchInStatement(o['saved_if_stmt']['if_stmt'])
             raise TypeMismatchInStatement(ast)
         
-        save_top_level_if_statement = o['saved_if_stmt']['if_stmt']
+        saved_top_if_stmt = o['saved_if_stmt']['if_stmt']
         o['saved_if_stmt']['if_stmt'] = '-1'
         self.visit(ast.thenStmt, temp)
-        o['saved_if_stmt']['if_stmt'] = save_top_level_if_statement
+        o['saved_if_stmt']['if_stmt'] = saved_top_if_stmt
         
         if len(temp[1]['local']) != 0:      # after visit thenStmt, pop local
             temp[1]['local'].pop(0) # 
@@ -542,7 +506,7 @@ class StaticChecker(BaseVisitor):
         else: o['saved_if_stmt']['if_stmt'] = '-1'
 
         if ast.elseStmt: self.visit(ast.elseStmt, temp) 
-        o['saved_if_stmt']['if_stmt'] = save_top_level_if_statement
+        o['saved_if_stmt']['if_stmt'] = saved_top_if_stmt
         
     
     def visitFor(self, ast: For, o):
@@ -614,8 +578,6 @@ class StaticChecker(BaseVisitor):
         if isinstance(ast.obj, SelfLiteral):
             current_class = o['current_class']     
             current_method = o['current_method'] 
-            # if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class][current_method].static_or_instance, Static): 
-            #     raise IllegalMemberAccess(ast)
             if current_method != '-1' and current_method != 'main' and isinstance(o['global'][current_class].lookup_method(current_method).static_or_instance, Static): 
                 raise IllegalMemberAccess(ast)
             # lookup_method = lookup_attribute_func(method, current_class, o, self.list_inherit)
