@@ -1,10 +1,22 @@
 
             Class D96Class {
-
+                Var c : String = "Nhan Vo";
+                Var d: Boolean = False;
                 main() {
                     Var a : Int = 1;
-                    Var b : Int = 2;
-                    io.writeIntLn(b);
+                    Var b : Float = 2.2;
+                    io.writeIntLn(a);
+                    io.writeFloatLn(b);
+                    io.writeStrLn(Self.c);
+                    io.writeBoolLn(Self.d);
+                
+                    Val e : Int = 100;
+                    Val f : Float = 200.2;
+                    io.writeIntLn(-e);
+                    io.writeFloatLn(f);
+                    io.writeIntLn(-e + a);
+                    io.writeIntLn(e * 2);
+                    io.writeFloatLn(3.0 / 2.0);
                 }
             }
         
