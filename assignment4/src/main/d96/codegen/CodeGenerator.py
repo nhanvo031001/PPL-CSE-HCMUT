@@ -73,12 +73,12 @@ class SubBody():
 
 class ClassComponent:
     def __init__(self, cname, pname, mem):
-        self.cname = cname
-        self.pname = pname
+        self.classname = cname
+        self.parentname = pname
         self.mem = mem
         
     def __str__(self):
-        return "ClassComponent(" + str(self.cname) + ", " + str(self.pname) + ", " + "[" + ','.join(str(x) for x in self.mem) + "]" + ")"
+        return "ClassComponent(" + str(self.classname) + ", " + str(self.parentname) + ", " + "[" + ','.join(str(x) for x in self.mem) + "]" + ")"
 
 class VisitorGlobal(BaseVisitor):
     def visitProgram(self, ast, c):
@@ -118,26 +118,20 @@ class CodeGenerator():
         self.lib_name = "io"
 
     def init(self):
-        return [Symbol("getInt", MType(list(), IntType()), CName(self.lib_name)),
-                    Symbol("putInt", MType([IntType()], VoidType()), CName(self.lib_name)),
-                    Symbol("putIntLn", MType([IntType()], VoidType()), CName(self.lib_name)),
-                    Symbol("writeInt", MType([IntType()],
-                        VoidType()), CName(self.lib_name), "Static", "Method"),
-                    Symbol("writeIntLn", MType([IntType()],
-                        VoidType()), CName(self.lib_name), "Static", "Method"),
-                    Symbol("writeStr",  MType([StringType()], VoidType()), CName(
-                        self.lib_name), "Static", "Method"),
-                    Symbol("writeStrLn",  MType([StringType()], VoidType()), CName(
-                        self.lib_name), "Static", "Method"),
-                    Symbol("writeFloat", MType([FloatType()], VoidType()), CName(
-                        self.lib_name), "Static", "Method"),
-                    Symbol("writeFloatLn", MType([FloatType()], VoidType()), CName(
-                        self.lib_name), "Static", "Method"),
-                    Symbol("writeBool", MType([BoolType()], VoidType()), CName(
-                        self.lib_name), "Static", "Method"),
-                    Symbol("writeBoolLn", MType([BoolType()], VoidType()), CName(
-                        self.lib_name), "Static", "Method")
-                    ]
+        return [    
+                    Symbol("getInt", MType([], IntType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("putInt", MType([IntType()], VoidType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("putIntLn", MType([IntType()], VoidType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("getFloat", MType([], FloatType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("putFloat", MType([FloatType()], VoidType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("putFloatLn", MType([FloatType()], VoidType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("putString", MType([StringType()], VoidType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("putStringLn", MType([StringType()], VoidType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("putLn", MType([], VoidType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("getBool", MType([], BoolType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("putBool", MType([BoolType()], VoidType()), CName(self.lib_name), "Static", "Method"),
+                    Symbol("putBoolLn", MType([BoolType()], VoidType()), CName(self.lib_name), "Static", "Method")
+                ]
 
     def gen(self, ast, dir_):
         global_env = VisitorGlobal().visit(ast, None)            # return List[ClassComponent]
@@ -374,14 +368,15 @@ class CodeGenVisitor(BaseVisitor):
         return (code, MType([], VoidType()))
         
     def visitFieldAccess(self, ast, o):
+        obj_code = self.current_class
         if isinstance(ast.obj, SelfLiteral):
             sym = self.access_handler(ast, o, self.class_name)
         else:
-            # obj = self.visit(ast.obj, Access(o.frame, o.sym, True, False))
             obj_code, obj_type = self.visit(ast.obj, Access(o.frame, o.sym, True, False))
             sym = self.access_handler(ast, o, obj_code)
         if sym is not None:
-            if(o.isLeft == True):
+            if o.isLeft == True:
+                # return (self.emit.emitPUTFIELD(obj_code + "." + sym.name, sym.mtype, o.frame), sym.mtype)
                 return (self.emit.emitPUTSTATIC(obj_code + "." + sym.name, sym.mtype, o.frame), sym.mtype)
             if sym.value is not None:
                 return (self.emit.emitPUSHCONST(self.emit.emitExpr(sym.value, sym.mtype), sym.mtype, o.frame), sym.mtype)
@@ -408,23 +403,23 @@ class CodeGenVisitor(BaseVisitor):
         
     def access_handler(self, ast, o, name):
         field_name = ast.fieldname.name if isinstance(ast, FieldAccess) else ast.method.name
-        current_class = self.lookup(name, self.env, lambda x: x.cname)
+        current_class = self.lookup(name, self.env, lambda x: x.classname)
         method = self.lookup(field_name, current_class.mem, lambda x: x.name)
         if method is not None:   return method
-        if current_class.pname != "":
-            return self.access_handler(ast, o, current_class.pname)
+        if current_class.parentname != "":
+            return self.access_handler(ast, o, current_class.parentname)
         
     def visitId(self, ast, o):
         sym = self.lookup(ast.name, o.sym, lambda x: x.name)
         if sym is None: # io
             currentClass = self.lookup(
-                self.class_name, self.env, lambda x: x.cname)        # self.env is List[ClassComponent], return ClassComponent object
+                self.class_name, self.env, lambda x: x.classname)        # self.env is List[ClassComponent], return ClassComponent object
             sym = self.lookup(ast.name, currentClass.mem, lambda x: x.name)
         if sym is None:
             # continue find in parent class
-            if currentClass.pname != "":
+            if currentClass.parentname != "":
                 parentClass = self.lookup(
-                    currentClass.pname, self.env, lambda x: x.cname)
+                    currentClass.parentname, self.env, lambda x: x.classname)
                 sym = self.lookup(
                     ast.method, parentClass.mem, lambda x: x.name)
         if sym is not None:
@@ -439,6 +434,7 @@ class CodeGenVisitor(BaseVisitor):
                 else:
                     if o.isFirst == True:
                         if type(sym.value) is Index:
+                            print("sym.mtype: ", sym.mtype)
                             return (self.emit.emitREADVAR(ast.name, sym.mtype, sym.value.value, o.frame), sym.mtype)
                         if type(sym.value) is Const:
                             return (self.emit.emitREADCONST(sym.value.value, sym.mtype, o.frame), sym.mtype)
@@ -446,7 +442,7 @@ class CodeGenVisitor(BaseVisitor):
                         return (ast.name, sym.mtype)
             else:
                 return (ast.name, sym.mtype)
-        sym = self.lookup(ast.name, self.env, lambda x: x.cname)
+        sym = self.lookup(ast.name, self.env, lambda x: x.classname)
         if sym is not None:
             return (ast.name, ClassType(ast.name))
 
@@ -463,7 +459,7 @@ class CodeGenVisitor(BaseVisitor):
         return self.emit.emitPUSHICONST(str(ast.value), o.frame), BoolType()
     
     def visitNullLiteral(self, ast, o):
-        return self.emit.emitPUSHNULL(), BoolType()
+        return self.emit.emitPUSHICONST(0, o.frame), IntType()
     
     def lookup(self,name,lst,func):
         for x in lst:

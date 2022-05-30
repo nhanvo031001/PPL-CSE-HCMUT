@@ -1,0 +1,10 @@
+
+            Class D96Class {
+                Var c : Boolean = False;
+                Var d : String = "Nhan";
+                main() {
+                    io.putBoolLn(Self.c);
+                    io.putString(Self.d);
+                }
+            }
+        

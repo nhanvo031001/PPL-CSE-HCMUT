@@ -1,0 +1,8 @@
+
+            Class D96Class {
+                Var a : String = "Nhan Vo";
+                main() {
+                    io.putString(Self.a);
+                }
+            }
+        

@@ -1,0 +1,8 @@
+
+            Class D96Class {
+                Val a : Boolean = False;
+                main() {
+                    io.putBool(Self.a || True);
+                }
+            }
+        

@@ -1,1 +1,8 @@
-Program(List(FuncDecl(Id(main),List(),VoidType,Block(List(),List(CallExpr(Id(putInt),List(IntLiteral(5))))))))
+
+            Class D96Class {
+                Var a : Float = 1.2;
+                main() {
+                    io.putFloat(Self.a);
+                }
+            }
+        

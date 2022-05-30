@@ -1,0 +1,7 @@
+
+            Class D96Class {
+                main() {
+                    io.putInt(100 - 200);
+                }
+            }
+        
