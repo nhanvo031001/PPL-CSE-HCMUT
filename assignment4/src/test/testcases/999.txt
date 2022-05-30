@@ -1,0 +1,10 @@
+
+            Class D96Class {
+
+                main() {
+                    Var a : Int = 1;
+                    Var b : Int = 2;
+                    io.writeIntLn(b);
+                }
+            }
+        

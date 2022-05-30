@@ -385,3 +385,5 @@ class Program(AST):
     
 # if isinstance(conditional_expr, D96Type):
 #     conditional_expr = conditional_expr.type_data
+
+
