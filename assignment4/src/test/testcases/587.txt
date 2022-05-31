@@ -1,0 +1,12 @@
+
+            Class D96Class {
+                Var a : Boolean = False;    
+                Var b, c, d : Int = 1, 2, 3;
+                main() {
+                    Var a : Float = 1.0;
+                    io.putFloatLn(-a);
+                    a = 2.0;
+                    io.putFloat(a * 2.0);
+                }
+            }
+        

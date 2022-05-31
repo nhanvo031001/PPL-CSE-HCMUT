@@ -1,0 +1,12 @@
+
+            Class D96Class {
+                Var a : Boolean = False;    
+                Var b, c, d : Int = 1, 2, 3;
+                main() {
+                    Var b, c, d : Int = 1, 2, 3;
+                    io.putBoolLn( False && True || False == True && Self.a);
+                    io.putBoolLn(Self.b + Self.c == Self.d);
+                    io.putBool(b + c != d);
+                }
+            }
+        

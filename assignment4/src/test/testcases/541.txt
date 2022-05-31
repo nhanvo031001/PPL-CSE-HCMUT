@@ -1,0 +1,9 @@
+
+            Class D96Class {
+                Var $a : Int = 1;
+                Var b : Int = 3;
+                main() {
+                    io.putBool(D96Class::$a < Self.b);
+                }
+            }
+        

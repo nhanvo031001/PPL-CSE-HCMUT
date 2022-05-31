@@ -1,0 +1,9 @@
+
+            Class D96Class {
+                Var a, b : Int = 1, 2;
+                main() {
+                    io.putInt(Self.a);
+                    io.putInt(Self.b);
+                }
+            }
+        

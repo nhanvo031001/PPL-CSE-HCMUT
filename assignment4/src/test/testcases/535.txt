@@ -1,0 +1,11 @@
+
+            Class D96Class {
+                main() {
+                    Var a : String = "Nhan";
+                    Var b : String = "Vo";
+                    b = a;
+                    io.putStringLn(a);
+                    io.putString(b);
+                }
+            }
+        

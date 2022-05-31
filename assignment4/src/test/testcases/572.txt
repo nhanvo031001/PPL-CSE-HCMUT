@@ -1,0 +1,7 @@
+
+            Class D96Class {    
+                main() {
+                    io.putFloat(2.2 - 1.1 + 2.3 - (-3.0));
+                }
+            }
+        

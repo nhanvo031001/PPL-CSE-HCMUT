@@ -1,0 +1,11 @@
+
+            Class D96Class {
+                Var a : Int = 100;
+                Var b : Int = 200;
+                main() {
+                    io.putIntLn(Self.a);
+                    io.putIntLn(Self.b);
+                    io.putInt(Self.a - (-Self.b));
+                }
+            }
+        

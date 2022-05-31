@@ -1,0 +1,11 @@
+
+            Class D96Class {    
+                Var a, b, c: Int = 100, 200, 300;
+                main() {
+                    Var a, b, c: Int = 10, 20, 30;
+                    io.putInt(a);
+                    io.putInt(b);
+                    io.putInt(c);
+                }
+            }
+        

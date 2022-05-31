@@ -1,0 +1,10 @@
+
+            Class D96Class {
+                Var a : Int = 100;
+                Val b : Float = 100.2;
+                main() {
+                    io.putIntLn(Self.a);
+                    io.putFloat(Self.b);
+                }
+            }
+        

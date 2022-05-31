@@ -1,0 +1,10 @@
+
+            Class D96Class {
+                main() {
+                    Var a, b : Int;
+                    a = 10;
+                    b = 20;
+                    io.putInt(a*2 + b*2);
+                }
+            }
+        

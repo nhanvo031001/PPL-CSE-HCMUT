@@ -4,17 +4,15 @@
 
 .method public static main([Ljava/lang/String;)V
 .var 0 is args [Ljava/lang/String; from Label0 to Label1
-.var 1 is a I from Label0 to Label1
+.var 1 is a Z from Label0 to Label1
 Label0:
-	iconst_1
-	istore_1
-	iconst_2
-	istore_1
-	iload_1
-	invokestatic io/putInt(I)V
+	iconst_0
+	iconst_0
+	ior
+	invokestatic io/putBool(Z)V
 Label1:
 	return
-.limit stack 1
+.limit stack 5
 .limit locals 2
 .end method
 

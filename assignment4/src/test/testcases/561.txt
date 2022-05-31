@@ -1,0 +1,9 @@
+
+            Class D96Class {    
+                Var a, b: String = "string 1", "string 2";
+                main() {
+                    Var a : String = "string 3";
+                    io.putString(a);
+                }
+            }
+        

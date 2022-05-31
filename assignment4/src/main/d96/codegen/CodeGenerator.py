@@ -23,10 +23,10 @@ class MType:
 class Symbol:
     def __init__(self, name, mtype, value=None, sKind=None, kind=None):
         self.name = name
-        self.sKind = sKind
-        self.kind = kind
         self.mtype = mtype
         self.value = value
+        self.sKind = sKind
+        self.kind = kind
 
     def __str__(self):
         return "Symbol("+self.name+", "+str(self.mtype)+", "+str(self.value.value)+")"
@@ -94,7 +94,7 @@ class VisitorGlobal(BaseVisitor):
             mem_list = mem_list + [self.visit(mem, c)]
         return ClassComponent(ast.classname.name, parent_name, mem_list)
 
-    def visitAttributeDecl(self, ast, c):
+    def visitAttributeDecl(self, ast, c): 
         decl = ast.decl
         kind = ast.kind
         sKind = "Static" if isinstance(kind, Static) else "Instance"
@@ -161,6 +161,7 @@ class CodeGenVisitor(BaseVisitor):
 
     def visitAttributeDecl(self, ast, c):
         pass
+
         
     def visitClassDecl(self, ast, o):
         classname = ast.classname.name
@@ -177,6 +178,7 @@ class CodeGenVisitor(BaseVisitor):
         for mem in memList:
             if isinstance(mem, MethodDecl):
                 self.visit(mem, SubBody(None, []))
+            # self.visit(mem, SubBody(None, []))
 
         self.generate_method(MethodDecl(Instance(), Id("<init>"), list(), Block([])), o, Frame("<init>", VoidType()))
         self.emit.emitEPILOG()
@@ -222,8 +224,8 @@ class CodeGenVisitor(BaseVisitor):
         # for initialization of variable
         for stmt in body.inst:
             if isinstance(stmt, VarDecl) and stmt.varInit is not None:
-                self.visit(Assign(stmt.variable, stmt.varInit), SubBody(frame, global_env))  
-        
+                self.visit(Assign(stmt.variable, stmt.varInit), SubBody(frame, global_env))
+
         # other statements except VarDecl and ConstDecl
         for stmt in body.inst:
             if not isinstance(stmt, VarDecl) and not isinstance(stmt, ConstDecl):
@@ -376,9 +378,12 @@ class CodeGenVisitor(BaseVisitor):
             sym = self.access_handler(ast, o, obj_code)
         if sym is not None:
             if o.isLeft == True:
-                # return (self.emit.emitPUTFIELD(obj_code + "." + sym.name, sym.mtype, o.frame), sym.mtype)
                 return (self.emit.emitPUTSTATIC(obj_code + "." + sym.name, sym.mtype, o.frame), sym.mtype)
-            if sym.value is not None:
+            if sym.value is not None:   
+                # sym.value, typ = self.visit(sym.value.value, Access(o.frame, o.sym, True, False))
+                # self.emit.printout(sym.value)
+                # temp = o.frame.getCurrIndex()
+                # print("temp: ", temp)
                 return (self.emit.emitPUSHCONST(self.emit.emitExpr(sym.value, sym.mtype), sym.mtype, o.frame), sym.mtype)
             return (self.emit.emitGETSTATIC(obj_code + "." + sym.name, sym.mtype, o.frame), sym.mtype)
     
@@ -434,7 +439,6 @@ class CodeGenVisitor(BaseVisitor):
                 else:
                     if o.isFirst == True:
                         if type(sym.value) is Index:
-                            print("sym.mtype: ", sym.mtype)
                             return (self.emit.emitREADVAR(ast.name, sym.mtype, sym.value.value, o.frame), sym.mtype)
                         if type(sym.value) is Const:
                             return (self.emit.emitREADCONST(sym.value.value, sym.mtype, o.frame), sym.mtype)

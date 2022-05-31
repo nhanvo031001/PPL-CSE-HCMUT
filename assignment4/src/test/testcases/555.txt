@@ -1,0 +1,9 @@
+
+            Class D96Class {
+                Var a, b : Float = 1.1, 2.2;
+                main() {
+                    io.putFloatLn(Self.a);
+                    io.putFloat(Self.b);
+                }
+            }
+        
