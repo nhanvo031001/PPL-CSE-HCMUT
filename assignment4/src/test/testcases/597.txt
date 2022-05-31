@@ -1,0 +1,8 @@
+
+            Class D96Class {
+                Val a : String = "str";
+                main() {
+                    io.putString(Self.a);
+                }
+            }
+        

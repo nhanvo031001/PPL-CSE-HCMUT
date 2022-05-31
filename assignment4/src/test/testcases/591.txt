@@ -1,0 +1,8 @@
+
+            Class D96Class {
+                main() {
+                    io.putBoolLn(!!!!!!!!!!!False);
+                    io.putBool(!!!!!!!!!!!!False);
+                }
+            }
+        

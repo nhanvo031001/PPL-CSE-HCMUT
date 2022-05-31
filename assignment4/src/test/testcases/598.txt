@@ -1,0 +1,14 @@
+
+            Class D96Class {
+                Var a, b, c : Int = 10, 20, 30;
+                Val d, e, f : Float = 10.1, 20.2, 30.3;
+                main() {
+                    Var a, b, c : Int = 10, 20, 30;
+                    Val d, e, f : Float = 10.1, 20.2, 30.3;
+                    io.putIntLn(Self.a + Self.b + Self.c);
+                    io.putFloatLn(Self.d + Self.e - -Self.f);
+                    io.putIntLn(a - b - c*2);
+                    io.putFloat(d + e + f);
+                }
+            }
+        

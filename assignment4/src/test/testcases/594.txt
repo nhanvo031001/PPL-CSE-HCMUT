@@ -1,0 +1,9 @@
+
+            Class D96Class {
+                Var a : Boolean = False;
+                Var $a : Boolean = True;
+                main() {
+                    io.putBool(Self.a != !D96Class::$a);
+                }
+            }
+        
