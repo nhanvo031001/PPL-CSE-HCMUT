@@ -1,0 +1,15 @@
+
+            Class A {
+                Var a : Int;
+                Constructor () {
+                    Self.a = Self.a;
+                }
+            }
+            
+            Class Program {
+                main() {
+                    Val x : A = New A();        ## ok ##
+                    Var y : A = New A(1);       ## error params ##
+                }
+            }
+        

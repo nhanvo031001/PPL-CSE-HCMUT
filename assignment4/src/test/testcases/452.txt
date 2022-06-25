@@ -1,0 +1,10 @@
+
+            Class Program{
+                main() {
+                    Var a : Float = 1.2 / 4;
+                    Var b : Float = 1.2 / 4.5;
+                    Var c : Float = 1 / 4;
+                    Var d : Float = 1.2 / "Nhan";
+                }
+            }
+        

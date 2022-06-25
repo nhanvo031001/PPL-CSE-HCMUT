@@ -1,0 +1,10 @@
+    
+            Class Program {
+                main() {
+                    Var a, b: Int;
+                    Val c, d: Float = 1, 2;
+                    Var arr1 : Array[Float, 3] = Array(a, -b, a + b);
+                    Var arr2 : Array[Float, 3] = Array(a, b, -c);
+                }
+            }
+        

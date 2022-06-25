@@ -1,0 +1,11 @@
+
+            Class A {
+                Val a : Int = 1;
+            }
+            Class Program{
+                main() {
+                    Var obj : A = New A();
+                    obj.a = 1;
+                }
+            }
+        

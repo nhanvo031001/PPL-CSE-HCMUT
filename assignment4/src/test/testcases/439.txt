@@ -1,0 +1,8 @@
+
+            Class Program{
+                main() {
+                    Var arr : Array[Int, 2];
+                    arr[0] = 1.23;
+                }
+            }
+        

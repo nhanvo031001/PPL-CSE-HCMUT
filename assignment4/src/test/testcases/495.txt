@@ -1,0 +1,19 @@
+
+            Class A {
+                Var a : Int;
+                
+                A() {
+                    Self.a = Self.a;
+                }
+                
+                A(a:Int) {          ## redeclared method ##
+                    
+                }
+            }
+            
+            Class Program {
+                main() {
+
+                }
+            }
+        

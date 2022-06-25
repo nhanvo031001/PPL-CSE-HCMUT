@@ -1,0 +1,11 @@
+
+            Class A {
+                func() {Return 1;}
+            }
+            
+            Class Program : A {
+                main(){
+                    Self.func();
+                }
+            }
+        

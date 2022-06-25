@@ -1,12 +1,16 @@
 
-            Class D96Class {
-                main() {
+            Class Program {
+                func() {
                     io.putInt(1);
                     io.putInt(2);
                     io.putInt(3);
                     io.putFloat(1.0);
                     io.putFloat(2.0);
                     io.putFloat(3.0);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

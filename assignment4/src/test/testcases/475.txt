@@ -1,0 +1,12 @@
+    
+            Class Program {
+                func1(a: String) {
+                    Var x : Int = 1;
+                    Return x;
+                }
+                
+                main() {
+                    Val x : Int = Self.func1("Nhan");
+                }
+            }
+        

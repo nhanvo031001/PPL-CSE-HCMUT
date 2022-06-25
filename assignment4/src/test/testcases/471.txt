@@ -1,0 +1,22 @@
+    
+            Class Program {
+                main() {
+                    Var lower, upper, step : Int = 1, 2, 3;
+                    Var i : Int = 1;
+                    Foreach (i In lower .. upper) {
+                        Break;
+                    }
+                    Foreach (i In lower .. upper By step) {
+                        {
+                            {
+                                {
+                                    Break;
+                                }
+                            }
+                        }
+                    }
+                    
+                    Break;          ## error ##
+                }
+            }
+        

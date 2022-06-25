@@ -1,0 +1,8 @@
+
+            Class Program{
+                func_1() {}
+                main(){
+                    Self.func();
+                }
+            }
+        

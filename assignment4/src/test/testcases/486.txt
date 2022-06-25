@@ -1,0 +1,13 @@
+ 
+            Class Program {
+                Var func : Int;
+                func() {}
+                main() {
+                    Self.func();        ## ok ##
+                }
+                
+                $static_func() {
+                    Self.func();        ## error ##
+                }
+            }
+        

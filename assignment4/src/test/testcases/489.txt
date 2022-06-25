@@ -1,0 +1,10 @@
+ 
+            Class Program {
+                func() {
+                    Return;
+                }
+                main() {
+                    program.func();  
+                }
+            }
+        

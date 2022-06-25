@@ -1,0 +1,10 @@
+
+            Class Program{
+                main() {
+                    Var a, b, i : Int;
+                    Var x : Float; 
+                    Foreach (i In a .. b By a) {}
+                    Foreach (i In x .. b By a) {}
+                }
+            }
+        

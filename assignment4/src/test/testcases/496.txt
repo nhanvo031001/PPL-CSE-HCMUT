@@ -1,0 +1,16 @@
+
+            Class A {
+                Var a : Int;
+                A(a :Int) {
+                    Self.a = Self.a;
+                }
+                Destructor() {
+                    Self.a = Self.a;
+                    Return;         ## error, no return in destructor ##
+                }
+            }
+            
+            Class Program {
+                main() {}
+            }
+        

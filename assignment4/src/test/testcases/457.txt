@@ -1,0 +1,13 @@
+
+            Class Program{
+                Var x, y : String;
+                Var m, n : Int;
+                Var a, b : Float;
+                main() {
+                    Var temp1 : Boolean = Self.m == Self.n;
+                    Var temp2 : Boolean = Self.m < Self.a;
+                    Var temp3 : Boolean = Self.b < Self.a;
+                    Var temp4 : Boolean = Self.x < Self.a;
+                }
+            }
+        

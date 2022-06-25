@@ -1,8 +1,14 @@
 
-            Class D96Class {
+            Class Program {
                 Val a : String = "str";
+                func() {
+                    If(Self.a ==. "str") {
+                        io.putString(Self.a);
+                    }
+                }
                 main() {
-                    io.putString(Self.a);
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

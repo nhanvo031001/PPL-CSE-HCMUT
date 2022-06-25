@@ -1,0 +1,8 @@
+
+            Class Program{
+                main() {}
+                func(a, b: Int) {
+                    Var a : Int;
+                }
+            }
+        

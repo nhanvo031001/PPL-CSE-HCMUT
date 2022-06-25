@@ -1,0 +1,9 @@
+
+            Class Program{
+                Var x , y : Int;
+                main() {
+                    Var a : Boolean = True || False && True;
+                    Var b : Boolean = Self.x && Self.y;
+                }
+            }
+        

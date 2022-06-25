@@ -1,0 +1,16 @@
+
+            Class Program {
+                func1() {
+                    Var x : Int;
+                    Return x;
+                }
+                func2() {
+                    Val x : Int = 1;
+                    Return x;
+                }
+                main() {
+                    Val x : Int = Self.func2();     ## ok ##
+                    Val y : Int = Self.func1();     ## error, func1 return Var ##
+                }
+            }
+        

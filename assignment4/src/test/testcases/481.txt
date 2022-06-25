@@ -1,0 +1,12 @@
+ 
+            Class A {
+                Var a : Int;
+                Val b : Float = 1.2;
+            }   
+            
+            Class Program {
+                main() {
+                    Var x : Int = A.a;
+                }
+            }
+        

@@ -181,7 +181,8 @@ class TestCodeGen():
         f = open(os.path.join(soldir, str(num) + ".txt"),"w")
         try:
             codeGen.gen(asttree, path)
-            subprocess.call("java -jar "+ JASMIN_JAR + " " + path + "/D96Class.j",shell=True,stderr=subprocess.STDOUT)
+            # subprocess.call("java -jar "+ JASMIN_JAR + " " + path + "/D96Class.j",shell=True,stderr=subprocess.STDOUT)
+            subprocess.call("java -jar "+ JASMIN_JAR + " " + path + "/*.j",shell=True,stderr=subprocess.STDOUT)
             # f.close()
             # f = open(os.path.join(soldir, str(num) + ".txt"),"r")
             # lines = f.readlines()
@@ -190,7 +191,9 @@ class TestCodeGen():
             # for i in range(2, len(lines)):
             #     f.write(lines[i].strip('\n'))
             IO_PATH = ";../lib/:."
-            subprocess.run("java -cp " + IO_PATH + " D96Class",
+            # subprocess.run("java -cp " + IO_PATH + " D96Class",
+            #                shell=True, stdout=f, timeout=10)
+            subprocess.run("java -cp " + IO_PATH + " Program",
                            shell=True, stdout=f, timeout=10)
             # subprocess.run("java -cp ./lib:. D96Class",shell=True, stdout = f, timeout=10)
         except StaticError as e:

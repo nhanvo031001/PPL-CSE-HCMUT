@@ -1,0 +1,8 @@
+
+            Class Program{
+                main() {
+                    Val a : Int = 1;
+                    Var a : String;
+                }
+            }
+        

@@ -1,8 +1,16 @@
 
-            Class D96Class {
+            Class Program {
                 Var a : Boolean = False;
+                func() {
+                    Var i : Int;
+                    Foreach(i In 1 .. 5) {
+                        Continue;
+                    }
+                    io.putInt(1);
+                }
                 main() {
-                    io.putBool(Self.a == !!False);
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

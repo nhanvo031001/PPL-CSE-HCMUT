@@ -1,9 +1,13 @@
 
-            Class D96Class {
-                main() {
+            Class Program {
+                func() {
                     io.putIntLn(---------------1 - ---------------1);
                     io.putIntLn(3%2 - 1);
                     io.putInt(4%2 - 1);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

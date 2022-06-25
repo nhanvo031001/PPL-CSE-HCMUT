@@ -1,0 +1,13 @@
+
+            Class Program{
+                func() {
+                    Return 1;
+                }
+                
+                main() {
+                    Val x : Int = Self.func();
+                    Val y : Float = Self.func() + 1;
+                    Var z : Int = Self.func(1);         ## error params ##
+                }
+            }
+        

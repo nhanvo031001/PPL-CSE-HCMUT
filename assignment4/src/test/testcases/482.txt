@@ -1,0 +1,8 @@
+ 
+            Class Program {
+                main() {
+                    Var A : Int = 1;
+                    A::$func();         
+                }
+            }
+        

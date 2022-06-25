@@ -1,9 +1,13 @@
 
-            Class D96Class {
+            Class Program {
                 Var $a : Int = 1;
                 Var b : Int = 3;
+                func() {
+                    io.putBool(Program::$a < Self.b);
+                }
                 main() {
-                    io.putBool(D96Class::$a < Self.b);
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

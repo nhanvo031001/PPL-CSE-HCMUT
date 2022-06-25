@@ -1,0 +1,12 @@
+
+            Class Program{
+                Var x, y : Boolean;
+                Var m, n : Int;
+                Var a, b : Float;
+                main() {
+                    Var temp1 : Boolean = Self.m == Self.n;
+                    Var temp2 : Boolean = Self.x != Self.y;
+                    Var temp3 : Boolean = Self.a != Self.b;
+                }
+            }
+        

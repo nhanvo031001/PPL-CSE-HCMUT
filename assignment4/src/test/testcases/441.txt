@@ -1,0 +1,9 @@
+
+            Class Program{
+                main() {
+                    Var arr : Array[Array[Float, 2], 2];    
+                    arr[0][0] = 2;          ## ok, 2d array ##
+                    arr[0][0] = Array(1,2);
+                }
+            }
+        

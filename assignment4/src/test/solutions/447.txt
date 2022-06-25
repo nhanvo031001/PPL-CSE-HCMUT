@@ -1,0 +1,1 @@
+Type Mismatch In Statement: Call(Id(A),Id($func),[IntLit(1),IntLit(2),BooleanLit(True),BooleanLit(True)])

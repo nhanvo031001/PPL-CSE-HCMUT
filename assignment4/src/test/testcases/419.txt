@@ -1,0 +1,8 @@
+
+            Class Program{
+                Var a : Float = 1.2;
+                Val b : String = "Nhan";
+                func(a, b: Int; c: Float; c: String) {}
+                main() {}
+            }
+        

@@ -1,9 +1,13 @@
 
-            Class D96Class {    
+            Class Program {    
                 Var a, b: String = "string 1", "string 2";
-                main() {
+                func() {
                     Var a : String = "string 3";
                     io.putString(a);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

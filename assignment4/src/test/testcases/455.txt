@@ -1,0 +1,8 @@
+
+            Class Program{
+                Var x , y : Int;
+                main() {
+                    Var b : Boolean = Self.x ==. Self.y;
+                }
+            }
+        

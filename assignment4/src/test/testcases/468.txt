@@ -1,0 +1,8 @@
+    
+            Class Program{
+                Val a : Int = 1;
+                main() {
+                    Val x : String = Self.a;
+                }
+            }
+        

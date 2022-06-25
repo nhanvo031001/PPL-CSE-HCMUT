@@ -1,8 +1,12 @@
 
-            Class D96Class {
+            Class Program {
                 Var a : Boolean = False;
-                main() {
+                func() {
                     io.putBool(Self.a);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

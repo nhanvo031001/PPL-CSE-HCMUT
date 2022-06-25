@@ -1,0 +1,17 @@
+
+            Class Program{
+                Var x, y : Boolean;
+                Var m, n : Int;
+                Var a, b : Float;
+                main() {
+                    Var temp1 : Float = Self.m + Self.a;
+                    Var temp2 : Float = Self.m - Self.a;
+                    Var temp3 : Float = Self.m - Self.n;
+                    Var temp4 : Float = Self.m / Self.n;
+                    Var temp5 : Float = Self.m * Self.n;
+                    Var temp6 : Float = Self.m / Self.n;
+                    Var temp7 : Float = Self.a * Self.b;
+                    Var temp8 : Float = Self.a * Self.x;
+                }
+            }
+        

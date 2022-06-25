@@ -1,0 +1,10 @@
+    
+            Class Program {
+                main() {
+                    Var arr : Array[Array[Int, 3], 2] = Array(
+                        Array(1, 2, 3),    
+                        Array(1.0, 2.2, 3.4)        ## not same type ##
+                    );
+                }
+            }
+        

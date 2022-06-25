@@ -1,0 +1,12 @@
+
+            Class A {
+                Var a : Int = 1;
+            }
+            
+            Class Program : A {
+                Val b: Int = 1;
+                main(){
+                    Var a : Int = Self.a;
+                }
+            }
+        

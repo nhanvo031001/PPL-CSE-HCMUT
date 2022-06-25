@@ -1,0 +1,9 @@
+CodeGenerator_old.py: clone git, edit variables
+CodeGenerator_old_1.py: edit code from old.py
+CodeGenerator_old_2.py: clone d, edit vars and style
+CodeGenerator_old_3.py: change mostly whole, maybe add Symbol 
+CodeGenerator_old_4.py: maybe submit
+CodeGenerator_old_5.py: submitted, comment first 3 lines import
+Emitter_old.py: the oldest, fix for running of CodeGenerator on git
+CodeGenSuite_old.py: old version of io, use putInt, putFloat...
+CodeGenSuite_old_1.py: change D96Class to Program

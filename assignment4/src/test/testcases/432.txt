@@ -1,0 +1,11 @@
+
+            Class Program : A{
+                main() {
+                    
+                }
+            }
+            
+            Class A {
+                
+            }
+        

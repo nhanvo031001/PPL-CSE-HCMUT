@@ -1,0 +1,16 @@
+
+            Class A {
+                func(a: Int) {
+                    Return New A();
+                }
+                
+            }
+            
+            Class Program{
+                main() {
+                    Var a : A = New A();
+                    Val x : A = a.func(1);       ## ok cuz function return object A ##
+                    Var y : A = a.func();       ## error params ##
+                }
+            }
+        

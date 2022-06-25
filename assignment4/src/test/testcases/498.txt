@@ -1,0 +1,19 @@
+
+            Class Program {
+                main() {
+                    Var a,b,c,d: Boolean;
+                    Var e,f: Int;
+                    If (a) {}
+                    Elseif (b) {}
+                    Elseif (c) {
+                        If (a) {}
+                        Else {}
+                        
+                        If (b) {}
+                        Elseif (c) {}
+                        Elseif (e) {}
+                    }
+                    Elseif (d) {}
+                }
+            }
+        

@@ -1,0 +1,1 @@
+Illegal Member Access: Call(Id(A),Id($func),[])

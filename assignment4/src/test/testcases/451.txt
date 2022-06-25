@@ -1,0 +1,9 @@
+
+            Class Program{
+                main() {
+                    Var a,b : Int;
+                    Var c,d : String;
+                    a = a + c;
+                }
+            }
+        

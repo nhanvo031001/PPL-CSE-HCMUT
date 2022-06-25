@@ -1,0 +1,14 @@
+
+            Class A {
+                Val a, $a: Int = 1, 2;
+            }
+            
+            Class Program{
+                main() {
+                   Var a : A;
+                   Val x : Int = a.a;
+                   Val y : Float = A::$a;
+                   Var z : Int = x.a;           ## error cuz object is not class type ##
+                }
+            }
+        

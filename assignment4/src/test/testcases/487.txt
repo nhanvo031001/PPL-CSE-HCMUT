@@ -1,0 +1,11 @@
+ 
+            Class Program {
+                Var func : Int;
+                func() {
+                    Return "Nhan";
+                }
+                main() {
+                    Self.func();        ## return non-void type ##
+                }
+            }
+        

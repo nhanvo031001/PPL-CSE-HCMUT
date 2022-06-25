@@ -1,0 +1,9 @@
+
+            Class Program{
+                func() {
+                    Return;
+                    Return 1.2;
+                }
+                main() {}
+            }
+        

@@ -1,0 +1,11 @@
+ 
+            Class Program {
+                func(a, b: Float) {
+                    Return;
+                }
+                main() {
+                    Self.func(1, 2.2);   ## ok, coercion ##  
+                    Self.func(True, 2.2);   
+                }
+            }
+        

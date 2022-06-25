@@ -1,0 +1,12 @@
+
+            Class A {
+                Var a : Int;
+            }
+            
+            Class Program {
+                main() {
+                    Val x : A = New A();        ## ok ##
+                    Var y : A = New A("Nhan");       ## error params ##
+                }
+            }
+        

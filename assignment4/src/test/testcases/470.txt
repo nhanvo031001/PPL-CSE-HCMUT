@@ -1,0 +1,9 @@
+    
+            Class A {}
+            Class Program : A {
+                Val a : A = New A();
+                main() {
+                    Val obj : Program = Self.a;
+                }
+            }
+        

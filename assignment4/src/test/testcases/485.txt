@@ -1,0 +1,10 @@
+ 
+            Class A {
+                func() {}
+            }
+            Class Program {
+                main() {
+                    A.func();
+                }
+            }
+        

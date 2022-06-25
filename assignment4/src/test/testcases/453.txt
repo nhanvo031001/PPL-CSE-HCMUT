@@ -1,0 +1,9 @@
+
+            Class Program{
+                main() {
+                    Var a : Int = 1 % 2;
+                    Var b : Float = 1 % 2;
+                    Var c : Int = 1.5 % 2;      ## failed ##
+                }
+            }
+        

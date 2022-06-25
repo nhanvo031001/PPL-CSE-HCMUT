@@ -1,0 +1,1 @@
+Type Mismatch In Constant Declaration: ConstDecl(Id(x),StringType,FieldAccess(Self(),Id(a)))

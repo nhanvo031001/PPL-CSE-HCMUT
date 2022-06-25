@@ -1,7 +1,11 @@
 
-            Class D96Class {
-                main() {
+            Class Program {
+                func() {
                     io.putBool(False && False);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

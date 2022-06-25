@@ -1,11 +1,15 @@
 
-            Class D96Class {    
+            Class Program {    
                 Var a, b, c: Int = 100, 200, 300;
-                main() {
+                func() {
                     Var a, b, c: Int = 10, 20, 30;
                     io.putInt(a);
                     io.putInt(b);
                     io.putInt(c);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

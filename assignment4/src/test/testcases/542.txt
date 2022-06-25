@@ -1,14 +1,18 @@
 
-            Class D96Class {
+            Class Program {
                 Var $a : Int = 1;
                 Var b : Float = 3.2;
                 Var c : String = "Class";
                 Var d : Boolean = False;
-                main() {
-                    io.putIntLn(-D96Class::$a);
+                func() {
+                    io.putIntLn(-Program::$a);
                     io.putFloatLn(-Self.b);
                     io.putStringLn(Self.c);
                     io.putBool(!Self.d);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

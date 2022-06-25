@@ -1,0 +1,14 @@
+
+            Class A {
+                Var func, $func : Int;
+                func(a,b: Float; c,d: Boolean) {}
+                $func(a,b: Float; c,d: Boolean) {}
+            }
+            
+            Class Program{
+                main() {
+                    Var a : A = New A();
+                    A::$func(1.2, 1, !False, "True");       ## param type error with coercion ##
+                }
+            }
+        

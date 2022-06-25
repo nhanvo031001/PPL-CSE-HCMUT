@@ -1,8 +1,12 @@
 
-            Class D96Class {
+            Class Program {
                 Val $a : Float = 1.0;
+                func() {
+                    io.putFloat(Program::$a);
+                }
                 main() {
-                    io.putFloat(D96Class::$a);
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

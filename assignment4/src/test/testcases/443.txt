@@ -1,0 +1,16 @@
+
+            Class A {
+                Var func, $func : Int;
+                func(a,b: Int; c,d: Boolean) {}
+                $func(a,b: Int; c,d: Boolean) {}
+            }
+            
+            Class Program{
+                main() {
+                    Var a : A = New A();
+                    Var b : Int;
+                    a.func();           ## OK ##
+                    b.func();
+                }
+            }
+        

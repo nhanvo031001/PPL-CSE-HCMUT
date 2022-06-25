@@ -1,7 +1,14 @@
 
-            Class D96Class {
+            Class Program {
+                func() {
+                    Var i : Int;
+                    Foreach(i In 1 .. 5) {
+                        io.putInt(i);
+                    }
+                }
                 main() {
-                    io.putString("Vo Nguyen Thien Nhan");
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

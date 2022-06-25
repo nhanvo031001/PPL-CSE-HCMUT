@@ -1,8 +1,16 @@
 
-            Class D96Class {
+            Class Program {
                 Val a : Float = 1.1;
+                func() {
+                    Var i : Int;
+                    Foreach(i In 1 .. 5) {
+                        io.putInt(i);
+                        Break;
+                    }
+                }
                 main() {
-                    io.putFloat(Self.a);
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

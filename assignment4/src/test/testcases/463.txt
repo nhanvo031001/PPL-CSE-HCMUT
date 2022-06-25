@@ -1,0 +1,11 @@
+
+            Class Program{
+                func() {
+                    Return;
+                }
+                
+                main() {
+                    Val x : Int = Self.func();      ## error cuz Void ##
+                }
+            }
+        

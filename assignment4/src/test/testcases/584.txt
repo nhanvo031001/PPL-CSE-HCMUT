@@ -1,14 +1,18 @@
 
-            Class D96Class {
+            Class Program {
                 Var a : Boolean = False;    
                 Var b, c, d : Int = 1, 2, 3;
-                main() {
+                func() {
                     Var b, c, d : Int = 1, 2, 3;
                     Val e, f, g : Boolean = True, True, True;
                     io.putBoolLn( False && True || False == True && !e);
                     io.putBoolLn( (Self.b + Self.c == Self.d) == !(!f) );
                     io.putBoolLn( (b + c != d) == !g);
                     io.putInt(Self.b - b + Self.c - c + Self.d - d);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

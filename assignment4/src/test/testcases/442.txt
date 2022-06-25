@@ -1,0 +1,8 @@
+
+            Class Program{
+                main() {
+                    Var a, b, c, d : String;
+                    Var arr : Array[Float, 4] = Array(a,b,c,d);
+                }
+            }
+        

@@ -1,0 +1,19 @@
+
+            Class A {
+                Var func, $func : Int;
+                func(a,b: Float; c,d: Boolean) {
+                    Return;
+                }
+                $func(a,b: Float; c,d: Boolean) {
+                    Return 1;
+                }
+            }
+            
+            Class Program{
+                main() {
+                    Var a : A = New A();
+                    a.func(1, 2, True, True);       ## OK ##
+                    A::$func(1, 2, True, True);     ## Failed, not void type return ##
+                }
+            }
+        

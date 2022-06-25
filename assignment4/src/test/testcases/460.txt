@@ -1,0 +1,14 @@
+
+            Class Program{
+                main() {
+                    Var a,b: Int;
+                    Var c,d: Float;
+                    Var m,n: Boolean = True, False;
+                    
+                    Var x : Int = -a;
+                    Var y : Float = -c;
+                    Var e : Boolean = !m;
+                    Var f : Boolean = -m;
+                }
+            }
+        

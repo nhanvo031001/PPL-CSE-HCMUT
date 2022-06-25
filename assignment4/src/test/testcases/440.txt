@@ -1,0 +1,8 @@
+
+            Class Program{
+                main() {
+                    Var arr : Array[Array[Int, 5], 2];    
+                    arr[0] = Array(1,2,3,4,5,6);        ## not same size ##
+                }
+            }
+        

@@ -1,0 +1,15 @@
+
+            Class A {
+                func() {
+                    Return 1;
+                }
+            }
+            
+            Class Program{
+                main() {
+                    Var a : A = New A();
+                    Val x : Int = a.func();
+                    Var y : Int = x.func();     ## error cuz pbject is not class type ##
+                }
+            }
+        

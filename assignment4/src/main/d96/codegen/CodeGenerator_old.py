@@ -33,23 +33,15 @@ class Symbol:
 
 class SubBody():
     def __init__(self, frame, sym):
-        #frame: Frame
-        #sym: List[Symbol]
-
-        self.frame = frame
-        self.sym = sym
+        self.frame = frame      # Frame
+        self.sym = sym          # List[Symbol]
 
 class Access():
     def __init__(self, frame, sym, isLeft, isFirst):
-        #frame: Frame
-        #sym: List[Symbol]
-        #isLeft: Boolean
-        #isFirst: Boolean
-
-        self.frame = frame
-        self.sym = sym
-        self.isLeft = isLeft
-        self.isFirst = isFirst
+        self.frame = frame      # Frame
+        self.sym = sym          # List[Symbol]
+        self.isLeft = isLeft    # bool
+        self.isFirst = isFirst  # bool
 
 class Val(ABC):
     pass

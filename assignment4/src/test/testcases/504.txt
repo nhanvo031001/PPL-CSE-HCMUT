@@ -1,10 +1,14 @@
 
-            Class D96Class {
+            Class Program {
                 Var a : Int = 1;
                 Var b : Float = 0.45;
-                main() {
+                func() {
                     io.putIntLn(Self.a);
                     io.putFloatLn(Self.b);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

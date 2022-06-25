@@ -1,0 +1,6 @@
+
+            Class Program{
+                main() {}
+                main(a: Int; b,c: String) {}
+            }
+        

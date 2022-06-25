@@ -1,0 +1,9 @@
+
+            Class Program {
+                Var a : Int;
+                a() {}
+                a() {}
+                main(){}
+                
+            }
+        

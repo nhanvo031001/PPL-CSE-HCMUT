@@ -1,10 +1,14 @@
 
-            Class D96Class {
+            Class Program {
                 Var a : Int = 1;
                 Var b : Int = 20;
-                main() {
+                func() {
                     Var a : Int = 2;
                     io.putInt(a + Self.b);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

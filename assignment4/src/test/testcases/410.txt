@@ -1,0 +1,7 @@
+
+            Class Program{
+                main(a, b:Int) {
+                    Val a : Float = 1.3;
+                }
+            }
+        

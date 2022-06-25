@@ -1,0 +1,10 @@
+
+            Class Program{
+                Var x, y : String;
+                Var m, n : Int;
+                main() {
+                    Var b : String = Self.x +. Self.y;
+                    Var c : String = Self.m +. Self.x;
+                }
+            }
+        

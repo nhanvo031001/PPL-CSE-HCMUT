@@ -1,7 +1,11 @@
 
-            Class D96Class {
-                main() {
+            Class Program {
+                func() {
                     io.putInt(100 - 200);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

@@ -1,9 +1,11 @@
 
             Class D96Class {
                 main() {
-                    Var a : Float;
-                    a = 2.4 + 2.4;
-                    io.putFloat(a);
+                    Var i : Int = 100;
+                    Foreach (i In 1 .. 10) {
+                        io.putInt(i);
+                        Break;
+                    }
                 }
             }
         

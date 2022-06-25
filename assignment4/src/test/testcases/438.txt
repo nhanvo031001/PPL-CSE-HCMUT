@@ -1,0 +1,10 @@
+
+            Class Program{
+                main() {
+                    Var a : Int;
+                    Var b : Float;
+                    b = a;      ## infer type ##
+                    a = b;
+                }
+            }
+        

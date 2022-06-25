@@ -1,0 +1,9 @@
+    
+            Class Program {
+                main() {
+                    Var arr1 : Array[Int, 2] = Array(1, 2);
+                    Var arr2 : Array[Float, 2] = Array(1.4, 2.5);
+                    Var arr3 : Array[Float, 2] = Array(1, 2.5);
+                }
+            }
+        

@@ -1,8 +1,8 @@
 
-            Class D96Class {
+            Class Program {
                 Var a : Boolean = False;    
                 Var b, c, d : Int = 1, 2, 3;
-                main() {
+                func() {
                     Var b, c, d : Int = 1, 2, 3;
                     Val e, f, g : Boolean = True, True, True;
                     d = 1;
@@ -10,6 +10,10 @@
                     b = 3;
                     io.putBoolLn(d + c == b);
                     io.putInt(d + c - b);
+                }
+                main() {
+                    Var obj : Program = New Program();
+                    obj.func();
                 }
             }
         

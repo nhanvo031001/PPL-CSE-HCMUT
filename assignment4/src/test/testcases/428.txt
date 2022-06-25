@@ -1,0 +1,9 @@
+
+            Class Program{
+                $func() {}
+                main(){
+                    Program::$func();
+                    Self.func();
+                }
+            }
+        
