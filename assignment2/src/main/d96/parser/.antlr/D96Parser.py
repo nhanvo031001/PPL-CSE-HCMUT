@@ -1,4 +1,4 @@
-# Generated from d:\OneDrive - hcmut.edu.vn\HK212\PPL\BTL\Assignment\assignment2\src\main\d96\parser\D96.g4 by ANTLR 4.8
+# Generated from d:\OneDrive - hcmut.edu.vn\HK212\PPL\BTL\Assignment\assignment2\src\main\d96\parser\D96.g4 by ANTLR 4.9.2
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -470,7 +470,7 @@ class D96Parser ( Parser ):
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.8")
+        self.checkVersion("4.9.2")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
@@ -478,6 +478,7 @@ class D96Parser ( Parser ):
 
 
     class ProgramContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -530,6 +531,7 @@ class D96Parser ( Parser ):
 
 
     class Class_declareContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -601,6 +603,7 @@ class D96Parser ( Parser ):
 
 
     class Name_classContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -633,6 +636,7 @@ class D96Parser ( Parser ):
 
 
     class Body_classContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -678,6 +682,7 @@ class D96Parser ( Parser ):
 
 
     class Mem_class_declareContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -746,6 +751,7 @@ class D96Parser ( Parser ):
 
 
     class Constructor_declareContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -807,6 +813,7 @@ class D96Parser ( Parser ):
 
 
     class Params_listContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -862,6 +869,7 @@ class D96Parser ( Parser ):
 
 
     class Params_declareContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -906,6 +914,7 @@ class D96Parser ( Parser ):
 
 
     class Id_listContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -960,6 +969,7 @@ class D96Parser ( Parser ):
 
 
     class Type_dataContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1019,6 +1029,7 @@ class D96Parser ( Parser ):
 
 
     class Primitive_typeContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1066,6 +1077,7 @@ class D96Parser ( Parser ):
 
 
     class Array_typeContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1125,6 +1137,7 @@ class D96Parser ( Parser ):
 
 
     class Element_typeContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1175,6 +1188,7 @@ class D96Parser ( Parser ):
 
 
     class SizeContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1207,6 +1221,7 @@ class D96Parser ( Parser ):
 
 
     class Class_typeContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1239,6 +1254,7 @@ class D96Parser ( Parser ):
 
 
     class Destructor_declareContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1287,6 +1303,7 @@ class D96Parser ( Parser ):
 
 
     class Method_declareContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1356,6 +1373,7 @@ class D96Parser ( Parser ):
 
 
     class Attribute_declareContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1449,6 +1467,7 @@ class D96Parser ( Parser ):
 
 
     class Variable_name_listContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1508,6 +1527,7 @@ class D96Parser ( Parser ):
 
 
     class Id_or_staticIDContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1549,6 +1569,7 @@ class D96Parser ( Parser ):
 
 
     class Value_listContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1, count=None):
             super().__init__(parent, invokingState)
@@ -1614,6 +1635,7 @@ class D96Parser ( Parser ):
 
 
     class Block_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1669,6 +1691,7 @@ class D96Parser ( Parser ):
 
 
     class StmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1789,6 +1812,7 @@ class D96Parser ( Parser ):
 
 
     class Variable_and_constant_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1882,6 +1906,7 @@ class D96Parser ( Parser ):
 
 
     class Variable_name_list_in_methodContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1939,6 +1964,7 @@ class D96Parser ( Parser ):
 
 
     class Value_list_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1, count=None):
             super().__init__(parent, invokingState)
@@ -2004,6 +2030,7 @@ class D96Parser ( Parser ):
 
 
     class Assignment_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2053,6 +2080,7 @@ class D96Parser ( Parser ):
 
 
     class Scalar_variableContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2139,6 +2167,7 @@ class D96Parser ( Parser ):
 
 
     class Index_exp_for_scalar_variableContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2178,6 +2207,7 @@ class D96Parser ( Parser ):
 
 
     class If_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2262,6 +2292,7 @@ class D96Parser ( Parser ):
 
 
     class Elseif_blockContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2316,6 +2347,7 @@ class D96Parser ( Parser ):
 
 
     class Else_blockContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2354,6 +2386,7 @@ class D96Parser ( Parser ):
 
 
     class For_in_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2442,6 +2475,7 @@ class D96Parser ( Parser ):
 
 
     class Break_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2479,6 +2513,7 @@ class D96Parser ( Parser ):
 
 
     class Continue_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2516,6 +2551,7 @@ class D96Parser ( Parser ):
 
 
     class Return_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2566,6 +2602,7 @@ class D96Parser ( Parser ):
 
 
     class Method_invocation_stmtContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2620,6 +2657,7 @@ class D96Parser ( Parser ):
 
 
     class Static_method_invocationContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2686,6 +2724,7 @@ class D96Parser ( Parser ):
 
 
     class Instance_method_invocationContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2752,6 +2791,7 @@ class D96Parser ( Parser ):
 
 
     class Pre_expContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2863,6 +2903,7 @@ class D96Parser ( Parser ):
 
 
     class ExpContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -2928,6 +2969,7 @@ class D96Parser ( Parser ):
 
 
     class Exp1Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3005,6 +3047,7 @@ class D96Parser ( Parser ):
 
 
     class Exp2Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3079,6 +3122,7 @@ class D96Parser ( Parser ):
 
 
     class Exp3Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3153,6 +3197,7 @@ class D96Parser ( Parser ):
 
 
     class Exp4Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3230,6 +3275,7 @@ class D96Parser ( Parser ):
 
 
     class Exp5Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3285,6 +3331,7 @@ class D96Parser ( Parser ):
 
 
     class Exp6Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3340,6 +3387,7 @@ class D96Parser ( Parser ):
 
 
     class Exp7Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3404,6 +3452,7 @@ class D96Parser ( Parser ):
 
 
     class Exp8Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3515,6 +3564,7 @@ class D96Parser ( Parser ):
 
 
     class Exp9Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3607,6 +3657,7 @@ class D96Parser ( Parser ):
 
 
     class Exp10Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3684,6 +3735,7 @@ class D96Parser ( Parser ):
 
 
     class OperandsContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3768,6 +3820,7 @@ class D96Parser ( Parser ):
 
 
     class LiteralsContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3850,6 +3903,7 @@ class D96Parser ( Parser ):
 
 
     class Boolean_literalContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3891,6 +3945,7 @@ class D96Parser ( Parser ):
 
 
     class Array_literalContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3941,6 +3996,7 @@ class D96Parser ( Parser ):
 
 
     class Multidimensional_arrayContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -3989,6 +4045,7 @@ class D96Parser ( Parser ):
 
 
     class Array_listContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -4044,6 +4101,7 @@ class D96Parser ( Parser ):
 
 
     class Indexed_arrayContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -4099,6 +4157,7 @@ class D96Parser ( Parser ):
 
 
     class Exp_listContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -4154,6 +4213,7 @@ class D96Parser ( Parser ):
 
 
     class Index_operatorContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)

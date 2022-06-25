@@ -1,6 +1,6 @@
 
 """
- * @author Vo Nguyen Thien Nhan 1910409
+ * @author Vo Nguyen Thien Nhan
 """
 from AST import * 
 from Visitor import *
