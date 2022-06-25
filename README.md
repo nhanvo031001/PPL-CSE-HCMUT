@@ -1,3 +1,3 @@
-@author: Vo Nguyen Thien Nhan   </br>
-HCMUT   </br>
-Principles of Programming Languages
+# Principles of Programming Languages
+## HCMUT
+@author: Vo Nguyen Thien Nhan
